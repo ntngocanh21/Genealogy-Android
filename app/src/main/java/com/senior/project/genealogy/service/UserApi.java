@@ -14,6 +14,6 @@ public interface UserApi {
     Call<LoginResponse> login(@Body User user);
 
     @POST("register")
-    Call<Message> register(@Body User user);
+    Call<LoginResponse> register(@Body User user);
 
 }
