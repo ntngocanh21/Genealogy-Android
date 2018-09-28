@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -64,7 +66,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         switch(view.getId())
         {
             case R.id.btnRegister:
-                User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString(), edtFullname.getText().toString());
+                String password = BCrypt.hashpw(edtPassword.getText().toString(), BCrypt.gensalt());
+                showToast(password);
+                User user = new User(edtUsername.getText().toString(), password, edtFullname.getText().toString());
                 registerPresenterImpl.register(user);
                 break;
 
