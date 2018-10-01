@@ -1,7 +1,6 @@
 package com.senior.project.genealogy.service;
 
 import com.senior.project.genealogy.response.LoginResponse;
-import com.senior.project.genealogy.response.Message;
 import com.senior.project.genealogy.response.User;
 
 import retrofit2.Call;
@@ -15,5 +14,6 @@ public interface UserApi {
 
     @POST("register")
     Call<LoginResponse> register(@Body User user);
+//    Call<LoginResponse> register(@Body User user, @Header("Authorize") String token);
 
 }

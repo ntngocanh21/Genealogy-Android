@@ -6,11 +6,11 @@ import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.UserApi;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.search.SearchActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class LoginModelImpl implements LoginModel {
     private LoginView mLoginView;
@@ -36,6 +36,7 @@ public class LoginModelImpl implements LoginModel {
                         mLoginView.showToast(String.valueOf(loginResponse.getError().getDescription()));
                         String token = String.valueOf(loginResponse.getToken());
                         Log.d("TAG", token);
+                        mLoginView.showActivity(SearchActivity.class);
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
                         mLoginView.showToast(String.valueOf(loginResponse.getError().getDescription()));

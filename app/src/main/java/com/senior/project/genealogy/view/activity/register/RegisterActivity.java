@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.activity.register;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         else {
             btnRegister.setEnabled(true);
         }
+
     }
 
     @OnClick({R.id.btnRegister, R.id.txtLogin})
@@ -67,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         {
             case R.id.btnRegister:
                 String password = BCrypt.hashpw(edtPassword.getText().toString(), BCrypt.gensalt());
-                showToast(password);
                 User user = new User(edtUsername.getText().toString(), password, edtFullname.getText().toString());
                 registerPresenterImpl.register(user);
                 break;
@@ -81,5 +82,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     @Override
     public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
     }
 }

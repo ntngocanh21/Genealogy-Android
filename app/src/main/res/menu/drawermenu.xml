@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/profile"
+        android:title="Profile" />
+    <item android:id="@+id/search"
+        android:title="Search" />
+    <item android:id="@+id/genealogies"
+        android:title="My genealogies" />
+    <item android:id="@+id/branches"
+        android:title="Branches" />
+    <item android:id="@+id/familyTree"
+        android:title="Family Tree" />
+    <item android:id="@+id/notification"
+        android:title="Notification" />
+    <item android:id="@+id/signout"
+        android:title="Sign out" />
+</menu>

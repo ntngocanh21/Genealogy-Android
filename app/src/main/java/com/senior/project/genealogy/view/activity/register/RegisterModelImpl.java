@@ -7,6 +7,7 @@ import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.UserApi;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.search.SearchActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,12 +31,16 @@ public class RegisterModelImpl implements RegisterModel {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
-                int code = Integer.parseInt(loginResponse.getError().getCode());
+                int code = Integer.parseInt(loginResponse
+
+
+                        .getError().getCode());
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
                         mRegisterView.showToast(String.valueOf(loginResponse.getError().getDescription()));
                         String token = String.valueOf(loginResponse.getToken());
                         Log.d("TAG", token);
+                        mRegisterView.showActivity(SearchActivity.class);
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_EXISTED:
                         mRegisterView.showToast(String.valueOf(loginResponse.getError().getDescription()));
