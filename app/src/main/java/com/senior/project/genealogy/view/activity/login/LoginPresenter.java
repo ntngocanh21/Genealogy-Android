@@ -4,4 +4,8 @@ import com.senior.project.genealogy.response.User;
 
 public interface LoginPresenter {
     void login(User user);
+
+    void loginSuccess();
+
+    void showToast(String s);
 }

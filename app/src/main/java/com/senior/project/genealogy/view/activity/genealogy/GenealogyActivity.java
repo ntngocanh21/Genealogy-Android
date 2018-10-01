@@ -23,13 +23,13 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genealogy);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_genealogy);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setTitle("My genealogies");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view_genealogy);
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 

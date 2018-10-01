@@ -14,19 +14,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginModelImpl implements LoginModel {
-    private LoginView mLoginView;
+    private LoginPresenter mLoginPresenter;
     private ApplicationApi mApplicationApi;
 
-    public LoginModelImpl(LoginView loginView) {
+    public LoginModelImpl(LoginPresenter loginPresenter) {
         if (mApplicationApi == null) {
             mApplicationApi = new ApplicationApi();
         }
-        this.mLoginView = loginView;
+        mLoginPresenter = loginPresenter;
     }
 
     @Override
     public void login(final User user) {
-        final ProgressDialog progressDialog = mLoginView.showProgressDialog();
         Call<LoginResponse> call = mApplicationApi.getClient().create(UserApi.class).login(user);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -35,14 +34,17 @@ public class LoginModelImpl implements LoginModel {
                 int code = Integer.parseInt(loginResponse.getError().getCode());
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mLoginView.showToast(String.valueOf(loginResponse.getError().getDescription()));
-                        String token = String.valueOf(loginResponse.getToken());
-                        Log.d("TAG", token);
-                        mLoginView.closeProgressDialog(progressDialog);
-                        mLoginView.showActivity(SearchActivity.class);
+//                        mLoginView.showToast(String.valueOf(loginResponse.getError().getDescription()));
+//                        String token = String.valueOf(loginResponse.getToken());
+//                        Log.d("TAG", token);
+//                        mLoginView.closeProgressDialog(progressDialog);
+//                        mLoginView.showActivity(SearchActivity.class);
+                        mLoginPresenter.loginSuccess();
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
-                        mLoginView.showToast(String.valueOf(loginResponse.getError().getDescription()));
+                        mLoginPresenter.showToast(String.valueOf(loginResponse.getError().getDescription()));
+                        break;
+                    default:
                         break;
                 }
             }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,8 +84,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         startActivity(intent);
     }
 
+    private ProgressDialog mProgressDialog;
+
     public ProgressDialog initProgressDialog(){
-        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+        }
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
         return mProgressDialog;
@@ -98,7 +103,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void closeProgressDialog(ProgressDialog progressDialog) {
-        progressDialog.dismiss();
+    public void closeProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 }

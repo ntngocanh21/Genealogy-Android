@@ -6,5 +6,5 @@ public interface  LoginView {
     void showToast(String msg);
     void showActivity(Class<?> cls);
     ProgressDialog showProgressDialog();
-    void closeProgressDialog(ProgressDialog progressDialog);
+    void closeProgressDialog();
 }
