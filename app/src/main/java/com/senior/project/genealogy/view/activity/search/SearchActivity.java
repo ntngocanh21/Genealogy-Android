@@ -42,7 +42,6 @@ public class SearchActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.profile) {

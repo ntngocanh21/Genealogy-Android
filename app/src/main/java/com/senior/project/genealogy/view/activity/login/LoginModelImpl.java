@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.activity.login;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 import com.senior.project.genealogy.response.LoginResponse;
 import com.senior.project.genealogy.response.User;
@@ -25,6 +26,7 @@ public class LoginModelImpl implements LoginModel {
 
     @Override
     public void login(final User user) {
+        final ProgressDialog progressDialog = mLoginView.showProgressDialog();
         Call<LoginResponse> call = mApplicationApi.getClient().create(UserApi.class).login(user);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -36,6 +38,7 @@ public class LoginModelImpl implements LoginModel {
                         mLoginView.showToast(String.valueOf(loginResponse.getError().getDescription()));
                         String token = String.valueOf(loginResponse.getToken());
                         Log.d("TAG", token);
+                        mLoginView.closeProgressDialog(progressDialog);
                         mLoginView.showActivity(SearchActivity.class);
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:

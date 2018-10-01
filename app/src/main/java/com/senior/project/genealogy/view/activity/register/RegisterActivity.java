@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.activity.register;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,5 +89,24 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+
+    public ProgressDialog initProgressDialog(){
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        return mProgressDialog;
+    }
+
+    @Override
+    public ProgressDialog showProgressDialog() {
+        ProgressDialog  progressDialog = initProgressDialog();
+        progressDialog.show();
+        return progressDialog;
+    }
+
+    @Override
+    public void closeProgressDialog(ProgressDialog progressDialog) {
+        progressDialog.dismiss();
     }
 }

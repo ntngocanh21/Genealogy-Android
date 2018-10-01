@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.activity.login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,5 +81,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+
+    public ProgressDialog initProgressDialog(){
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        return mProgressDialog;
+    }
+
+    @Override
+    public ProgressDialog showProgressDialog() {
+        ProgressDialog  progressDialog = initProgressDialog();
+        progressDialog.show();
+        return progressDialog;
+    }
+
+    @Override
+    public void closeProgressDialog(ProgressDialog progressDialog) {
+        progressDialog.dismiss();
     }
 }

@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.activity.register;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 
 import com.senior.project.genealogy.response.LoginResponse;
@@ -26,20 +27,19 @@ public class RegisterModelImpl implements RegisterModel {
 
     @Override
     public void register(final User user) {
+        final ProgressDialog progressDialog = mRegisterView.showProgressDialog();
         Call<LoginResponse> call = mApplicationApi.getClient().create(UserApi.class).register(user);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
-                int code = Integer.parseInt(loginResponse
-
-
-                        .getError().getCode());
+                int code = Integer.parseInt(loginResponse.getError().getCode());
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
                         mRegisterView.showToast(String.valueOf(loginResponse.getError().getDescription()));
                         String token = String.valueOf(loginResponse.getToken());
                         Log.d("TAG", token);
+                        mRegisterView.closeProgressDialog(progressDialog);
                         mRegisterView.showActivity(SearchActivity.class);
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_EXISTED:
