@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     TextView txtSignup;
 
     private LoginPresenterImpl loginPresenterImpl;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 break;
 
             case R.id.txtSignup:
-                Intent intent = new Intent(this, RegisterActivity.class);
-                startActivity(intent);
+                showActivity(RegisterActivity.class);
                 break;
         }
     }
@@ -84,8 +84,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         startActivity(intent);
     }
 
-    private ProgressDialog mProgressDialog;
-
     public ProgressDialog initProgressDialog(){
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -96,10 +94,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public ProgressDialog showProgressDialog() {
+    public void showProgressDialog() {
         ProgressDialog  progressDialog = initProgressDialog();
         progressDialog.show();
-        return progressDialog;
     }
 
     @Override

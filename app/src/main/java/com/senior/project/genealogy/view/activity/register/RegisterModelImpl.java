@@ -15,19 +15,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterModelImpl implements RegisterModel {
-    private RegisterView mRegisterView;
+    private RegisterPresenter mRegisterPresenter;
     private ApplicationApi mApplicationApi;
 
-    public RegisterModelImpl(RegisterView loginView) {
+    public RegisterModelImpl(RegisterPresenter registerPresenter) {
         if (mApplicationApi == null) {
             mApplicationApi = new ApplicationApi();
         }
-        this.mRegisterView = loginView;
+        mRegisterPresenter = registerPresenter;
     }
 
     @Override
     public void register(final User user) {
-        final ProgressDialog progressDialog = mRegisterView.showProgressDialog();
         Call<LoginResponse> call = mApplicationApi.getClient().create(UserApi.class).register(user);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -36,14 +35,15 @@ public class RegisterModelImpl implements RegisterModel {
                 int code = Integer.parseInt(loginResponse.getError().getCode());
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mRegisterView.showToast(String.valueOf(loginResponse.getError().getDescription()));
                         String token = String.valueOf(loginResponse.getToken());
                         Log.d("TAG", token);
-                        mRegisterView.closeProgressDialog(progressDialog);
-                        mRegisterView.showActivity(SearchActivity.class);
+                        mRegisterPresenter.registerSuccess(String.valueOf(loginResponse.getError().getDescription()));
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_EXISTED:
-                        mRegisterView.showToast(String.valueOf(loginResponse.getError().getDescription()));
+                        mRegisterPresenter.showToast(String.valueOf(loginResponse.getError().getDescription()));
+                        break;
+                    default:
+                        mRegisterPresenter.registerFalse();
                         break;
                 }
             }
@@ -51,6 +51,7 @@ public class RegisterModelImpl implements RegisterModel {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.d("TAG", t.getMessage());
+                mRegisterPresenter.registerFalse();
             }
         });
     }

@@ -1,8 +1,7 @@
 package com.senior.project.genealogy.view.activity.login;
 
-import android.app.ProgressDialog;
-
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.view.activity.search.SearchActivity;
 
 public class LoginPresenterImpl implements LoginPresenter {
 
@@ -20,17 +19,22 @@ public class LoginPresenterImpl implements LoginPresenter {
         mLoginModel.login(user);
     }
 
-
+    @Override
+    public void loginFalse() {
+        mLoginView.closeProgressDialog();
+        // show option try again
+    }
 
     @Override
-    public void loginSuccess() {
-        // Close Progressbar
+    public void loginSuccess(String msg) {
         mLoginView.closeProgressDialog();
+        showToast(msg);
+        mLoginView.showActivity(SearchActivity.class);
     }
 
     @Override
     public void showToast(String s) {
         mLoginView.closeProgressDialog();
-        // show option try again
+        mLoginView.showToast(s);
     }
 }

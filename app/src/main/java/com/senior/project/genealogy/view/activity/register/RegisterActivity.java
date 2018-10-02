@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     TextView txtLogin;
 
     private RegisterPresenterImpl registerPresenterImpl;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +80,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
                 break;
         }
     }
-
     @Override
     public void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -92,21 +92,23 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     }
 
     public ProgressDialog initProgressDialog(){
-        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+        }
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
         return mProgressDialog;
     }
 
     @Override
-    public ProgressDialog showProgressDialog() {
+    public void showProgressDialog() {
         ProgressDialog  progressDialog = initProgressDialog();
         progressDialog.show();
-        return progressDialog;
     }
 
     @Override
-    public void closeProgressDialog(ProgressDialog progressDialog) {
-        progressDialog.dismiss();
+    public void closeProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 }
