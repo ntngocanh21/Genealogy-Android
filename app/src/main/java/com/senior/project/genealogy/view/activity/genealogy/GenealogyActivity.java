@@ -1,7 +1,10 @@
 package com.senior.project.genealogy.view.activity.genealogy;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.view.activity.search.SearchActivity;
+import com.senior.project.genealogy.view.fragment.genealogy.GenealogyFragment;
 
 public class GenealogyActivity extends AppCompatActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener{
 
@@ -31,6 +35,14 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view_genealogy);
         mNavigationView.setNavigationItemSelectedListener(this);
+
+
+        Fragment mFragment = null;
+        mFragment = new GenealogyFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.genealogy_container, mFragment).commit();
+
     }
 
     @Override
