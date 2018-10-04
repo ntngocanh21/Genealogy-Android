@@ -23,6 +23,11 @@ public class Genealogy {
         this.history = history;
     }
 
+    public Genealogy(String name, String history) {
+        this.name = name;
+        this.history = history;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -45,7 +45,7 @@ public class GenealogyModelImpl implements GenealogyModel {
 
             @Override
             public void onFailure(Call<GenealogyResponse> call, Throwable t) {
-
+                mGenealogyFragmentPresenter.getGenealogiesByUsernameFalse();
             }
         });
     }

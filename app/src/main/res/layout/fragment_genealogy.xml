@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/genealogy_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.genealogy.GenealogyFragment"
-    android:id="@+id/genealogy_frame">
+    android:clickable="false"
+    tools:context=".view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create new genealogy"
-        android:layout_gravity="bottom"
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCreateGenealogy"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp" />
 
 </FrameLayout>

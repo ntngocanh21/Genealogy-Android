@@ -49,7 +49,6 @@ public class LoginModelImpl implements LoginModel {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 mLoginPresenter.loginFalse();
-                Log.d("TAG", t.getMessage());
             }
         });
     }

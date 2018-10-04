@@ -41,10 +41,10 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
         mNavigationView.setNavigationItemSelectedListener(this);
 
 
-        Bundle bundle = new Bundle();
-        bundle.putString("token", getToken());
+//        Bundle bundle = new Bundle();
+//        bundle.putString("token", getToken());
         Fragment mFragment = new GenealogyFragment();
-        mFragment.setArguments(bundle);
+//        mFragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.genealogy_container, mFragment).commit();
@@ -93,10 +93,10 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
         startActivity(intent);
     }
 
-    private String getToken(){
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token","");
-        return token;
-    }
+//    private String getToken(){
+//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+//        String token = sharedPreferences.getString("token","");
+//        return token;
+//    }
 
 }

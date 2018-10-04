@@ -1,7 +1,10 @@
 package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment.CreateGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
 
@@ -25,10 +29,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GenealogyFragment extends Fragment implements GenealogyFragmentView{
+public class GenealogyFragment extends Fragment implements GenealogyFragmentView {
 
     @BindView(R.id.btnCreateGenealogy)
-    Button btnCreateGenealogy;
+    FloatingActionButton btnCreateGenealogy;
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -47,18 +51,23 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_genealogy, container, false);
         ButterKnife.bind(this, view);
-        String token = getArguments().getString("token");
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
         return view;
     }
 
     @OnClick(R.id.btnCreateGenealogy)
-    public void onClick(){
+    public void onClick() {
         CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.genealogy_container, mFragment)
-                .addToBackStack(null)
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = this.getChildFragmentManager();
+
+        fragmentManager.beginTransaction().add(R.id.genealogy_frame, mFragment)
+                .addToBackStack(mFragment.getTag())
                 .commit();
     }
 
@@ -68,7 +77,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     }
 
 
-    public ProgressDialog initProgressDialog(){
+    public ProgressDialog initProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
         }
@@ -79,7 +88,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     @Override
     public void showProgressDialog() {
-        ProgressDialog  progressDialog = initProgressDialog();
+        ProgressDialog progressDialog = initProgressDialog();
         progressDialog.show();
     }
 
@@ -92,11 +101,12 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     @Override
     public void showGenealogy(List<Genealogy> genealogyList) {
         data = new ArrayList<>();
-        for (Genealogy genealogy : genealogyList){
+        for (Genealogy genealogy : genealogyList) {
             data.add(genealogy);
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
         mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, data);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
