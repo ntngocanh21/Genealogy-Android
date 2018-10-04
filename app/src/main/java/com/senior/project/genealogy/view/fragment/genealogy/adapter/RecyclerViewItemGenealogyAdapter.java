@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
-import com.senior.project.genealogy.view.fragment.genealogy.GenealogyDetailFragment;
+import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.GenealogyDetailFragment;
 
 import java.util.ArrayList;
 import java.util.List;

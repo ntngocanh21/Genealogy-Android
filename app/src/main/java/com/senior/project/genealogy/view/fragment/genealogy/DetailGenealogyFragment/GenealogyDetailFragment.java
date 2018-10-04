@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.genealogy;
+package com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragment.UpdateGenealogyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GenealogyDetailFragment extends Fragment {
+public class GenealogyDetailFragment extends Fragment{
 
     @BindView(R.id.btnEdit)
     Button btnEdit;

@@ -37,4 +37,9 @@ public class LoginPresenterImpl implements LoginPresenter {
         mLoginView.closeProgressDialog();
         mLoginView.showToast(s);
     }
+
+    @Override
+    public void saveToken(String token) {
+        mLoginView.saveToken(token);
+    }
 }

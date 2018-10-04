@@ -7,4 +7,5 @@ public interface RegisterPresenter {
     void registerSuccess(String msg);
     void registerFalse();
     void showToast(String s);
+    void saveToken(String token);
 }

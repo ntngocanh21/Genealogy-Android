@@ -1,7 +1,9 @@
 package com.senior.project.genealogy.view.activity.genealogy;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,14 +16,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.search.SearchActivity;
-import com.senior.project.genealogy.view.fragment.genealogy.GenealogyFragment;
+import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 
 public class GenealogyActivity extends AppCompatActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private NavigationView mNavigationView;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,10 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
         mNavigationView.setNavigationItemSelectedListener(this);
 
 
-        Fragment mFragment = null;
-        mFragment = new GenealogyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("token", getToken());
+        Fragment mFragment = new GenealogyFragment();
+        mFragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.genealogy_container, mFragment).commit();
@@ -86,4 +92,11 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
         Intent intent = new Intent(this, cls);
         startActivity(intent);
     }
+
+    private String getToken(){
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token","");
+        return token;
+    }
+
 }

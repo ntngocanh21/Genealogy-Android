@@ -1,5 +1,7 @@
 package com.senior.project.genealogy.view.activity.login;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import com.senior.project.genealogy.response.LoginResponse;
 import com.senior.project.genealogy.response.User;
@@ -32,9 +34,8 @@ public class LoginModelImpl implements LoginModel {
                 int code = Integer.parseInt(loginResponse.getError().getCode());
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
-//                        String token = String.valueOf(loginResponse.getToken());
-//                        Log.d("TAG", token);
                         mLoginPresenter.loginSuccess(String.valueOf(loginResponse.getError().getDescription()));
+                        mLoginPresenter.saveToken(String.valueOf(loginResponse.getToken()));
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
                         mLoginPresenter.showToast(String.valueOf(loginResponse.getError().getDescription()));

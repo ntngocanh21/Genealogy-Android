@@ -5,4 +5,5 @@ public interface RegisterView {
     void showActivity(Class<?> cls);
     void showProgressDialog();
     void closeProgressDialog();
+    void saveToken(String token);
 }

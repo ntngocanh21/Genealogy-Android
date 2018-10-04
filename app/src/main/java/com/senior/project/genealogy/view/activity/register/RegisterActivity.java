@@ -1,7 +1,9 @@
 package com.senior.project.genealogy.view.activity.register;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.util.Constants;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -110,5 +113,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     public void closeProgressDialog() {
         if (mProgressDialog.isShowing())
             mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void saveToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token","Token " + token);
+        editor.apply();
     }
 }

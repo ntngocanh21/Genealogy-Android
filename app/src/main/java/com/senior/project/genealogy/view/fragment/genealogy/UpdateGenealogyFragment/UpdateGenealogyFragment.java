@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.genealogy;
+package com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

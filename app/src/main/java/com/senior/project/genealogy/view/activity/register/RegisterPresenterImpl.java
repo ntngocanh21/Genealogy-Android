@@ -38,4 +38,9 @@ public class RegisterPresenterImpl implements RegisterPresenter {
         mRegisterModel.register(user);
     }
 
+    @Override
+    public void saveToken(String token) {
+        mRegisterView.saveToken(token);
+    }
+
 }
