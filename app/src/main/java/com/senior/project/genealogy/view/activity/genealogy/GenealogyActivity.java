@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +23,7 @@ import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragmen
 
 import butterknife.BindView;
 
-public class GenealogyActivity extends BaseActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
+public class GenealogyActivity extends BaseActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -54,15 +53,12 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
     protected void initAttributes() {
         setSupportActionBar(mToolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         mDrawerLayout.addDrawerListener(this);
         toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
-
-
 
         Fragment mFragment = new GenealogyFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -75,7 +71,7 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
 
