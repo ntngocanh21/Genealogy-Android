@@ -1,54 +1,44 @@
 package com.senior.project.genealogy.view.activity.genealogy;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.search.SearchActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 
-public class GenealogyActivity extends AppCompatActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener{
+public class GenealogyActivity extends AppCompatActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private NavigationView mNavigationView;
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genealogy);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_genealogy);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        getSupportActionBar().setTitle("My genealogies");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view_genealogy);
+        mDrawerLayout = findViewById(R.id.drawer_genealogy);
+        mNavigationView = findViewById(R.id.nav_view_genealogy);
         mNavigationView.setNavigationItemSelectedListener(this);
 
-
-//        Bundle bundle = new Bundle();
-//        bundle.putString("token", getToken());
         Fragment mFragment = new GenealogyFragment();
-//        mFragment.setArguments(bundle);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.genealogy_container, mFragment).commit();
-
+        mDrawerLayout.addDrawerListener(this);
     }
 
     @Override
@@ -91,6 +81,28 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 
 //    private String getToken(){

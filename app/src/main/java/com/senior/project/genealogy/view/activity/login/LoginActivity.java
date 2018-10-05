@@ -9,13 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.genealogy.GenealogyActivity;
 import com.senior.project.genealogy.view.activity.register.RegisterActivity;
 
 import butterknife.BindView;
@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
+        startActivity(new Intent(LoginActivity.this, GenealogyActivity.class));
     }
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
