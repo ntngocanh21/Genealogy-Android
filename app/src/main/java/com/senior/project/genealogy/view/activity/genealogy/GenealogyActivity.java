@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -19,10 +22,19 @@ import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.search.SearchActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 
+import butterknife.BindView;
+
 public class GenealogyActivity extends BaseActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
 
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.drawer_genealogy)
+    DrawerLayout mDrawerLayout;
+
+    @BindView(R.id.nav_view_genealogy)
+    NavigationView mNavigationView;
+
 
     /**
      * Apply Dagger Here
@@ -40,14 +52,21 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
 
     @Override
     protected void initAttributes() {
-        mDrawerLayout = findViewById(R.id.drawer_genealogy);
-        mNavigationView = findViewById(R.id.nav_view_genealogy);
+        setSupportActionBar(mToolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        mDrawerLayout.addDrawerListener(this);
+        toggle.syncState();
+
         mNavigationView.setNavigationItemSelectedListener(this);
+
+
 
         Fragment mFragment = new GenealogyFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.genealogy_container, mFragment).commit();
-        mDrawerLayout.addDrawerListener(this);
     }
 
     @Override
