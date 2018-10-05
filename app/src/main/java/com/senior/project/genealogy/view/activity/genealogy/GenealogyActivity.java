@@ -2,11 +2,13 @@ package com.senior.project.genealogy.view.activity.genealogy;
 
 import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -61,8 +63,31 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
         mNavigationView.setNavigationItemSelectedListener(this);
 
         Fragment mFragment = new GenealogyFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.genealogy_container, mFragment).commit();
+        pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.genealogy_container);
+    }
+
+    public enum PushFrgType {
+        REPLACE, ADD
+    }
+
+    public void pushFragment(PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
+        try {
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+            if (type == PushFrgType.REPLACE) {
+                ft.replace(mContainerId, fragment, tag);
+                ft.disallowAddToBackStack();
+                ft.commitAllowingStateLoss();
+            } else if (type == PushFrgType.ADD) {
+                ft.add(mContainerId, fragment, tag);
+                ft.disallowAddToBackStack();
+                ft.commit();
+            }
+            manager.executePendingTransactions();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -131,4 +156,26 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
 
     }
 
+    /**
+     * When click button Back. Event click work in Activity. So it means GenealogyActivity is finished.
+     * So finish every nested fragment. For example: GenealogyFragment.
+     * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
+     */
+
+    public interface GenealogyInterface {
+        boolean isExistedNestedFrag();
+    }
+
+    private GenealogyInterface mGenealogyInterface;
+
+    public void attachFragInterface(GenealogyInterface _interface) {
+        mGenealogyInterface = _interface;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!mGenealogyInterface.isExistedNestedFrag()) {
+            super.onBackPressed();
+        }
+    }
 }

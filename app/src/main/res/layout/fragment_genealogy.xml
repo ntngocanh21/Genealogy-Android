@@ -4,6 +4,7 @@
     android:id="@+id/genealogy_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_light"
     android:clickable="false"
     tools:context=".view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment">
 

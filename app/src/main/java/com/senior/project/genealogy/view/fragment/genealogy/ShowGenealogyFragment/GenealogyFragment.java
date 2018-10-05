@@ -4,20 +4,22 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.genealogy.GenealogyActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment.CreateGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
 
@@ -57,25 +59,57 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
+
+        /**
+         * After onCreate Fragment. We will attach interface to get event outside fragment and handle inside it.
+         * For example: Here, we will handle onBackPress()
+         */
+        if (getActivity() instanceof GenealogyActivity)
+            ((GenealogyActivity) getActivity()).attachFragInterface(new GenealogyActivity.GenealogyInterface() {
+                @Override
+                public boolean isExistedNestedFrag() {
+                    if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+                        getChildFragmentManager().popBackStack();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
         return view;
     }
 
     @OnClick(R.id.btnCreateGenealogy)
     public void onClick() {
         CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentManager fragmentManager = this.getChildFragmentManager();
 
-        fragmentManager.beginTransaction().add(R.id.genealogy_frame, mFragment)
-                .addToBackStack(mFragment.getTag())
-                .commit();
+        pushFragment(GenealogyActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+    }
+
+    public void pushFragment(GenealogyActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
+        try {
+            FragmentManager manager = getChildFragmentManager();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+            if (type == GenealogyActivity.PushFrgType.REPLACE) {
+                ft.replace(mContainerId, fragment, tag);
+                ft.addToBackStack(fragment.getTag());
+                ft.commitAllowingStateLoss();
+            } else if (type == GenealogyActivity.PushFrgType.ADD) {
+                ft.add(mContainerId, fragment, tag);
+                ft.addToBackStack(fragment.getTag());
+                ft.commit();
+            }
+            manager.executePendingTransactions();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void showToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
-
 
     public ProgressDialog initProgressDialog() {
         if (mProgressDialog == null) {
