@@ -2,7 +2,6 @@ package com.senior.project.genealogy.view.activity.genealogy;
 
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
@@ -11,26 +10,36 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.search.SearchActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 
-public class GenealogyActivity extends AppCompatActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
+public class GenealogyActivity extends BaseActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
 
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
     private NavigationView mNavigationView;
 
+    /**
+     * Apply Dagger Here
+     * Create GenealogyModule, GenealogyComponent.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_genealogy);
+    public void distributedDaggerComponents() {
+
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_genealogy;
+    }
+
+    @Override
+    protected void initAttributes() {
         mDrawerLayout = findViewById(R.id.drawer_genealogy);
         mNavigationView = findViewById(R.id.nav_view_genealogy);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -42,10 +51,12 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
     }
 
     @Override
+    protected void initViews() {
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if (mToggle.onOptionsItemSelected(item)){
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -104,11 +115,5 @@ public class GenealogyActivity extends AppCompatActivity implements GenealogyVie
     public void onDrawerStateChanged(int newState) {
 
     }
-
-//    private String getToken(){
-//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-//        String token = sharedPreferences.getString("token","");
-//        return token;
-//    }
 
 }
