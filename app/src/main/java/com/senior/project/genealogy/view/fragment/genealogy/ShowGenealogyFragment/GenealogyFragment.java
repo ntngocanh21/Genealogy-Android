@@ -82,7 +82,12 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     @OnClick(R.id.btnCreateGenealogy)
     public void onClick() {
         CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
-
+        mFragment.attackInterface(new CreateGenealogyFragment.CreateGenealogyInterface() {
+            @Override
+            public void sendDataToListGenealogy(Genealogy genealogy) {
+                mRcvAdapter.updateGenealogy(genealogy);
+            }
+        });
         pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
     }
 

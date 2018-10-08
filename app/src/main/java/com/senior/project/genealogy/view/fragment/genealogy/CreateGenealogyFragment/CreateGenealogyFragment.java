@@ -16,6 +16,8 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -99,7 +101,20 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
     }
 
     @Override
-    public void closeFragment() {
+    public void closeFragment(List<Genealogy> genealogyList) {
+        mCreateGenealogyInterface.sendDataToListGenealogy(genealogyList.get(0));
         getActivity().onBackPressed();
     }
+
+    public interface CreateGenealogyInterface{
+        void sendDataToListGenealogy(Genealogy genealogy);
+    }
+
+    public CreateGenealogyInterface mCreateGenealogyInterface;
+
+    public void attackInterface(CreateGenealogyInterface createGenealogyInterface){
+        mCreateGenealogyInterface = createGenealogyInterface;
+    }
+
+
 }

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.activity.genealogy.GenealogyActivity;
 import com.senior.project.genealogy.view.activity.register.RegisterActivity;
 
 import butterknife.BindView;

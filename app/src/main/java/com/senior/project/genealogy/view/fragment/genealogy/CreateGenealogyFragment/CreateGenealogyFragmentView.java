@@ -5,7 +5,7 @@ import com.senior.project.genealogy.response.Genealogy;
 import java.util.List;
 
 public interface CreateGenealogyFragmentView {
-    void closeFragment();
+    void closeFragment(List<Genealogy> genealogyList);
     void showToast(String msg);
     void showProgressDialog();
     void closeProgressDialog();

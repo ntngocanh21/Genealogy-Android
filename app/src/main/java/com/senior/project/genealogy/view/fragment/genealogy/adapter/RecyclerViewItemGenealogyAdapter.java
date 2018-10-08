@@ -79,6 +79,11 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         return data.size();
     }
 
+    public void updateGenealogy(Genealogy genealogy) {
+        data.add(genealogy);
+        notifyDataSetChanged();
+    }
+
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtGenealogyName;

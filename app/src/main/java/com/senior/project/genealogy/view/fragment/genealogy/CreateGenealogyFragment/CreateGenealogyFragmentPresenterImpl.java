@@ -24,7 +24,7 @@ public class CreateGenealogyFragmentPresenterImpl implements CreateGenealogyFrag
     @Override
     public void createGenealogySuccess(List<Genealogy> genealogyList) {
         mCreateGenealogFragmentView.closeProgressDialog();
-        mCreateGenealogFragmentView.closeFragment();
+        mCreateGenealogFragmentView.closeFragment(genealogyList);
     }
 
     @Override
