@@ -30,13 +30,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
+/**
+ * CreateGenealogyFragment => click button [ADD]
+ * DetailGenealogyFragment => click each row
+ */
 public class GenealogyFragment extends Fragment implements GenealogyFragmentView {
 
     @BindView(R.id.btnCreateGenealogy)
     FloatingActionButton btnCreateGenealogy;
 
     @BindView(R.id.recycler_view)
+
     RecyclerView mRecyclerView;
 
     RecyclerViewItemGenealogyAdapter mRcvAdapter;
@@ -69,10 +73,33 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
                 @Override
                 public boolean isExistedNestedFrag() {
                     if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+                        /**
+                         * Pop GenealogyFragment
+                         * - CreateGenealogyFragment
+                         * - DetailGenealogyFragment
+                         * No Handle
+                         * - DetailGenealogyFragment
+                         * - UpdateGenealogyFragment
+                         * => Pop
+                         * Check DetailFragmentGenealogy has child fragments => pop
+                         * pop -> POP -> Back
+                         */
+                        if (getActivity() instanceof HomeActivity) {
+                            String currentTitle = ((HomeActivity)getActivity()).getCurrentTitleBar();
+                            if (currentTitle.equals("Genealogy information")){
+                                /**
+                                 * This Detail Fragment
+                                 * You should check nested fragment and then pop it
+                                 */
+
+                            }
+                        }
                         getChildFragmentManager().popBackStack();
+                        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
                         return true;
+                    } else {
+                        return false;
                     }
-                    return false;
                 }
             });
 
@@ -88,6 +115,9 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
                 mRcvAdapter.updateGenealogy(genealogy);
             }
         });
+        if (getActivity() instanceof HomeActivity) {
+            ((HomeActivity) getActivity()).updateTitleBar("Create new genealogy");
+        }
         pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
     }
 

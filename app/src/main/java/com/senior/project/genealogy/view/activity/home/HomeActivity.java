@@ -53,6 +53,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @Override
     protected void initAttributes() {
+        updateTitleBar("Search");
         setSupportActionBar(mToolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,9 +109,14 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
         } else if (id == R.id.search) {
             Fragment mFragment = new SearchFragment();
+            updateTitleBar("Search");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.genealogies) {
             Fragment mFragment = new GenealogyFragment();
+            /**
+             * Update title for GenealogyFragment
+             */
+            updateTitleBar("My genealogies");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.branches) {
 
@@ -123,6 +129,16 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void updateTitleBar(String title){
+        mToolbar.setTitle(title);
+    }
+
+    public String getCurrentTitleBar() {
+        if (mToolbar != null)
+            return mToolbar.getTitle().toString();
+        return "";
     }
 
     @Override

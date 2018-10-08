@@ -84,6 +84,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+        /**
+         * Activity A => B (finish())
+         * ABCDE => BCDE
+         * ABCD
+         * ABC
+         * AB
+         * A [Login}
+         */
+        finish();
     }
 
     public ProgressDialog initProgressDialog(){

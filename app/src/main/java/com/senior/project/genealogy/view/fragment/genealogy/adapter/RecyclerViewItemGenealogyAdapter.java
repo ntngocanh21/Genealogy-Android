@@ -69,6 +69,10 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
                 Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch);
                 bundle.putSerializable("genealogy", genealogy);
                 mFragment.setArguments(bundle);
+
+                if(mContext instanceof HomeActivity){
+                    ((HomeActivity) mContext).updateTitleBar("Genealogy Information");
+                }
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
             }
         });

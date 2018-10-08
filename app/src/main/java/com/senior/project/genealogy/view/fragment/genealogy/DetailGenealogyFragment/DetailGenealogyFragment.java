@@ -73,6 +73,21 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
         return view;
     }
 
+    /**
+     * Interface communicate DetailFragment vs HomeActivity
+     * Back -> Manager (DetailFragment)
+     * Manager.getCould > 0 => pop
+     *
+     * interface x => x.isNestedFragment() [Detail]
+     * => Interface(HomeActivity) => Detail
+     */
+    public interface DetailGenealogyInterface {
+        boolean isNestedFrragment();
+    }
+
+    private DetailGenealogyInterface mDetailGenealogyInterface;
+
+
     @OnClick(R.id.btnEditGenealogy)
     public void onClick() {
         UpdateGenealogyFragment mFragment = new UpdateGenealogyFragment();
@@ -116,6 +131,5 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
 
     @Override
     public void closeFragment() {
-        getActivity().onBackPressed();
     }
 }

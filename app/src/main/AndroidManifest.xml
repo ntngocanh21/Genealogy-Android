@@ -24,12 +24,10 @@
             android:name=".view.activity.register.RegisterActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".view.activity.genealogy.GenealogyActivity"
-            android:theme="@style/Theme.Genealogy"></activity>
 
         <activity android:name=".view.activity.home.HomeActivity"
-            android:theme="@style/Theme.Home"></activity>
+            android:theme="@style/Theme.Home"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>

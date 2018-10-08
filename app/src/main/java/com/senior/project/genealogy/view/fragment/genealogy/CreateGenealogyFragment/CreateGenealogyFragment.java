@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 import java.util.List;
 
@@ -103,6 +104,9 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
     @Override
     public void closeFragment(List<Genealogy> genealogyList) {
         mCreateGenealogyInterface.sendDataToListGenealogy(genealogyList.get(0));
+        if(getActivity() instanceof HomeActivity){
+            ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
+        }
         getActivity().onBackPressed();
     }
 
