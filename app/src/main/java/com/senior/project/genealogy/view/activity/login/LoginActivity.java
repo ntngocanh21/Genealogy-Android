@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
-        startActivity(new Intent(LoginActivity.this, GenealogyActivity.class));
+//        startActivity(new Intent(LoginActivity.this, GenealogyActivity.class));
     }
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {

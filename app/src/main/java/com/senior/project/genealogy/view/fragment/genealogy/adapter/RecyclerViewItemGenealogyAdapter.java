@@ -1,7 +1,11 @@
 package com.senior.project.genealogy.view.fragment.genealogy.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +16,13 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
-import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.GenealogyDetailFragment;
+import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<RecyclerViewItemGenealogyAdapter.RecyclerViewHolder>{
@@ -37,17 +45,31 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
-        holder.txtGenealogyName.setText(data.get(position).getName());
+        final int genealogyId = data.get(position).getId();
+        final String genealogyName = data.get(position).getName();
+        final String genealogyHistory = data.get(position).getHistory();
+        final String genealogyOwner = data.get(position).getOwner();
+        final int genealogyBranch = data.get(position).getBranch();
+        final Date genealogyDate = data.get(position).getDate();
+
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        final String date = formatter.format(genealogyDate);
+
+        holder.txtGenealogyName.setText(genealogyName);
+        holder.txtGenealogyBranches.setText(String.valueOf(genealogyBranch));
+        holder.txtGenealogyDate.setText(date);
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.line.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
-                GenealogyDetailFragment mFragment = new GenealogyDetailFragment();
 
-                mFragmentManager.beginTransaction().replace(R.id.genealogy_container, mFragment)
-                        .addToBackStack(null)
-                        .commit();
+                DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
+                Bundle bundle = new Bundle();
+                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch);
+                bundle.putSerializable("genealogy", genealogy);
+                mFragment.setArguments(bundle);
+                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
             }
         });
     }
@@ -60,14 +82,14 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtGenealogyName;
-        TextView txtGenealogyOwner;
+        TextView txtGenealogyBranches;
         TextView txtGenealogyDate;
         LinearLayout line;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             txtGenealogyName = (TextView) itemView.findViewById(R.id.txtGenealogyName);
-            txtGenealogyOwner = (TextView) itemView.findViewById(R.id.txtGenealogyOwner);
+            txtGenealogyBranches = (TextView) itemView.findViewById(R.id.txtGenealogyBranches);
             txtGenealogyDate = (TextView) itemView.findViewById(R.id.txtGenealogyDate);
             line = (LinearLayout) itemView.findViewById(R.id.line);
         }
@@ -81,5 +103,24 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
     public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
         this.onItemClickedListener = onItemClickedListener;
+    }
+
+    public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
+        try {
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+            if (type == HomeActivity.PushFrgType.REPLACE) {
+                ft.replace(mContainerId, fragment, tag);
+                ft.addToBackStack(fragment.getTag());
+                ft.commitAllowingStateLoss();
+            } else if (type == HomeActivity.PushFrgType.ADD) {
+                ft.add(mContainerId, fragment, tag);
+                ft.addToBackStack(fragment.getTag());
+                ft.commit();
+            }
+            mFragmentManager.executePendingTransactions();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 }

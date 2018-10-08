@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".view.fragment.genealogy.UpdateGenealogyFragment.UpdateGenealogyFragment">
 
     <LinearLayout
@@ -18,19 +19,17 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtGenealogyName"
+                android:id="@+id/edtGenealogyName"
                 android:textSize="25dp"
-                android:layout_gravity="center"
-                android:text="@string/hello_blank_fragment" />
+                android:layout_gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtGenealogyOwner"
-                android:text="@string/hello_blank_fragment" />
+                android:id="@+id/txtGenealogyOwner"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_blank_fragment" />
+                android:id="@+id/txtGenealogyDate"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,8 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtBranch"
-                    android:text="1" />
+                    android:id="@+id/txtBranches"/>
             </LinearLayout>
 
             <TextView
@@ -53,7 +51,7 @@
                 android:text="Description" />
 
             <EditText
-                android:id="@+id/edtDescription"
+                android:id="@+id/edtGenealogyHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top|left"
@@ -67,11 +65,13 @@
             android:gravity="center|bottom"
             android:orientation="vertical" >
 
-            <Button
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnDoneEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnOK"
-                android:text="OK"/>
+                android:layout_gravity="end|bottom"
+                android:src="@drawable/done"
+                android:layout_margin="16dp" />
         </LinearLayout>
 
     </LinearLayout>

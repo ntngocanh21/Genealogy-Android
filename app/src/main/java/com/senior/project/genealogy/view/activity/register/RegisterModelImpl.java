@@ -8,7 +8,6 @@ import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.UserApi;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.activity.search.SearchActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

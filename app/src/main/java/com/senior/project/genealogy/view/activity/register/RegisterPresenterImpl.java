@@ -1,7 +1,7 @@
 package com.senior.project.genealogy.view.activity.register;
 
 import com.senior.project.genealogy.response.User;
-import com.senior.project.genealogy.view.activity.search.SearchActivity;
+import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 public class RegisterPresenterImpl implements RegisterPresenter {
 
@@ -17,7 +17,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     public void registerSuccess(String msg) {
         mRegisterView.closeProgressDialog();
         showToast(msg);
-        mRegisterView.showActivity(SearchActivity.class);
+        mRegisterView.showActivity(HomeActivity.class);
     }
 
     @Override

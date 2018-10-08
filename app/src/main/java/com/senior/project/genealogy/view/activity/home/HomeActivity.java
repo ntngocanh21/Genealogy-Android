@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.activity.genealogy;
+package com.senior.project.genealogy.view.activity.home;
 
 import android.content.Intent;
 import android.os.Build;
@@ -20,20 +20,20 @@ import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.view.activity.BaseActivity;
-import com.senior.project.genealogy.view.activity.search.SearchActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
+import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
 
 import butterknife.BindView;
 
-public class GenealogyActivity extends BaseActivity implements GenealogyView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
+public class HomeActivity extends BaseActivity implements HomeView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.drawer_genealogy)
+    @BindView(R.id.drawer_home)
     DrawerLayout mDrawerLayout;
 
-    @BindView(R.id.nav_view_genealogy)
+    @BindView(R.id.nav_view_home)
     NavigationView mNavigationView;
 
 
@@ -48,7 +48,7 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.activity_genealogy;
+        return R.layout.activity_home;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        Fragment mFragment = new GenealogyFragment();
-        pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.genealogy_container);
+        Fragment mFragment = new SearchFragment();
+        pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
     }
 
     public enum PushFrgType {
@@ -107,9 +107,11 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
         if (id == R.id.profile) {
 
         } else if (id == R.id.search) {
-            showActivity(SearchActivity.class);
+            Fragment mFragment = new SearchFragment();
+            pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.genealogies) {
-            showActivity(GenealogyActivity.class);
+            Fragment mFragment = new GenealogyFragment();
+            pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.branches) {
 
         } else if (id == R.id.familyTree) {
@@ -142,7 +144,7 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onDrawerOpened(@NonNull View drawerView) {
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
+        //getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -162,19 +164,19 @@ public class GenealogyActivity extends BaseActivity implements GenealogyView, Na
      * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
      */
 
-    public interface GenealogyInterface {
+    public interface HomeInterface {
         boolean isExistedNestedFrag();
     }
 
-    private GenealogyInterface mGenealogyInterface;
+    private HomeInterface mHomeInterface;
 
-    public void attachFragInterface(GenealogyInterface _interface) {
-        mGenealogyInterface = _interface;
+    public void attachFragInterface(HomeInterface _interface) {
+        mHomeInterface = _interface;
     }
 
     @Override
     public void onBackPressed() {
-        if(!mGenealogyInterface.isExistedNestedFrag()) {
+        if(!mHomeInterface.isExistedNestedFrag()) {
             super.onBackPressed();
         }
     }

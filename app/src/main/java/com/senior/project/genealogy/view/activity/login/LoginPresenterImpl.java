@@ -1,7 +1,7 @@
 package com.senior.project.genealogy.view.activity.login;
 
 import com.senior.project.genealogy.response.User;
-import com.senior.project.genealogy.view.activity.search.SearchActivity;
+import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 public class LoginPresenterImpl implements LoginPresenter {
 
@@ -30,7 +30,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void loginSuccess(String msg) {
         mLoginView.closeProgressDialog();
         showToast(msg);
-        mLoginView.showActivity(SearchActivity.class);
+        mLoginView.showActivity(HomeActivity.class);
     }
 
     @Override

@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.activity.genealogy.GenealogyActivity;
+import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment.CreateGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
 
@@ -64,8 +64,8 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
          * After onCreate Fragment. We will attach interface to get event outside fragment and handle inside it.
          * For example: Here, we will handle onBackPress()
          */
-        if (getActivity() instanceof GenealogyActivity)
-            ((GenealogyActivity) getActivity()).attachFragInterface(new GenealogyActivity.GenealogyInterface() {
+        if (getActivity() instanceof HomeActivity)
+            ((HomeActivity) getActivity()).attachFragInterface(new HomeActivity.HomeInterface() {
                 @Override
                 public boolean isExistedNestedFrag() {
                     if (getChildFragmentManager().getBackStackEntryCount() > 0) {
@@ -83,19 +83,19 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     public void onClick() {
         CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
 
-        pushFragment(GenealogyActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
     }
 
-    public void pushFragment(GenealogyActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
+    public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
         try {
             FragmentManager manager = getChildFragmentManager();
             FragmentTransaction ft = manager.beginTransaction();
             ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-            if (type == GenealogyActivity.PushFrgType.REPLACE) {
+            if (type == HomeActivity.PushFrgType.REPLACE) {
                 ft.replace(mContainerId, fragment, tag);
                 ft.addToBackStack(fragment.getTag());
                 ft.commitAllowingStateLoss();
-            } else if (type == GenealogyActivity.PushFrgType.ADD) {
+            } else if (type == HomeActivity.PushFrgType.ADD) {
                 ft.add(mContainerId, fragment, tag);
                 ft.addToBackStack(fragment.getTag());
                 ft.commit();
@@ -139,8 +139,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
             data.add(genealogy);
         }
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
+        FragmentManager fragmentManager = getChildFragmentManager();
         mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, data);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

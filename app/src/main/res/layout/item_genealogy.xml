@@ -10,7 +10,6 @@
         android:id="@+id/txtGenealogyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="gfhgfhgfhfhgfhgfhgfhgfhgfhgfhgfhgfhfhgfhgfghfhgfh"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textSize="25dp" />
@@ -18,12 +17,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <TextView
-            android:id="@+id/txtGenealogyOwner"
+            android:id="@+id/txtGenealogyBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:text="Branches: "/>
+
+        <TextView
+            android:id="@+id/txtGenealogyBranches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txtGenealogyBranch"/>
 
         <TextView
             android:id="@+id/txtGenealogyDate"
