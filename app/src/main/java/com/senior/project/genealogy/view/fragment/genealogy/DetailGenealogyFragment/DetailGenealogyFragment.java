@@ -94,7 +94,18 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
         Bundle bundle = new Bundle();
         bundle.putSerializable("genealogy", genealogy);
         mFragment.setArguments(bundle);
+        mFragment.attachInterface(new UpdateGenealogyFragment.UpdateGenealogyInterface() {
+            @Override
+            public void sendDataUpdateToGenealogy(Genealogy genealogy) {
+                updateGenealogy(genealogy);
+            }
+        });
         pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_detail_fram);
+    }
+
+    public void updateGenealogy(Genealogy genealogy){
+        txtGenealogyName.setText(genealogy.getName());
+        txtHistory.setText(genealogy.getHistory());
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UpdateGenealogyFragmentPresenter {
     void updateGenealogy(Genealogy genealogy, String token);
-    void updateGenealogySuccess();
+    void updateGenealogySuccess(Genealogy genealogy);
     void updateGenealogyFalse();
     void showToast(String s);
 }

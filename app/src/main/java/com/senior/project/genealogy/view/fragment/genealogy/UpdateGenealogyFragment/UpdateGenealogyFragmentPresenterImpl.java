@@ -25,8 +25,9 @@ public class UpdateGenealogyFragmentPresenterImpl implements UpdateGenealogyFrag
     }
 
     @Override
-    public void updateGenealogySuccess() {
+    public void updateGenealogySuccess(Genealogy genealogy) {
         mUpdateGenealogyFragmentView.closeProgressDialog();
+        mUpdateGenealogyFragmentView.closeFragment(genealogy);
     }
 
     @Override

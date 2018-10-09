@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,7 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
 
     private UpdateGenealogyFragmentPresenterImpl updateGenealogyFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
-
+    private Genealogy genealogy;
     public UpdateGenealogyFragment() {
 
     }
@@ -56,7 +57,7 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_genealogy_update, container, false);
         ButterKnife.bind(this, view);
-        Genealogy genealogy = (Genealogy) getArguments().getSerializable("genealogy");
+        genealogy = (Genealogy) getArguments().getSerializable("genealogy");
         showGenealogy(genealogy);
         return view;
     }
@@ -66,14 +67,11 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
     {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token","");
-        Genealogy genealogy = new Genealogy(edtGenealogyName.getText().toString(), edtGenealogyHistory.getText().toString());
+        genealogy.setName(edtGenealogyName.getText().toString());
+        genealogy.setHistory(edtGenealogyHistory.getText().toString());
+        genealogy.setDate(null);
+        updateGenealogyFragmentPresenterImpl = new UpdateGenealogyFragmentPresenterImpl(this);
         updateGenealogyFragmentPresenterImpl.updateGenealogy(genealogy, token);
-    }
-
-
-    @Override
-    public void closeFragment() {
-        getActivity().onBackPressed();
     }
 
     @Override
@@ -111,5 +109,24 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
     @Override
     public void showToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void closeFragment(Genealogy genealogy) {
+        mUpdateGenealogyInterface.sendDataUpdateToGenealogy(genealogy);
+        if(getActivity() instanceof HomeActivity){
+            ((HomeActivity) getActivity()).updateTitleBar("Genealogy information");
+        }
+        getActivity().onBackPressed();
+    }
+
+    public interface UpdateGenealogyInterface{
+        void sendDataUpdateToGenealogy(Genealogy genealogy);
+    }
+
+    public UpdateGenealogyInterface mUpdateGenealogyInterface;
+
+    public void attachInterface(UpdateGenealogyInterface updateGenealogyInterface){
+        mUpdateGenealogyInterface = updateGenealogyInterface;
     }
 }

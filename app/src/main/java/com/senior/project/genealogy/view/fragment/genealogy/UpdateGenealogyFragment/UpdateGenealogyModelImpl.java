@@ -2,6 +2,9 @@ package com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFrag
 
 
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.GenealogyResponse;
@@ -27,7 +30,7 @@ public class UpdateGenealogyModelImpl implements UpdateGenealogyModel {
     }
 
     @Override
-    public void updateGenealogy(Genealogy genealogy, String token) {
+    public void updateGenealogy(final Genealogy genealogy, String token) {
         Call<CodeResponse> call = mApplicationApi.getClient().create(GenealogyApi.class).updateGenealogy(genealogy, token);
         call.enqueue(new Callback<CodeResponse>() {
             @Override
@@ -36,7 +39,7 @@ public class UpdateGenealogyModelImpl implements UpdateGenealogyModel {
                 int code = Integer.parseInt(codeResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mUpdateGenealogyFragmentPresenter.updateGenealogySuccess();
+                        mUpdateGenealogyFragmentPresenter.updateGenealogySuccess(genealogy);
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
                         mUpdateGenealogyFragmentPresenter.showToast(String.valueOf(codeResponse.getError().getDescription()));
@@ -52,7 +55,7 @@ public class UpdateGenealogyModelImpl implements UpdateGenealogyModel {
 
             @Override
             public void onFailure(Call<CodeResponse> call, Throwable t) {
-
+                mUpdateGenealogyFragmentPresenter.updateGenealogyFalse();
             }
         });
     }
