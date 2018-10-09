@@ -11,7 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
@@ -83,6 +84,14 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         return data.size();
     }
 
+    public void removeItem(int position) {
+        data.remove(position);
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRemoved(position);
+    }
+
     public void updateGenealogy(Genealogy genealogy) {
         data.add(genealogy);
         notifyDataSetChanged();
@@ -93,14 +102,17 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         TextView txtGenealogyName;
         TextView txtGenealogyBranches;
         TextView txtGenealogyDate;
-        LinearLayout line;
+        FrameLayout line;
+        RelativeLayout viewBackground, viewForeground;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             txtGenealogyName = (TextView) itemView.findViewById(R.id.txtGenealogyName);
             txtGenealogyBranches = (TextView) itemView.findViewById(R.id.txtGenealogyBranches);
             txtGenealogyDate = (TextView) itemView.findViewById(R.id.txtGenealogyDate);
-            line = (LinearLayout) itemView.findViewById(R.id.line);
+            line = (FrameLayout) itemView.findViewById(R.id.line);
+            viewBackground = (RelativeLayout)itemView.findViewById(R.id.view_background);
+            viewForeground = (RelativeLayout)itemView.findViewById(R.id.view_foreground);
         }
     }
 

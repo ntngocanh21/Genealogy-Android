@@ -2,15 +2,19 @@ package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragme
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,7 @@ import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment.CreateGenealogyFragment;
+import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerItemTouchHelper;
 import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
 
 import java.util.ArrayList;
@@ -34,7 +39,7 @@ import butterknife.OnClick;
  * CreateGenealogyFragment => click button [ADD]
  * DetailGenealogyFragment => click each row
  */
-public class GenealogyFragment extends Fragment implements GenealogyFragmentView {
+public class GenealogyFragment extends Fragment implements GenealogyFragmentView,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     @BindView(R.id.btnCreateGenealogy)
     FloatingActionButton btnCreateGenealogy;
@@ -182,5 +187,43 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mRcvAdapter);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
+
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+            // get the removed item name to display it in snack bar
+            String name = data.get(viewHolder.getAdapterPosition()).getName();
+
+            // backup of removed item for undo purpose
+            final Genealogy deletedItem = data.get(viewHolder.getAdapterPosition());
+            final int deletedIndex = viewHolder.getAdapterPosition();
+            showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", mRcvAdapter, viewHolder);
+        }
+    }
+
+    public void showAlertDialog(String title, String message, String positive, String negative, RecyclerViewItemGenealogyAdapter adapter, final RecyclerView.ViewHolder viewHolder){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton(positive, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
+            }
+        });
+        builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                mRcvAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
