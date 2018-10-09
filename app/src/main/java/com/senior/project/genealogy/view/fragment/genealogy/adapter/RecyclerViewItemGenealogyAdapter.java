@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.fragment.genealogy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -63,8 +65,6 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.line.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
-
                 DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
                 Bundle bundle = new Bundle();
                 Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch);

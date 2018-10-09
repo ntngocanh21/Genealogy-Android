@@ -1,5 +1,7 @@
 package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.senior.project.genealogy.response.Genealogy;
 
 import java.util.List;
@@ -35,5 +37,22 @@ public class GenealogyFragmentPresenterImpl implements GenealogyFragmentPresente
     public void showToast(String s) {
         mGenealogyFragmentView.closeProgressDialog();
         mGenealogyFragmentView.showToast(s);
+    }
+
+    @Override
+    public void deleteGenealogy(int genealogyId, String token, RecyclerView.ViewHolder viewHolder) {
+        mGenealogyFragmentView.showProgressDialog();
+        mGenealogyModel.deleteGenealogy(genealogyId, token, viewHolder);
+    }
+
+    @Override
+    public void deleteGenealogySuccess(RecyclerView.ViewHolder viewHolder) {
+        mGenealogyFragmentView.closeProgressDialog();
+        mGenealogyFragmentView.deleteItemGenealogy(viewHolder);
+    }
+
+    @Override
+    public void deleteGenealogyFalse() {
+        mGenealogyFragmentView.closeProgressDialog();
     }
 }

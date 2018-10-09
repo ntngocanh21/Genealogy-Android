@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -53,7 +52,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     private GenealogyFragmentPresenterImpl genealogyFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
-
+    private String token;
     public GenealogyFragment() {
 
     }
@@ -64,7 +63,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         ButterKnife.bind(this, view);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
+        token = sharedPreferences.getString("token", "");
 
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
@@ -195,17 +194,12 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
-            // get the removed item name to display it in snack bar
-            String name = data.get(viewHolder.getAdapterPosition()).getName();
-
-            // backup of removed item for undo purpose
-            final Genealogy deletedItem = data.get(viewHolder.getAdapterPosition());
             final int deletedIndex = viewHolder.getAdapterPosition();
-            showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", mRcvAdapter, viewHolder);
+            showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder);
         }
     }
 
-    public void showAlertDialog(String title, String message, String positive, String negative, RecyclerViewItemGenealogyAdapter adapter, final RecyclerView.ViewHolder viewHolder){
+    public void showAlertDialog(String title, String message, String positive, String negative, final RecyclerView.ViewHolder viewHolder){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title);
         builder.setMessage(message);
@@ -213,7 +207,8 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         builder.setPositiveButton(positive, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
+                int genealogyId = data.get(viewHolder.getAdapterPosition()).getId();
+                genealogyFragmentPresenterImpl.deleteGenealogy(genealogyId, token, viewHolder);
             }
         });
         builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
@@ -225,5 +220,9 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void deleteItemGenealogy(RecyclerView.ViewHolder viewHolder){
+        mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
     }
 }

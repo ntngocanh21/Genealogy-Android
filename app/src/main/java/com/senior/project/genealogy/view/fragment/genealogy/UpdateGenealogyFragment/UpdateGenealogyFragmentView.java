@@ -5,4 +5,7 @@ import com.senior.project.genealogy.response.Genealogy;
 public interface UpdateGenealogyFragmentView {
     void closeFragment();
     void showGenealogy(Genealogy genealogy);
+    void showToast(String message);
+    void showProgressDialog();
+    void closeProgressDialog();
 }

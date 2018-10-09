@@ -1,5 +1,8 @@
 package com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragment;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -8,16 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.util.Constants;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogyFragmentView{
 
@@ -39,6 +44,9 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
     @BindView(R.id.btnDoneEdit)
     FloatingActionButton btnDoneEdit;
 
+    private UpdateGenealogyFragmentPresenterImpl updateGenealogyFragmentPresenterImpl;
+    private ProgressDialog mProgressDialog;
+
     public UpdateGenealogyFragment() {
 
     }
@@ -52,6 +60,16 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
         showGenealogy(genealogy);
         return view;
     }
+
+    @OnClick(R.id.btnDoneEdit)
+    public void onClick()
+    {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token","");
+        Genealogy genealogy = new Genealogy(edtGenealogyName.getText().toString(), edtGenealogyHistory.getText().toString());
+        updateGenealogyFragmentPresenterImpl.updateGenealogy(genealogy, token);
+    }
+
 
     @Override
     public void closeFragment() {
@@ -67,5 +85,31 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String genealogyDate = formatter.format(genealogy.getDate());
         txtGenealogyDate.setText(genealogyDate);
+    }
+
+    public ProgressDialog initProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+        }
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        return mProgressDialog;
+    }
+
+    @Override
+    public void showProgressDialog() {
+        ProgressDialog progressDialog = initProgressDialog();
+        progressDialog.show();
+    }
+
+    @Override
+    public void closeProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
 }
