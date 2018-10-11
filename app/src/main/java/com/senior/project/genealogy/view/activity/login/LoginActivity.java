@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
          * AB
          * A [Login}
          */
-        finish();
+//        finish();
     }
 
     public ProgressDialog initProgressDialog(){

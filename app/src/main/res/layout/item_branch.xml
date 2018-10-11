@@ -6,10 +6,10 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:clickable="false"
-    android:id="@+id/line">
+    android:id="@+id/lineBranch">
 
     <RelativeLayout
-        android:id="@+id/view_background"
+        android:id="@+id/viewBackgroundBranch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#cce31a46">
@@ -37,7 +37,7 @@
 
     <RelativeLayout
         android:paddingBottom="10dp"
-        android:id="@+id/view_foreground"
+        android:id="@+id/viewForegroundBranch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">
@@ -48,7 +48,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtGenealogyName"
+                android:id="@+id/txtBranchName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
@@ -60,20 +60,20 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/txtGenealogyBranch"
+                    android:id="@+id/txtPeople"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Branches: " />
+                    android:text="People: " />
 
                 <TextView
-                    android:id="@+id/txtGenealogyBranches"
+                    android:id="@+id/txtNumberOfPeople"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/txtGenealogyBranch" />
+                    android:layout_toRightOf="@+id/txtPeople" />
 
                 <TextView
-                    android:id="@+id/txtGenealogyDate"
+                    android:id="@+id/txtBranchDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true" />

@@ -1,5 +1,6 @@
-package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment;
+package com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,21 +11,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment.CreateGenealogyFragment;
-import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerItemTouchHelper;
+import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerItemBranchTouchHelper;
+import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemBranchAdapter;
 import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
 
 import java.util.ArrayList;
@@ -34,95 +38,74 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * CreateGenealogyFragment => click button [ADD]
- * DetailGenealogyFragment => click each row
- */
-public class GenealogyFragment extends Fragment implements GenealogyFragmentView,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
-    @BindView(R.id.btnCreateGenealogy)
-    FloatingActionButton btnCreateGenealogy;
+public class BranchFragment extends Fragment implements BranchFragmentView,RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
 
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.btnCreateBranch)
+    FloatingActionButton btnCreateBranch;
 
-    RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerViewBranch)
+    RecyclerView recyclerViewBranch;
 
-    RecyclerViewItemGenealogyAdapter mRcvAdapter;
-    List<Genealogy> data;
+    @BindView(R.id.spGenealogy)
+    Spinner spGenealogy;
 
-    private GenealogyFragmentPresenterImpl genealogyFragmentPresenterImpl;
+    RecyclerViewItemBranchAdapter mRcvAdapter;
+    List<Branch> branches;
+
+    private BranchFragmentPresenterImpl branchFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
-    public GenealogyFragment() {
+
+    public BranchFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_genealogy, container, false);
+        View view = inflater.inflate(R.layout.fragment_branch, container, false);
         ButterKnife.bind(this, view);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
 
-        genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
-        genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
-
-        /**
-         * After onCreate Fragment. We will attach interface to get event outside fragment and handle inside it.
-         * For example: Here, we will handle onBackPress()
-         */
-        if (getActivity() instanceof HomeActivity)
-            ((HomeActivity) getActivity()).attachFragInterface(new HomeActivity.HomeInterface() {
-                @Override
-                public boolean isExistedNestedFrag() {
-                    if (getChildFragmentManager().getBackStackEntryCount() > 0) {
-                        /**
-                         * Pop BranchFragment
-                         * - CreateGenealogyFragment
-                         * - DetailGenealogyFragment
-                         * No Handle
-                         * - DetailGenealogyFragment
-                         * - UpdateGenealogyFragment
-                         * => Pop
-                         * Check DetailFragmentGenealogy has child fragments => pop
-                         * pop -> POP -> Back
-                         */
-                        if (getActivity() instanceof HomeActivity) {
-                            String currentTitle = ((HomeActivity)getActivity()).getCurrentTitleBar();
-                            if (currentTitle.equals("Genealogy information")){
-                                /**
-                                 * This Detail Fragment
-                                 * You should check nested fragment and then pop it
-                                 */
-
-                            }
-                        }
-                        getChildFragmentManager().popBackStack();
-                        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
+        branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
+        branchFragmentPresenterImpl.getGenealogiesByUsername(token);
 
         return view;
     }
 
-    @OnClick(R.id.btnCreateGenealogy)
-    public void onClick() {
-        CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
-        mFragment.attackInterface(new CreateGenealogyFragment.CreateGenealogyInterface() {
-            @Override
-            public void sendDataToListGenealogy(Genealogy genealogy) {
-                mRcvAdapter.updateGenealogy(genealogy);
+    public void addItemsOnSpinnerGenealogy(List<Genealogy> genealogyList) {
+        ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
+                branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
             }
         });
-        if (getActivity() instanceof HomeActivity) {
-            ((HomeActivity) getActivity()).updateTitleBar("Create new genealogy");
-        }
-        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+
+        spGenealogy.setAdapter(dataAdapter);
+    }
+
+    @OnClick(R.id.btnCreateBranch)
+    public void onClick() {
+//        CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
+//        mFragment.attackInterface(new CreateGenealogyFragment.CreateGenealogyInterface() {
+//            @Override
+//            public void sendDataToListGenealogy(Genealogy genealogy) {
+//                mRcvAdapter.updateGenealogy(genealogy);
+//            }
+//        });
+//        if (getActivity() instanceof HomeActivity) {
+//            ((HomeActivity) getActivity()).updateTitleBar("Create new genealogy");
+//        }
+//        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
@@ -172,28 +155,28 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     }
 
     @Override
-    public void showGenealogy(List<Genealogy> genealogyList) {
-        data = new ArrayList<>();
-        for (Genealogy genealogy : genealogyList) {
-            data.add(genealogy);
+    public void showBranch(List<Branch> branchList) {
+        branches = new ArrayList<>();
+        for (Branch branch : branchList) {
+            branches.add(branch);
         }
 
         FragmentManager fragmentManager = getChildFragmentManager();
-        mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, data);
+        mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mRcvAdapter);
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
+        recyclerViewBranch.setLayoutManager(layoutManager);
+        recyclerViewBranch.setAdapter(mRcvAdapter);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemBranchTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewBranch);
 
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+        if (viewHolder instanceof RecyclerViewItemBranchAdapter.RecyclerViewHolder) {
             final int deletedIndex = viewHolder.getAdapterPosition();
             showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder);
         }
@@ -204,11 +187,11 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setCancelable(false);
-        builder.setPositiveButton(positive, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(positive, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                int genealogyId = data.get(viewHolder.getAdapterPosition()).getId();
-                genealogyFragmentPresenterImpl.deleteGenealogy(genealogyId, token, viewHolder);
+                int branchId = branches.get(viewHolder.getAdapterPosition()).getId();
+                branchFragmentPresenterImpl.deleteBranch(branchId, token, viewHolder);
             }
         });
         builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
@@ -222,7 +205,8 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         alertDialog.show();
     }
 
-    public void deleteItemGenealogy(RecyclerView.ViewHolder viewHolder){
+    @Override
+    public void deleteItemBranch(RecyclerView.ViewHolder viewHolder) {
         mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
     }
 }

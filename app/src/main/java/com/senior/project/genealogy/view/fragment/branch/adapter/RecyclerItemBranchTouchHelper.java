@@ -1,14 +1,18 @@
-package com.senior.project.genealogy.view.fragment.genealogy.adapter;
+package com.senior.project.genealogy.view.fragment.branch.adapter;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+/**
+ * Created by ravi on 29/09/17.
+ */
+
+public class RecyclerItemBranchTouchHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
 
-    public RecyclerItemTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
+    public RecyclerItemBranchTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
     }
@@ -21,7 +25,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
 
             getDefaultUIUtil().onSelected(foregroundView);
         }
@@ -31,14 +35,14 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -46,7 +50,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);

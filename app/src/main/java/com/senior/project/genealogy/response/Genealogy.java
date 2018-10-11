@@ -99,4 +99,9 @@ public class Genealogy implements Serializable{
     public void setBranch(Integer branch) {
         this.branch = branch;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

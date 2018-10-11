@@ -92,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+        finish();
     }
 
     public ProgressDialog initProgressDialog(){
