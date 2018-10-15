@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.SectionsPageAdapter;
@@ -23,6 +24,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
 
+    private Branch branch;
+
     public DetailBranchFragment() {
 
     }
@@ -32,6 +35,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch_detail, container, false);
         ButterKnife.bind(this, view);
+        branch = (Branch) getArguments().getSerializable("branch");
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         return view;
@@ -39,7 +43,12 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new DetailInformationBranchFragment(), "Information");
+        DetailInformationBranchFragment fragmentInfo = new DetailInformationBranchFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("branch", branch);
+        fragmentInfo.setArguments(bundle);
+        adapter.addFragment(fragmentInfo, "Information");
+
         adapter.addFragment(new DetailMemberBranchFragment(), "Member");
         viewPager.setAdapter(adapter);
     }

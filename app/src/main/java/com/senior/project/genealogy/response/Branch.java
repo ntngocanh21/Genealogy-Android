@@ -33,6 +33,14 @@ public class Branch implements Serializable{
     @Expose
     private Integer genealogyId;
 
+    public Branch(Integer id, String name, String description, Date date, Integer member) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.member = member;
+    }
+
     public Branch(String name, String description) {
         this.name = name;
         this.description = description;

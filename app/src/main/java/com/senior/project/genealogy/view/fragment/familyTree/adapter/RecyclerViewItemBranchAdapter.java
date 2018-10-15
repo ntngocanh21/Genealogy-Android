@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.branch.adapter;
+package com.senior.project.genealogy.view.fragment.familyTree.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -63,11 +63,11 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             @Override
             public void onClick(View v) {
                 DetailBranchFragment mFragment = new DetailBranchFragment();
-                Bundle bundle = new Bundle();
-                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member);
-                bundle.putSerializable("branch", branch);
-                mFragment.setArguments(bundle);
-                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
+//                Bundle bundle = new Bundle();
+//                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member);
+//                bundle.putSerializable("branch", branch);
+//                mFragment.setArguments(bundle);
+//                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
                 Toast.makeText(mContext, "test", Toast.LENGTH_SHORT).show();
             }
         });

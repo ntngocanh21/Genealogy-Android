@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment;
+package com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -6,11 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -27,23 +24,17 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment.CreateBranchFragment;
-import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerItemBranchTouchHelper;
-import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemBranchAdapter;
-import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
+import com.senior.project.genealogy.view.fragment.familyTree.adapter.RecyclerItemBranchTouchHelper;
+import com.senior.project.genealogy.view.fragment.familyTree.adapter.RecyclerViewItemBranchAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
-public class BranchFragment extends Fragment implements BranchFragmentView,RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
-
-    @BindView(R.id.btnCreateBranch)
-    FloatingActionButton btnCreateBranch;
+public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentView,RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
 
     @BindView(R.id.recyclerViewBranch)
     RecyclerView recyclerViewBranch;
@@ -54,26 +45,24 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
     RecyclerViewItemBranchAdapter mRcvAdapter;
     List<Branch> branches;
 
-    private BranchFragmentPresenterImpl branchFragmentPresenterImpl;
+    private FamilyTreeFragmentPresenterImpl familyTreeFragmentPresenter;
     private ProgressDialog mProgressDialog;
     private String token;
 
-    public BranchFragment() {
+    public FamilyTreeFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_branch, container, false);
+        View view = inflater.inflate(R.layout.fragment_family_tree, container, false);
         ButterKnife.bind(this, view);
-
-        //getArguments()
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar("Branches");
-        branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
-        branchFragmentPresenterImpl.getGenealogiesByUsername(token);
+        familyTreeFragmentPresenter = new FamilyTreeFragmentPresenterImpl(this);
+        familyTreeFragmentPresenter.getGenealogiesByUsername(token);
 
         return view;
     }
@@ -87,7 +76,6 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
             {
                 Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
                 showBranch(genealogy.getBranchList());
-                //branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -95,47 +83,6 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
         });
 
         spGenealogy.setAdapter(dataAdapter);
-    }
-
-    @OnClick(R.id.btnCreateBranch)
-    public void onClick() {
-        CreateBranchFragment mFragment = new CreateBranchFragment();
-        Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
-        Bundle bundle = new Bundle();
-        bundle.putInt("genealogyId", genealogy.getId());
-        bundle.putString("genealogyName", genealogy.getName());
-        mFragment.setArguments(bundle);
-
-        mFragment.attackInterface(new CreateBranchFragment.CreateBranchInterface() {
-            @Override
-            public void sendDataToListBranch(Branch branch) {
-                mRcvAdapter.updateBranch(branch);
-            }
-        });
-        if (getActivity() instanceof HomeActivity) {
-            ((HomeActivity) getActivity()).updateTitleBar("Create new branch");
-        }
-        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
-    }
-
-    public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
-        try {
-            FragmentManager manager = getChildFragmentManager();
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-            if (type == HomeActivity.PushFrgType.REPLACE) {
-                ft.replace(mContainerId, fragment, tag);
-                ft.addToBackStack(fragment.getTag());
-                ft.commitAllowingStateLoss();
-            } else if (type == HomeActivity.PushFrgType.ADD) {
-                ft.add(mContainerId, fragment, tag);
-                ft.addToBackStack(fragment.getTag());
-                ft.commit();
-            }
-            manager.executePendingTransactions();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -201,7 +148,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int branchId = branches.get(viewHolder.getAdapterPosition()).getId();
-                branchFragmentPresenterImpl.deleteBranch(branchId, token, viewHolder);
+                familyTreeFragmentPresenter.deleteBranch(branchId, token, viewHolder);
             }
         });
         builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {

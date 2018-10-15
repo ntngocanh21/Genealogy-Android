@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
 
@@ -112,21 +113,16 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
         } else if (id == R.id.search) {
             Fragment mFragment = new SearchFragment();
-//            updateTitleBar("Search");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.genealogies) {
             Fragment mFragment = new GenealogyFragment();
-            /**
-             * Update title for BranchFragment
-             */
-//            updateTitleBar("My genealogies");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.branches) {
             Fragment mFragment = new BranchFragment();
-//            updateTitleBar("Branches");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.familyTree) {
-
+            Fragment mFragment = new FamilyTreeFragment();
+            pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
 
         } else if (id == R.id.signout) {
@@ -181,7 +177,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     /**
      * When click button Back. Event click work in Activity. So it means GenealogyActivity is finished.
-     * So finish every nested fragment. For example: BranchFragment.
+     * So finish every nested fragment. For example: FamilyTreeFragment.
      * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
      */
 

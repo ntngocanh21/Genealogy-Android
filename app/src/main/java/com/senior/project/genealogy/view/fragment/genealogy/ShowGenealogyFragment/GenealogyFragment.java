@@ -90,7 +90,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 //                public boolean isExistedNestedFrag() {
 //                    if (getChildFragmentManager().getBackStackEntryCount() > 0) {
 //                        /**
-//                         * Pop BranchFragment
+//                         * Pop FamilyTreeFragment
 //                         * - CreateBranchFragment
 //                         * - DetailGenealogyFragment
 //                         * No Handle
