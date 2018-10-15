@@ -53,22 +53,22 @@ public class BranchModelImpl implements BranchModel {
         });
     }
 
-    @Override
-    public void getBranchesByGenealogyId(String token, int genealogyId) {
-        Call<BranchResponse> call = mApplicationApi.getClient().create(BranchApi.class).getBranchesByGenealogyId(genealogyId, token);
-        call.enqueue(new Callback<BranchResponse>() {
-            @Override
-            public void onResponse(Call<BranchResponse> call, Response<BranchResponse> response) {
-                BranchResponse branchResponse = response.body();
-                mBranchFragmentPresenter.getBranchesByGenealogyIdSuccess(branchResponse.getBranchList());
-            }
-
-            @Override
-            public void onFailure(Call<BranchResponse> call, Throwable t) {
-                mBranchFragmentPresenter.getBranchesByGenealogyIdFalse();
-            }
-        });
-    }
+//    @Override
+//    public void getBranchesByGenealogyId(String token, int genealogyId) {
+//        Call<BranchResponse> call = mApplicationApi.getClient().create(BranchApi.class).getBranchesByGenealogyId(genealogyId, token);
+//        call.enqueue(new Callback<BranchResponse>() {
+//            @Override
+//            public void onResponse(Call<BranchResponse> call, Response<BranchResponse> response) {
+//                BranchResponse branchResponse = response.body();
+//                mBranchFragmentPresenter.getBranchesByGenealogyIdSuccess(branchResponse.getBranchList());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BranchResponse> call, Throwable t) {
+//                mBranchFragmentPresenter.getBranchesByGenealogyIdFalse();
+//            }
+//        });
+//    }
 
     @Override
     public void deleteBranch(int branchId, String token, final RecyclerView.ViewHolder viewHolder) {

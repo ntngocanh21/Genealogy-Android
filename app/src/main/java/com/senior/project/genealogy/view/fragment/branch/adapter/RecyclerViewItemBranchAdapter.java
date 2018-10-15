@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,7 +59,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
+                DetailBranchFragment mFragment = new DetailBranchFragment();
 //                Bundle bundle = new Bundle();
 //                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch);
 //                bundle.putSerializable("genealogy", genealogy);
@@ -67,7 +68,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
 //                if(mContext instanceof HomeActivity){
 //                    ((HomeActivity) mContext).updateTitleBar("Genealogy Information");
 //                }
-//                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
                 Toast.makeText(mContext, "test", Toast.LENGTH_SHORT).show();
             }
         });
@@ -83,7 +84,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         notifyItemRemoved(position);
     }
 
-    public void updateGenealogy(Branch branch) {
+    public void updateBranch(Branch branch) {
         mBranches.add(branch);
         notifyDataSetChanged();
     }

@@ -7,4 +7,5 @@ public interface  LoginView {
     void showProgressDialog();
     void closeProgressDialog();
     void saveToken(String token);
+    void showLoginAgainDialog ();
 }

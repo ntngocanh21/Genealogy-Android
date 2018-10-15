@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment;
+package com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,10 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
@@ -24,53 +25,61 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-public class CreateGenealogyFragment extends Fragment implements CreateGenealogyFragmentView{
+public class CreateBranchFragment extends Fragment implements CreateBranchFragmentView {
 
-    @BindView(R.id.btnCreate)
-    Button btnCreate;
+    @BindView(R.id.btnCreateBranch)
+    Button btnCreateBranch;
 
-    @BindView(R.id.edtName)
-    EditText edtName;
+    @BindView(R.id.edtBranchName)
+    EditText edtBranchName;
 
-    @BindView(R.id.edtHistory)
-    EditText edtHistory;
+    @BindView(R.id.txtGenealogyName)
+    TextView txtGenealogyName;
 
-    private CreateGenealogyFragmentPresenterImpl createGenealogyFragmentPresenterImpl;
+    @BindView(R.id.edtDescription)
+    EditText edtDescription;
+
+    @BindView(R.id.edtUsername)
+    EditText edtUsername;
+
+    @BindView(R.id.btnFind)
+    Button btnFind;
+
+    private CreateBranchFragmentPresenterImpl createBranchFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
 
-    public CreateGenealogyFragment() {
+    public CreateBranchFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_genealogy_create, container, false);
-        createGenealogyFragmentPresenterImpl = new CreateGenealogyFragmentPresenterImpl(this);
-        ((HomeActivity) getActivity()).updateTitleBar("Create new genealogy");
+        View view = inflater.inflate(R.layout.fragment_branch_create, container, false);
+        createBranchFragmentPresenterImpl = new CreateBranchFragmentPresenterImpl(this);
+        ((HomeActivity) getActivity()).updateTitleBar("Create new branch");
         ButterKnife.bind(this, view);
+        txtGenealogyName.setText(getArguments().getString("genealogyName"));
         return view;
     }
 
-    @OnClick(R.id.btnCreate)
+    @OnClick(R.id.btnCreateBranch)
     public void onClick()
     {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token","");
-        Genealogy genealogy = new Genealogy(edtName.getText().toString(), edtHistory.getText().toString());
-        createGenealogyFragmentPresenterImpl.createGenealogy(genealogy, token);
+        Branch branch = new Branch(edtBranchName.getText().toString(), edtDescription.getText().toString(), getArguments().getInt("genealogyId"));
+        createBranchFragmentPresenterImpl.createBranch(branch, token);
     }
 
-    @OnTextChanged(R.id.edtName)
+    @OnTextChanged(R.id.edtBranchName)
     protected void onTextChanged() {
 
-        String genealogyName = edtName.getText().toString().trim();
-
-
+        String genealogyName = edtBranchName.getText().toString().trim();
         if (genealogyName.isEmpty()){
-            btnCreate.setEnabled(false);
+            btnCreateBranch.setEnabled(false);
         }
         else {
-            btnCreate.setEnabled(true);
+            btnCreateBranch.setEnabled(true);
         }
 
     }
@@ -103,23 +112,21 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
     }
 
     @Override
-    public void closeFragment(List<Genealogy> genealogyList) {
-        mCreateGenealogyInterface.sendDataToListGenealogy(genealogyList.get(0));
+    public void closeFragment(List<Branch> branchList) {
+        //mCreateBranchInterface.sendDataToListBranch(branchList.get(0));
         if(getActivity() instanceof HomeActivity){
-            ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
+            ((HomeActivity) getActivity()).updateTitleBar("Branch");
         }
         getActivity().onBackPressed();
     }
 
-    public interface CreateGenealogyInterface{
-        void sendDataToListGenealogy(Genealogy genealogy);
+    public interface CreateBranchInterface{
+        void sendDataToListBranch(Branch branch);
     }
 
-    public CreateGenealogyInterface mCreateGenealogyInterface;
+    public CreateBranchInterface mCreateBranchInterface;
 
-    public void attackInterface(CreateGenealogyInterface createGenealogyInterface){
-        mCreateGenealogyInterface = createGenealogyInterface;
+    public void attackInterface(CreateBranchInterface createBranchInterface){
+        mCreateBranchInterface = createBranchInterface;
     }
-
-
 }

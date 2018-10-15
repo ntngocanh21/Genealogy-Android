@@ -1,11 +1,14 @@
 package com.senior.project.genealogy.view.activity.login;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +47,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
-//        startActivity(new Intent(LoginActivity.this, GenealogyActivity.class));
     }
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
@@ -114,6 +116,35 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void closeProgressDialog() {
         if (mProgressDialog.isShowing())
             mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void showLoginAgainDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+        showLoginAlertDialog();
+    }
+
+    public void showLoginAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("Please check your connection and try again or exit and retry later");
+        builder.setCancelable(false);
+        builder.setPositiveButton("retry", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
+                loginPresenterImpl.login(user);
+            }
+        });
+        builder.setNegativeButton("exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override

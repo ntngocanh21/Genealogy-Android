@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:clickable="false"
-    android:id="@+id/genealogy_frame"
-    tools:context=".view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment">
+    android:clickable="false">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create notification"
+            android:id="@+id/btnCreateNotification"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+                android:id="@+id/rcvMember"
                 android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
         </ScrollView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnCreateGenealogy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/plus"
-            android:layout_margin="16dp" />
-    </FrameLayout>
+    </LinearLayout>
 
 </FrameLayout>

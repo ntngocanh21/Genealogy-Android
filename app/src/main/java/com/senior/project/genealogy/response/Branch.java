@@ -28,6 +28,22 @@ public class Branch implements Serializable{
     @Expose
     private Integer member;
 
+
+    @SerializedName("genealogyId")
+    @Expose
+    private Integer genealogyId;
+
+    public Branch(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Branch(String name, String description, Integer genealogyId) {
+        this.name = name;
+        this.description = description;
+        this.genealogyId = genealogyId;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -67,4 +83,6 @@ public class Branch implements Serializable{
     public void setMember(Integer member) {
         this.member = member;
     }
+
+
 }

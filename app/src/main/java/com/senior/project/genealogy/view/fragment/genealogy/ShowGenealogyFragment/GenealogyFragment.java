@@ -1,11 +1,17 @@
 package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment;
 
+import android.animation.Animator;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,9 +20,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.AttributeSet;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -35,7 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * CreateGenealogyFragment => click button [ADD]
+ * CreateBranchFragment => click button [ADD]
  * DetailGenealogyFragment => click each row
  */
 public class GenealogyFragment extends Fragment implements GenealogyFragmentView,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -64,48 +76,48 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-
+        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
-
-        /**
-         * After onCreate Fragment. We will attach interface to get event outside fragment and handle inside it.
-         * For example: Here, we will handle onBackPress()
-         */
-        if (getActivity() instanceof HomeActivity)
-            ((HomeActivity) getActivity()).attachFragInterface(new HomeActivity.HomeInterface() {
-                @Override
-                public boolean isExistedNestedFrag() {
-                    if (getChildFragmentManager().getBackStackEntryCount() > 0) {
-                        /**
-                         * Pop BranchFragment
-                         * - CreateGenealogyFragment
-                         * - DetailGenealogyFragment
-                         * No Handle
-                         * - DetailGenealogyFragment
-                         * - UpdateGenealogyFragment
-                         * => Pop
-                         * Check DetailFragmentGenealogy has child fragments => pop
-                         * pop -> POP -> Back
-                         */
-                        if (getActivity() instanceof HomeActivity) {
-                            String currentTitle = ((HomeActivity)getActivity()).getCurrentTitleBar();
-                            if (currentTitle.equals("Genealogy information")){
-                                /**
-                                 * This Detail Fragment
-                                 * You should check nested fragment and then pop it
-                                 */
-
-                            }
-                        }
-                        getChildFragmentManager().popBackStack();
-                        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
+//
+//        /**
+//         * After onCreate Fragment. We will attach interface to get event outside fragment and handle inside it.
+//         * For example: Here, we will handle onBackPress()
+//         */
+//        if (getActivity() instanceof HomeActivity)
+//            ((HomeActivity) getActivity()).attachFragInterface(new HomeActivity.HomeInterface() {
+//                @Override
+//                public boolean isExistedNestedFrag() {
+//                    if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+//                        /**
+//                         * Pop BranchFragment
+//                         * - CreateBranchFragment
+//                         * - DetailGenealogyFragment
+//                         * No Handle
+//                         * - DetailGenealogyFragment
+//                         * - UpdateGenealogyFragment
+//                         * => Pop
+//                         * Check DetailFragmentGenealogy has child fragments => pop
+//                         * pop -> POP -> Back
+//                         */
+//                        if (getActivity() instanceof HomeActivity) {
+//                            String currentTitle = ((HomeActivity)getActivity()).getCurrentTitleBar();
+//                            if (currentTitle.equals("Genealogy information")){
+//                                /**
+//                                 * This Detail Fragment
+//                                 * You should check nested fragment and then pop it
+//                                 */
+//
+//                            }
+//                        }
+//                        getChildFragmentManager().popBackStack();
+//                        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
+//                        return true;
+//                    } else {
+//                        return false;
+//                    }
+//                }
+//            });
 
         return view;
     }
@@ -127,7 +139,9 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
         try {
-            FragmentManager manager = getChildFragmentManager();
+            //FragmentManager manager = getChildFragmentManager();
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+
             FragmentTransaction ft = manager.beginTransaction();
             ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
             if (type == HomeActivity.PushFrgType.REPLACE) {
@@ -178,7 +192,8 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
             data.add(genealogy);
         }
 
-        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
         mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, data);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

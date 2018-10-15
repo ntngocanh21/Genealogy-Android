@@ -112,18 +112,18 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
         } else if (id == R.id.search) {
             Fragment mFragment = new SearchFragment();
-            updateTitleBar("Search");
+//            updateTitleBar("Search");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.genealogies) {
             Fragment mFragment = new GenealogyFragment();
             /**
              * Update title for BranchFragment
              */
-            updateTitleBar("My genealogies");
+//            updateTitleBar("My genealogies");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.branches) {
             Fragment mFragment = new BranchFragment();
-            updateTitleBar("Branches");
+//            updateTitleBar("Branches");
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.familyTree) {
 
@@ -195,9 +195,19 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         mHomeInterface = _interface;
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        if(!mHomeInterface.isExistedNestedFrag()) {
+//            super.onBackPressed();
+//        }
+//    }
+
     @Override
-    public void onBackPressed() {
-        if(!mHomeInterface.isExistedNestedFrag()) {
+    public void onBackPressed(){
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
             super.onBackPressed();
         }
     }

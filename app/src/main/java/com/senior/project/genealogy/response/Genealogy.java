@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Genealogy implements Serializable{
 
@@ -31,6 +32,10 @@ public class Genealogy implements Serializable{
     @SerializedName("branch")
     @Expose
     private Integer branch;
+
+    @SerializedName("branchList")
+    @Expose
+    private List<Branch> branchList;
 
     public Genealogy(Integer id, String name, String history) {
         this.id = id;
@@ -98,6 +103,14 @@ public class Genealogy implements Serializable{
 
     public void setBranch(Integer branch) {
         this.branch = branch;
+    }
+
+    public List<Branch> getBranchList() {
+        return branchList;
+    }
+
+    public void setBranchList(List<Branch> branchList) {
+        this.branchList = branchList;
     }
 
     @Override

@@ -7,7 +7,6 @@ import com.senior.project.genealogy.response.CodeResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -16,7 +15,7 @@ import retrofit2.http.PUT;
 public interface BranchApi {
 
     @POST("/api/branch")
-    Call<BranchResponse> createBranch(@Body Branch branch, int genealogyId, @Header("Authorisation") String token);
+    Call<BranchResponse> createBranch(@Body Branch branch, @Header("Authorisation") String token);
 
     @PUT("/api/branch")
     Call<CodeResponse> updateBranch(@Body Branch branch, @Header("Authorisation") String token);

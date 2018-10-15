@@ -27,6 +27,7 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment.CreateBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerItemBranchTouchHelper;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemBranchAdapter;
 import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
@@ -68,7 +69,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-
+        ((HomeActivity) getActivity()).updateTitleBar("Branches");
         branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
         branchFragmentPresenterImpl.getGenealogiesByUsername(token);
 
@@ -83,7 +84,8 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
-                branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
+                showBranch(genealogy.getBranchList());
+                //branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -95,17 +97,23 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
 
     @OnClick(R.id.btnCreateBranch)
     public void onClick() {
-//        CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
-//        mFragment.attackInterface(new CreateGenealogyFragment.CreateGenealogyInterface() {
-//            @Override
-//            public void sendDataToListGenealogy(Genealogy genealogy) {
-//                mRcvAdapter.updateGenealogy(genealogy);
-//            }
-//        });
-//        if (getActivity() instanceof HomeActivity) {
-//            ((HomeActivity) getActivity()).updateTitleBar("Create new genealogy");
-//        }
-//        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+        CreateBranchFragment mFragment = new CreateBranchFragment();
+        Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
+        Bundle bundle = new Bundle();
+        bundle.putInt("genealogyId", genealogy.getId());
+        bundle.putString("genealogyName", genealogy.getName());
+        mFragment.setArguments(bundle);
+
+        mFragment.attackInterface(new CreateBranchFragment.CreateBranchInterface() {
+            @Override
+            public void sendDataToListBranch(Branch branch) {
+                mRcvAdapter.updateBranch(branch);
+            }
+        });
+        if (getActivity() instanceof HomeActivity) {
+            ((HomeActivity) getActivity()).updateTitleBar("Create new branch");
+        }
+        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
@@ -161,7 +169,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
             branches.add(branch);
         }
 
-        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

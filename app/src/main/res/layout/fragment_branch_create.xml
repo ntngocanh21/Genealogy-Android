@@ -4,55 +4,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.fragment.genealogy.UpdateGenealogyFragment.UpdateGenealogyFragment">
+    android:clickable="false"
+    tools:context=".view.fragment.branch.CreateBranchFragment.CreateBranchFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingTop="10dp"
             android:layout_weight="1">
-
-            <EditText
+            <TextView
+                android:id="@+id/txtGenealogyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtGenealogyName"
                 android:textSize="25dp"
+                android:paddingBottom="10dp"
                 android:layout_gravity="center"/>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtGenealogyOwner"/>
-            <TextView
+                android:text="Branch's name:" />
+
+            <EditText
+                android:id="@+id/edtBranchName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtGenealogyDate"/>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Branches: " />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:text="Admin:" />
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtBranches"/>
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/edtUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Find"
+                        android:id="@+id/btnFind"/>
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description" />
+                android:text="Description:" />
 
             <EditText
-                android:id="@+id/edtGenealogyHistory"
+                android:id="@+id/edtDescription"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top|left"
@@ -66,15 +81,16 @@
             android:gravity="center|bottom"
             android:orientation="vertical" >
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btnDoneEdit"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:src="@drawable/done"
-                android:layout_margin="16dp" />
+                android:id="@+id/btnCreateBranch"
+                android:enabled="false"
+                android:text="OK"/>
         </LinearLayout>
 
     </LinearLayout>
+
+
 
 </FrameLayout>

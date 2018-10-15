@@ -22,8 +22,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void loginFalse() {
         mLoginView.closeProgressDialog();
-        mLoginView.showToast("False");
-        // show option try again
+        mLoginView.showLoginAgainDialog();
     }
 
     @Override

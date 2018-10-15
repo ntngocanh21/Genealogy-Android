@@ -40,22 +40,22 @@ public class BranchFragmentPresenterImpl implements BranchFragmentPresenter {
         mBranchFragmentView.showToast(s);
     }
 
-    @Override
-    public void getBranchesByGenealogyId(String token, int genealogyId) {
-        mBranchFragmentView.showProgressDialog();
-        mBranchModel.getBranchesByGenealogyId(token, genealogyId);
-    }
-
-    @Override
-    public void getBranchesByGenealogyIdSuccess(List<Branch> branchList) {
-        mBranchFragmentView.closeProgressDialog();
-        mBranchFragmentView.showBranch(branchList);
-    }
-
-    @Override
-    public void getBranchesByGenealogyIdFalse() {
-        mBranchFragmentView.closeProgressDialog();
-    }
+//    @Override
+//    public void getBranchesByGenealogyId(String token, int genealogyId) {
+//        mBranchFragmentView.showProgressDialog();
+//        mBranchModel.getBranchesByGenealogyId(token, genealogyId);
+//    }
+//
+//    @Override
+//    public void getBranchesByGenealogyIdSuccess(List<Branch> branchList) {
+//        mBranchFragmentView.closeProgressDialog();
+//        mBranchFragmentView.showBranch(branchList);
+//    }
+//
+//    @Override
+//    public void getBranchesByGenealogyIdFalse() {
+//        mBranchFragmentView.closeProgressDialog();
+//    }
 
     @Override
     public void deleteBranch(int branchId, String token, RecyclerView.ViewHolder viewHolder) {
