@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +23,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
+
     @BindView(R.id.username)
     EditText edtUsername;
 
