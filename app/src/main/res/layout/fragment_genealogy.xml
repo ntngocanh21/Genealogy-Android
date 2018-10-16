@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.genealogy.GenealogyFragment"
+    tools:context=".view.activity.genealogy.GenealogyActivity"
     android:id="@+id/genealogy_frame">
 
     <android.support.v7.widget.RecyclerView
