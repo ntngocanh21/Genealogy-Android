@@ -42,14 +42,7 @@ public class SearchActivity extends AppCompatActivity implements NavigationView.
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         supportActionBar();
-//        mDrawerLayout = findViewById(R.id.drawer_search);
-//        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-//        mDrawerLayout.addDrawerListener(mToggle);
-//        mToggle.syncState();
-//        getSupportActionBar().setTitle("Search");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        mNavigationView = findViewById(R.id.nav_view_search);
-//        mNavigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
