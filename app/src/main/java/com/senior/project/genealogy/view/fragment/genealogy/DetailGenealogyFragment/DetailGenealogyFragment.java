@@ -65,7 +65,7 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_genealogy_detail, container, false);
         ButterKnife.bind(this, view);
-        ((HomeActivity) getActivity()).updateTitleBar("Genealogy information");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_view_genealogy));
         genealogy = (Genealogy) getArguments().getSerializable("genealogy");
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "");
@@ -90,11 +90,11 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
 
     @OnClick({R.id.btnEditGenealogy, R.id.btnBranch})
     public void onClick(View view) {
+        Bundle bundle = new Bundle();
         switch(view.getId())
         {
             case R.id.btnEditGenealogy:
                 UpdateGenealogyFragment mFragment = new UpdateGenealogyFragment();
-                Bundle bundle = new Bundle();
                 bundle.putSerializable("genealogy", genealogy);
                 mFragment.setArguments(bundle);
                 mFragment.attachInterface(new UpdateGenealogyFragment.UpdateGenealogyInterface() {
@@ -108,6 +108,8 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
 
             case R.id.btnBranch:
                 BranchFragment fragment = new BranchFragment();
+                bundle.putSerializable("genealogy", genealogy);
+                fragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, fragment, fragment.getTag(), R.id.genealogy_detail_frame);
                 break;
         }

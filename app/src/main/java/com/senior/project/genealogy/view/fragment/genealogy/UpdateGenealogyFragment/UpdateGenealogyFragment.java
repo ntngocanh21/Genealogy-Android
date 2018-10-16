@@ -57,7 +57,7 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_genealogy_update, container, false);
         ButterKnife.bind(this, view);
-        ((HomeActivity) getActivity()).updateTitleBar("Update genealogy");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_update_genealogy));
         genealogy = (Genealogy) getArguments().getSerializable("genealogy");
         showGenealogy(genealogy);
         return view;
@@ -116,7 +116,7 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
     public void closeFragment(Genealogy genealogy) {
         mUpdateGenealogyInterface.sendDataUpdateToGenealogy(genealogy);
         if(getActivity() instanceof HomeActivity){
-            ((HomeActivity) getActivity()).updateTitleBar("Genealogy information");
+            ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_view_genealogy));
         }
         getActivity().onBackPressed();
     }

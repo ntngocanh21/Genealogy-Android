@@ -8,8 +8,8 @@ public class CreateBranchFragmentPresenterImpl implements CreateBranchFragmentPr
     private CreateBranchModel mCreateBranchModel;
     private CreateBranchFragmentView mCreateBranchFragmentView;
 
-    public CreateBranchFragmentPresenterImpl(CreateBranchFragmentView createGenealogFragmentView) {
-        mCreateBranchFragmentView = createGenealogFragmentView;
+    public CreateBranchFragmentPresenterImpl(CreateBranchFragmentView createBranchFragmentView) {
+        mCreateBranchFragmentView = createBranchFragmentView;
         mCreateBranchModel = new CreateBranchModelImpl(this);
     }
 

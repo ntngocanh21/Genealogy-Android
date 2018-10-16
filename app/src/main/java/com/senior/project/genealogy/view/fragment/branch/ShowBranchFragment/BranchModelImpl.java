@@ -38,7 +38,8 @@ public class BranchModelImpl implements BranchModel {
                         mBranchFragmentPresenter.getGenealogiesByUsernameSuccess(genealogyResponse.getGenealogyList());
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
-                        mBranchFragmentPresenter.showToast(String.valueOf(genealogyResponse.getError().getDescription()));
+                        mBranchFragmentPresenter.getGenealogiesByUsernameSuccess(genealogyResponse.getGenealogyList());
+                        //mBranchFragmentPresenter.showToast(String.valueOf(genealogyResponse.getError().getDescription()));
                         break;
                     default:
                         mBranchFragmentPresenter.getGenealogiesByUsernameFalse();

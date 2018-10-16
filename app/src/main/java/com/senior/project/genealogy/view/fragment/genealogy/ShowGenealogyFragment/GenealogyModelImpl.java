@@ -38,7 +38,8 @@ public class GenealogyModelImpl implements GenealogyModel {
                         mGenealogyFragmentPresenter.getGenealogiesByUsernameSuccess(genealogyResponse.getGenealogyList());
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
-                        mGenealogyFragmentPresenter.showToast(String.valueOf(genealogyResponse.getError().getDescription()));
+                        mGenealogyFragmentPresenter.getGenealogiesByUsernameSuccess(genealogyResponse.getGenealogyList());
+                        //mGenealogyFragmentPresenter.showToast(String.valueOf(genealogyResponse.getError().getDescription()));
                         break;
                     default:
                         mGenealogyFragmentPresenter.getGenealogiesByUsernameFalse();

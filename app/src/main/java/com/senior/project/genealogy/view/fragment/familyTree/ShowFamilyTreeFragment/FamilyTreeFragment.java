@@ -60,7 +60,7 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-        ((HomeActivity) getActivity()).updateTitleBar("Branches");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_family_tree));
         familyTreeFragmentPresenter = new FamilyTreeFragmentPresenterImpl(this);
         familyTreeFragmentPresenter.getGenealogiesByUsername(token);
 

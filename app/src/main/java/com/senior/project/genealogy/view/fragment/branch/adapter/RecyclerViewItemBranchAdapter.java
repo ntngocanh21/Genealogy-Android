@@ -68,7 +68,6 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
-                Toast.makeText(mContext, "test", Toast.LENGTH_SHORT).show();
             }
         });
     }

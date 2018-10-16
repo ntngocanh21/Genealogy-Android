@@ -46,7 +46,7 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_genealogy_create, container, false);
         createGenealogyFragmentPresenterImpl = new CreateGenealogyFragmentPresenterImpl(this);
-        ((HomeActivity) getActivity()).updateTitleBar("Create new genealogy");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_create_genealogy));
         ButterKnife.bind(this, view);
         return view;
     }
@@ -106,7 +106,7 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
     public void closeFragment(List<Genealogy> genealogyList) {
         mCreateGenealogyInterface.sendDataToListGenealogy(genealogyList.get(0));
         if(getActivity() instanceof HomeActivity){
-            ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
+            ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_my_genealogy));
         }
         getActivity().onBackPressed();
     }

@@ -56,7 +56,7 @@ public class CreateBranchFragment extends Fragment implements CreateBranchFragme
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch_create, container, false);
         createBranchFragmentPresenterImpl = new CreateBranchFragmentPresenterImpl(this);
-        ((HomeActivity) getActivity()).updateTitleBar("Create new branch");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_create_branch));
         ButterKnife.bind(this, view);
         txtGenealogyName.setText(getArguments().getString("genealogyName"));
         return view;
@@ -113,7 +113,7 @@ public class CreateBranchFragment extends Fragment implements CreateBranchFragme
 
     @Override
     public void closeFragment(List<Branch> branchList) {
-        //mCreateBranchInterface.sendDataToListBranch(branchList.get(0));
+        mCreateBranchInterface.sendDataToListBranch(branchList.get(0));
         if(getActivity() instanceof HomeActivity){
             ((HomeActivity) getActivity()).updateTitleBar("Branch");
         }

@@ -1,17 +1,11 @@
 package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment;
 
-import android.animation.Animator;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,15 +14,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.AttributeSet;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -60,7 +48,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     RecyclerView mRecyclerView;
 
     RecyclerViewItemGenealogyAdapter mRcvAdapter;
-    List<Genealogy> data;
+    List<Genealogy> genealogies;
 
     private GenealogyFragmentPresenterImpl genealogyFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -76,7 +64,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_my_genealogy));
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
 //
@@ -187,14 +175,18 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     @Override
     public void showGenealogy(List<Genealogy> genealogyList) {
-        data = new ArrayList<>();
-        for (Genealogy genealogy : genealogyList) {
-            data.add(genealogy);
+        genealogies = new ArrayList<>();
+
+        if(genealogyList == null){
+            showToast("You didn't have any genealogy");
+        }
+        else {
+            genealogies.addAll(genealogyList);
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, data);
+        mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, genealogies);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -222,7 +214,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         builder.setPositiveButton(positive, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                int genealogyId = data.get(viewHolder.getAdapterPosition()).getId();
+                int genealogyId = genealogies.get(viewHolder.getAdapterPosition()).getId();
                 genealogyFragmentPresenterImpl.deleteGenealogy(genealogyId, token, viewHolder);
             }
         });

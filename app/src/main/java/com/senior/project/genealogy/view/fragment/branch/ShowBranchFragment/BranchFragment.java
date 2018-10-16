@@ -57,6 +57,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
     private BranchFragmentPresenterImpl branchFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
+    private Genealogy genealogy;
 
     public BranchFragment() {
 
@@ -71,7 +72,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-        ((HomeActivity) getActivity()).updateTitleBar("Branches");
+        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_branches));
         branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
         branchFragmentPresenterImpl.getGenealogiesByUsername(token);
 
@@ -81,6 +82,8 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
     public void addItemsOnSpinnerGenealogy(List<Genealogy> genealogyList) {
         ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
         spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -95,6 +98,16 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
         });
 
         spGenealogy.setAdapter(dataAdapter);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            genealogy = (Genealogy) getArguments().getSerializable("genealogy");
+            for (Genealogy item : genealogyList){
+                if(item.getId() == genealogy.getId()){
+                    spGenealogy.setSelection(dataAdapter.getPosition(item));
+                }
+            }
+        }
     }
 
     @OnClick(R.id.btnCreateBranch)
@@ -112,15 +125,12 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
                 mRcvAdapter.updateBranch(branch);
             }
         });
-        if (getActivity() instanceof HomeActivity) {
-            ((HomeActivity) getActivity()).updateTitleBar("Create new branch");
-        }
         pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
         try {
-            FragmentManager manager = getChildFragmentManager();
+            FragmentManager manager = getActivity().getSupportFragmentManager();
             FragmentTransaction ft = manager.beginTransaction();
             ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
             if (type == HomeActivity.PushFrgType.REPLACE) {
@@ -167,8 +177,14 @@ public class BranchFragment extends Fragment implements BranchFragmentView,Recyc
     @Override
     public void showBranch(List<Branch> branchList) {
         branches = new ArrayList<>();
-        for (Branch branch : branchList) {
-            branches.add(branch);
+
+        if(branchList == null){
+            showToast("You didn't have any branch");
+            btnCreateBranch.setVisibility(View.INVISIBLE);
+            //btnCreateBranch.setVisibility(View.GONE);
+        }
+        else {
+            branches.addAll(branchList);
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
