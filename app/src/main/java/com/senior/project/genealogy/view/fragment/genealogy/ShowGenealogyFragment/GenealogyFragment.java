@@ -34,6 +34,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.senior.project.genealogy.util.Constants.EMPTY_STRING;
+
 /**
  * CreateBranchFragment => click button [ADD]
  * DetailGenealogyFragment => click each row
@@ -44,7 +46,6 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     FloatingActionButton btnCreateGenealogy;
 
     @BindView(R.id.recycler_view)
-
     RecyclerView mRecyclerView;
 
     RecyclerViewItemGenealogyAdapter mRcvAdapter;
@@ -53,6 +54,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     private GenealogyFragmentPresenterImpl genealogyFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
+
     public GenealogyFragment() {
 
     }
@@ -63,50 +65,12 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         ButterKnife.bind(this, view);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "");
-        ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_my_genealogy));
+        token = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.TOKEN, EMPTY_STRING);
+        if (getActivity() instanceof HomeActivity) {
+            ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_my_genealogy));
+        }
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
-//
-//        /**
-//         * After onCreate Fragment. We will attach interface to get event outside fragment and handle inside it.
-//         * For example: Here, we will handle onBackPress()
-//         */
-//        if (getActivity() instanceof HomeActivity)
-//            ((HomeActivity) getActivity()).attachFragInterface(new HomeActivity.HomeInterface() {
-//                @Override
-//                public boolean isExistedNestedFrag() {
-//                    if (getChildFragmentManager().getBackStackEntryCount() > 0) {
-//                        /**
-//                         * Pop FamilyTreeFragment
-//                         * - CreateBranchFragment
-//                         * - DetailGenealogyFragment
-//                         * No Handle
-//                         * - DetailGenealogyFragment
-//                         * - UpdateGenealogyFragment
-//                         * => Pop
-//                         * Check DetailFragmentGenealogy has child fragments => pop
-//                         * pop -> POP -> Back
-//                         */
-//                        if (getActivity() instanceof HomeActivity) {
-//                            String currentTitle = ((HomeActivity)getActivity()).getCurrentTitleBar();
-//                            if (currentTitle.equals("Genealogy information")){
-//                                /**
-//                                 * This Detail Fragment
-//                                 * You should check nested fragment and then pop it
-//                                 */
-//
-//                            }
-//                        }
-//                        getChildFragmentManager().popBackStack();
-//                        ((HomeActivity) getActivity()).updateTitleBar("My genealogies");
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                }
-//            });
-
         return view;
     }
 
@@ -127,21 +91,21 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
         try {
-            //FragmentManager manager = getChildFragmentManager();
-            FragmentManager manager = getActivity().getSupportFragmentManager();
-
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-            if (type == HomeActivity.PushFrgType.REPLACE) {
-                ft.replace(mContainerId, fragment, tag);
-                ft.addToBackStack(fragment.getTag());
-                ft.commitAllowingStateLoss();
-            } else if (type == HomeActivity.PushFrgType.ADD) {
-                ft.add(mContainerId, fragment, tag);
-                ft.addToBackStack(fragment.getTag());
-                ft.commit();
+            if (getActivity() instanceof HomeActivity) {
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = manager.beginTransaction();
+                ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+                if (type == HomeActivity.PushFrgType.REPLACE) {
+                    ft.replace(mContainerId, fragment, tag);
+                    ft.addToBackStack(fragment.getTag());
+                    ft.commitAllowingStateLoss();
+                } else if (type == HomeActivity.PushFrgType.ADD) {
+                    ft.add(mContainerId, fragment, tag);
+                    ft.addToBackStack(fragment.getTag());
+                    ft.commit();
+                }
+                manager.executePendingTransactions();
             }
-            manager.executePendingTransactions();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }

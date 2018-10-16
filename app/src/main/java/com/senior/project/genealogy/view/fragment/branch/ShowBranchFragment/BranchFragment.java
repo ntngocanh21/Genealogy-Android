@@ -30,7 +30,6 @@ import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment.CreateBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerItemBranchTouchHelper;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemBranchAdapter;
-import com.senior.project.genealogy.view.fragment.genealogy.adapter.RecyclerViewItemGenealogyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class BranchFragment extends Fragment implements BranchFragmentView,RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
+public class BranchFragment extends Fragment implements BranchFragmentView, RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
 
     @BindView(R.id.btnCreateBranch)
     FloatingActionButton btnCreateBranch;
