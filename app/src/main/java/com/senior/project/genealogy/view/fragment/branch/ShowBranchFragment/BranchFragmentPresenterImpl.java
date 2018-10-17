@@ -26,9 +26,7 @@ public class BranchFragmentPresenterImpl implements BranchFragmentPresenter {
     @Override
     public void getGenealogiesByUsernameSuccess(List<Genealogy> genealogyList) {
         mBranchFragmentView.closeProgressDialog();
-        if(genealogyList != null){
-            mBranchFragmentView.addItemsOnSpinnerGenealogy(genealogyList);
-        }
+        mBranchFragmentView.addItemsOnSpinnerGenealogy(genealogyList);
     }
 
     @Override

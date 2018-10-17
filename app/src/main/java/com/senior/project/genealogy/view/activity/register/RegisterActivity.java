@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.activity.login.LoginActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -79,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
                 break;
 
             case R.id.txtLogin:
-                finish();
+                showActivity(LoginActivity.class);
                 break;
         }
     }
@@ -122,5 +123,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token","Token " + token);
         editor.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showActivity(LoginActivity.class);
     }
 }

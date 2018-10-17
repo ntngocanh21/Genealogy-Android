@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -50,6 +51,9 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @BindView(R.id.spGenealogy)
     Spinner spGenealogy;
 
+    @BindView(R.id.txtNotice)
+    TextView txtNotice;
+
     RecyclerViewItemBranchAdapter mRcvAdapter;
     List<Branch> branches;
 
@@ -66,9 +70,6 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch, container, false);
         ButterKnife.bind(this, view);
-
-        //getArguments()
-
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_branches));
@@ -79,31 +80,37 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     }
 
     public void addItemsOnSpinnerGenealogy(List<Genealogy> genealogyList) {
-        ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        if(genealogyList == null){
+            btnCreateBranch.setVisibility(View.GONE);
+            recyclerViewBranch.setVisibility(View.GONE);
+            spGenealogy.setVisibility(View.GONE);
+            txtNotice.setVisibility(View.VISIBLE);
+        } else {
+            ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
-        spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
             {
-                Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
-                showBranch(genealogy.getBranchList());
-                //branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
-            }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-            }
-        });
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                {
+                    Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
+                    showBranch(genealogy.getBranchList());
+                    //branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
+                }
+                public void onNothingSelected(AdapterView<?> parent)
+                {
+                }
+            });
 
-        spGenealogy.setAdapter(dataAdapter);
+            spGenealogy.setAdapter(dataAdapter);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            genealogy = (Genealogy) getArguments().getSerializable("genealogy");
-            for (Genealogy item : genealogyList){
-                if(item.getId() == genealogy.getId()){
-                    spGenealogy.setSelection(dataAdapter.getPosition(item));
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                genealogy = (Genealogy) getArguments().getSerializable("genealogy");
+                for (Genealogy item : genealogyList){
+                    if(item.getId() == genealogy.getId()){
+                        spGenealogy.setSelection(dataAdapter.getPosition(item));
+                    }
                 }
             }
         }
@@ -179,8 +186,6 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
 
         if(branchList == null){
             showToast("You didn't have any branch");
-            btnCreateBranch.setVisibility(View.INVISIBLE);
-            //btnCreateBranch.setVisibility(View.GONE);
         }
         else {
             branches.addAll(branchList);
