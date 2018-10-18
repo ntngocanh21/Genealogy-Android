@@ -65,7 +65,6 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
 
         String genealogyName = edtName.getText().toString().trim();
 
-
         if (genealogyName.isEmpty()){
             btnCreate.setEnabled(false);
         }

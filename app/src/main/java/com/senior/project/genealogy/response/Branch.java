@@ -28,7 +28,6 @@ public class Branch implements Serializable{
     @Expose
     private Integer member;
 
-
     @SerializedName("genealogyId")
     @Expose
     private Integer genealogyId;

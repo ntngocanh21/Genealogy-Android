@@ -177,7 +177,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     /**
      * When click button Back. Event click work in Activity. So it means GenealogyActivity is finished.
-     * So finish every nested fragment. For example: FamilyTreeFragment.
+     * So finish every nested fragment. For example: MapFragment.
      * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
      */
 

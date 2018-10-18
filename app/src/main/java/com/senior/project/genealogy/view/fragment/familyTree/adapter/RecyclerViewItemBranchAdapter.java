@@ -19,6 +19,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,13 +63,11 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailBranchFragment mFragment = new DetailBranchFragment();
-//                Bundle bundle = new Bundle();
-//                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member);
-//                bundle.putSerializable("branch", branch);
-//                mFragment.setArguments(bundle);
-//                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
-                Toast.makeText(mContext, "test", Toast.LENGTH_SHORT).show();
+                MapFragment mFragment = new MapFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("branchId", branchId);
+                mFragment.setArguments(bundle);
+                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.family_tree_frame);
             }
         });
     }
