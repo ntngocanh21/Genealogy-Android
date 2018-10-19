@@ -60,6 +60,16 @@ public class People implements Serializable{
     @Expose
     private Integer parentId;
 
+    public People() {
+    }
+
+    public People(String name, Date birthday, Integer gender, String image) {
+        this.name = name;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.image = image;
+    }
+
     public People(Integer branchId, String name, String nickname, Date birthday, Date deathDay, Integer gender, String image, String address, String degree, String description, Integer lifeIndex, Integer parentId) {
         this.branchId = branchId;
         this.name = name;

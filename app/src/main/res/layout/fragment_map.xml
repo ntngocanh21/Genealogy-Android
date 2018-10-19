@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.otaliastudios.zoom.ZoomLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/zoomMap"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".view.fragment.familyTree.MapFragment.MapFragment">
+    android:scrollbars="vertical|horizontal"
+    app:overScrollHorizontal="true"
+    app:overScrollVertical="true"
+    app:overPinchable="true"
+    app:horizontalPanEnabled="true"
+    app:verticalPanEnabled="true"
+    app:zoomEnabled="true"
+    app:minZoom="1.0"
+    app:minZoomType="zoom"
+    app:maxZoom="30.0"
+    app:maxZoomType="zoom"
+    app:hasClickableChildren="true">
 
-    <de.blox.graphview.GraphView
-        android:id="@+id/graph"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </de.blox.graphview.GraphView>
+    <FrameLayout
+        android:layout_width="2000dp"
+        android:layout_height="3000dp">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAddPeople"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/plus"
-        android:layout_margin="16dp" />
+        <de.blox.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    </FrameLayout>
+</com.otaliastudios.zoom.ZoomLayout>

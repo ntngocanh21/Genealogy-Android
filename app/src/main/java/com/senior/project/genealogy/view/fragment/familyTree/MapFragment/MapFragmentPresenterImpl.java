@@ -30,8 +30,7 @@ public class MapFragmentPresenterImpl implements MapFragmentPresenter {
     @Override
     public void getFamilyTreeByBranchIdSuccess(List<People> peopleList) {
         mMapFragmentView.closeProgressDialog();
-        //show map
-       // mMapFragmentView.addItemsOnSpinnerGenealogy(peopleList);
+        mMapFragmentView.showMap(peopleList);
     }
 
     @Override
