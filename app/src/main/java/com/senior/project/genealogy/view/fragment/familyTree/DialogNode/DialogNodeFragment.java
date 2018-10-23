@@ -2,6 +2,8 @@ package com.senior.project.genealogy.view.fragment.familyTree.DialogNode;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -13,9 +15,12 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.response.People;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragmentPresenterImpl;
 
 import java.text.SimpleDateFormat;
@@ -38,9 +43,25 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     @BindView(R.id.relativeType)
     Spinner spRelative;
 
-    private MapFragmentPresenterImpl mapFragmentPresenterImpl;
+    @BindView(R.id.tvNewNode)
+    TextView txtNewNode;
+
+    @BindView(R.id.edtFullName)
+    EditText edtFullName;
+
+    @BindView(R.id.edtAddress)
+    EditText edtAddress;
+
+    @BindView(R.id.edtNickname)
+    EditText edtNickname;
+
+    @BindView(R.id.edtDescription)
+    EditText edtDescription;
+
+    private DialogNodeFragmentPresenterImpl dialogNodeFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
+    private People people;
 
     public DialogNodeFragment() {
 
@@ -52,10 +73,17 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         setCancelable(false);
         ButterKnife.bind(this, view);
         showSpinnerRelative();
-        //SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        //token = sharedPreferences.getString("token", "");
-        //int branchId = getArguments().getInt("branchId");
+        people = (People) getArguments().getSerializable("people");
+        txtNewNode.setText("Add relative to " + people.getName());
         return view;
+    }
+
+    public static DialogNodeFragment newInstance(People people) {
+        DialogNodeFragment dialog = new DialogNodeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("people", people);
+        dialog.setArguments(bundle);
+        return dialog;
     }
 
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
@@ -67,6 +95,28 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                 break;
             case R.id.edtBirthday:
                 selectDate();
+                break;
+            case R.id.btnNewNode:
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                token = sharedPreferences.getString("token", "");
+                People newPeople = new People();
+                newPeople.setBranchId(people.getBranchId());
+                newPeople.setName(edtFullName.getText().toString());
+                newPeople.setNickname(edtNickname.getText().toString());
+//                newPeople.setBirthday();
+
+                newPeople.setAddress(edtAddress.getText().toString());
+//                newPeople.setDeathDay();
+//                newPeople.setImage();
+//                newPeople.setDegree();
+                newPeople.setDescription(edtDescription.getText().toString());
+//                newPeople.setLifeIndex();
+//                newPeople.setParentId();
+//                newPeople.setGender();
+                int peopleId = getArguments().getInt("peopleId");
+                int parentId = getArguments().getInt("parentId");
+//                dialogNodeFragmentPresenterImpl = new DialogNodeFragmentPresenterImpl(this);
+//                dialogNodeFragmentPresenterImpl.createPeople(people ,token);
                 break;
         }
     }
@@ -132,12 +182,21 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
             mProgressDialog.dismiss();
     }
 
-    public static DialogNodeFragment newInstance(String data) {
-        DialogNodeFragment dialog = new DialogNodeFragment();
-        Bundle args = new Bundle();
-        args.putString("data", data);
-        dialog.setArguments(args);
-        return dialog;
+    @Override
+    public void closeDialogFragment(List<People> peopleList) {
+        mCreateNodeInterface.sendDataToMap(peopleList.get(0));
+        this.dismiss();
+        getActivity().onBackPressed();
+    }
+
+    public interface CreateNodeInterface{
+        void sendDataToMap(People people);
+    }
+
+    public CreateNodeInterface mCreateNodeInterface;
+
+    public void attackInterface(CreateNodeInterface createNodeInterface){
+        mCreateNodeInterface = createNodeInterface;
     }
 
 }

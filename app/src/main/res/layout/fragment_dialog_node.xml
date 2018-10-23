@@ -89,6 +89,7 @@
                 app:hintTextAppearance="@style/FloatLabelEditTextStyle">
 
                 <EditText
+                    android:id="@+id/edtFullName"
                     style="@style/FloatLabelEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -107,6 +108,7 @@
                 app:hintTextAppearance="@style/FloatLabelEditTextStyle">
 
                 <EditText
+                    android:id="@+id/edtNickname"
                     style="@style/FloatLabelEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +147,7 @@
                 app:hintTextAppearance="@style/FloatLabelEditTextStyle">
 
                 <EditText
+                    android:id="@+id/edtAddress"
                     style="@style/FloatLabelEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,6 +166,7 @@
                 app:hintTextAppearance="@style/FloatLabelEditTextStyle">
 
                 <EditText
+                    android:id="@+id/edtDescription"
                     style="@style/FloatLabelEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"

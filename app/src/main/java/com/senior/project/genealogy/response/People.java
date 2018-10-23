@@ -70,6 +70,13 @@ public class People implements Serializable{
         this.image = image;
     }
 
+    public People(Integer id, String name, Integer gender, Integer parentId) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.parentId = parentId;
+    }
+
     public People(Integer branchId, String name, String nickname, Date birthday, Date deathDay, Integer gender, String image, String address, String degree, String description, Integer lifeIndex, Integer parentId) {
         this.branchId = branchId;
         this.name = name;

@@ -8,4 +8,5 @@ public interface  LoginView {
     void closeProgressDialog();
     void saveToken(String token);
     void showLoginAgainDialog ();
+    void saveAccount(String username, String password);
 }

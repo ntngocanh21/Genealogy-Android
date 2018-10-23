@@ -1,7 +1,9 @@
 package com.senior.project.genealogy.view.activity.home;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -22,7 +24,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.BaseActivity;
+import com.senior.project.genealogy.view.activity.login.LoginActivity;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
@@ -126,11 +130,11 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new FamilyTreeFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
-            //test
-            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
-            dialogNodeFragment.show(getSupportFragmentManager(), null);
+//            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
+//            dialogNodeFragment.show(getSupportFragmentManager(), null);
         } else if (id == R.id.signout) {
-
+            saveAccount("", "");
+            showActivity(LoginActivity.class);
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -155,6 +159,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -210,5 +215,14 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void saveAccount(String username, String password) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.USERNAME,username);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.PASSWORD,password);
+        editor.apply();
     }
 }

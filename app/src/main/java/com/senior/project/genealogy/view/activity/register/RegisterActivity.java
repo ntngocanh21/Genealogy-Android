@@ -129,4 +129,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     public void onBackPressed() {
         showActivity(LoginActivity.class);
     }
+
+    @Override
+    public void saveAccount(String username, String password) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.USERNAME,username);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.PASSWORD,password);
+        editor.apply();
+    }
 }

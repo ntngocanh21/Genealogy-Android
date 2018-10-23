@@ -23,6 +23,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void loginFalse() {
         mLoginView.closeProgressDialog();
         mLoginView.showLoginAgainDialog();
+        mLoginView.saveAccount("", "");
     }
 
     @Override

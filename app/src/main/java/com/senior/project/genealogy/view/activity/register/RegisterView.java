@@ -6,4 +6,5 @@ public interface RegisterView {
     void showProgressDialog();
     void closeProgressDialog();
     void saveToken(String token);
+    void saveAccount(String username, String password);
 }

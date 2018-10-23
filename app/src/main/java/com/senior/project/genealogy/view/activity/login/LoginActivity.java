@@ -47,7 +47,22 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
+        checkAccount();
     }
+
+    private void checkAccount(){
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, "");
+        String password = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.PASSWORD, "");
+        if(!username.equals("") && !password.equals(""))
+        {
+            User user = new User(username, password);
+            loginPresenterImpl.login(user);
+        }
+    }
+
+
+
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
 
@@ -69,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             case R.id.btnLogin:
                 User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                 loginPresenterImpl.login(user);
+                saveAccount(user.getUsername(), user.getPassword());
                 break;
 
             case R.id.txtSignup:
@@ -151,7 +167,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void saveToken(String token) {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("token","Token " + token);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.TOKEN,"Token " + token);
+        editor.apply();
+    }
+
+    @Override
+    public void saveAccount(String username, String password) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.USERNAME,username);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.PASSWORD,password);
         editor.apply();
     }
 }
