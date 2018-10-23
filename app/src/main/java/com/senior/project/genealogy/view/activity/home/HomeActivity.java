@@ -7,6 +7,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
@@ -124,7 +126,9 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new FamilyTreeFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
-
+            //test
+            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
+            dialogNodeFragment.show(getSupportFragmentManager(), null);
         } else if (id == R.id.signout) {
 
         }
