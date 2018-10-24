@@ -14,15 +14,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragmentPresenterImpl;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -37,11 +36,17 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     @BindView(R.id.edtBirthday)
     EditText edtBirthday;
 
+    @BindView(R.id.edtDeathday)
+    EditText edtDeathday;
+
     @BindView(R.id.tilBirthday)
     TextInputLayout tilBirthday;
 
     @BindView(R.id.relativeType)
     Spinner spRelative;
+
+    @BindView(R.id.txtRelative)
+    TextView txtRelative;
 
     @BindView(R.id.tvNewNode)
     TextView txtNewNode;
@@ -58,6 +63,15 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     @BindView(R.id.edtDescription)
     EditText edtDescription;
 
+    @BindView(R.id.radioMale)
+    RadioButton radioMale;
+
+    @BindView(R.id.radioFemale)
+    RadioButton radioFemale;
+
+    @BindView(R.id.radioGender)
+    RadioGroup radioGender;
+
     private DialogNodeFragmentPresenterImpl dialogNodeFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
@@ -73,50 +87,114 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         setCancelable(false);
         ButterKnife.bind(this, view);
         showSpinnerRelative();
-        people = (People) getArguments().getSerializable("people");
-        txtNewNode.setText("Add relative to " + people.getName());
+
+        if (getArguments().getSerializable("people") != null){
+            txtNewNode.setText("Add relative to " + ((People)getArguments().getSerializable("people")).getName());
+            if(((People) getArguments().getSerializable("people")).getParentId() == null){
+                spRelative.rem
+            }
+        } else {
+            txtNewNode.setText("Add first node");
+            spRelative.setVisibility(View.GONE);
+            txtRelative.setVisibility(View.GONE);
+            radioGender.setVisibility(View.VISIBLE);
+        }
+
         return view;
     }
 
-    public static DialogNodeFragment newInstance(People people) {
+    public static DialogNodeFragment newInstance(People people, String branchId) {
         DialogNodeFragment dialog = new DialogNodeFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("people", people);
+        if(people != null){
+            bundle.putSerializable("people", people);
+        } else {
+            bundle.putInt("branchId", Integer.valueOf(branchId));
+        }
         dialog.setArguments(bundle);
         return dialog;
     }
 
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
-    @OnClick({R.id.btnNewNode, R.id.btnClose, R.id.edtBirthday})
+    @OnClick({R.id.btnNewNode, R.id.btnClose, R.id.edtBirthday, R.id.edtDeathday})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnClose:
                 this.dismiss();
                 break;
             case R.id.edtBirthday:
-                selectDate();
+                selectDate(edtBirthday);
                 break;
-            case R.id.btnNewNode:
+            case R.id.edtDeathday:
+                selectDate(edtDeathday);
+                break;
+            case R.id.btnNewNode:Bundle bundle = this.getArguments();
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 token = sharedPreferences.getString("token", "");
                 People newPeople = new People();
-                newPeople.setBranchId(people.getBranchId());
+
                 newPeople.setName(edtFullName.getText().toString());
                 newPeople.setNickname(edtNickname.getText().toString());
-//                newPeople.setBirthday();
-
                 newPeople.setAddress(edtAddress.getText().toString());
-//                newPeople.setDeathDay();
+                newPeople.setDescription(edtDescription.getText().toString());
+
+                if (getArguments().getSerializable("people") != null){
+                    spRelative.setVisibility(View.GONE);
+                    people = (People) getArguments().getSerializable("people");
+                    newPeople.setBranchId(people.getBranchId());
+                    String relativeType = spRelative.getSelectedItem().toString();
+                    switch(relativeType)
+                    {
+                        case "Son":
+                            newPeople.setLifeIndex(people.getLifeIndex()+1);
+                            newPeople.setParentId(people.getId());
+                            newPeople.setGender(1);
+                            break;
+                        case "Daughter":
+                            newPeople.setLifeIndex(people.getLifeIndex()+1);
+                            newPeople.setParentId(people.getId());
+                            newPeople.setGender(0);
+                            break;
+                        case "Brother":
+                            newPeople.setLifeIndex(people.getLifeIndex());
+                            newPeople.setParentId(people.getParentId());
+                            newPeople.setGender(1);
+                            break;
+                        case "Sister":
+                            newPeople.setLifeIndex(people.getLifeIndex());
+                            newPeople.setParentId(people.getParentId());
+                            newPeople.setGender(0);
+                            break;
+                    }
+
+                } else {
+                    newPeople.setBranchId(getArguments().getInt("branchId"));
+                    newPeople.setLifeIndex(0);
+                    newPeople.setParentId(null);
+
+                    if(radioMale.isChecked()) {
+                        newPeople.setGender(1);
+                    } else {
+                        newPeople.setGender(0);
+                    }
+                }
+
+//                try {
+//                    if(!"".equals(edtBirthday.getText().toString())){
+//                        newPeople.setBirthday(new SimpleDateFormat("MM/dd/yyyy").parse(edtBirthday.getText().toString()));
+//                    }
+//                    if(!"".equals(edtDeathday.getText().toString())){
+//                        newPeople.setDeathDay(new SimpleDateFormat("MM/dd/yyyy").parse(edtDeathday.getText().toString()));
+//                    }
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+
 //                newPeople.setImage();
 //                newPeople.setDegree();
-                newPeople.setDescription(edtDescription.getText().toString());
-//                newPeople.setLifeIndex();
-//                newPeople.setParentId();
-//                newPeople.setGender();
-                int peopleId = getArguments().getInt("peopleId");
-                int parentId = getArguments().getInt("parentId");
-//                dialogNodeFragmentPresenterImpl = new DialogNodeFragmentPresenterImpl(this);
-//                dialogNodeFragmentPresenterImpl.createPeople(people ,token);
+
+                dialogNodeFragmentPresenterImpl = new DialogNodeFragmentPresenterImpl(this);
+                dialogNodeFragmentPresenterImpl.createPeople(newPeople ,token);
                 break;
         }
     }
@@ -139,7 +217,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
 
 
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
-    private void selectDate(){
+    private void selectDate(final EditText edt){
         final Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DATE);
         int month = calendar.get(Calendar.MONTH);
@@ -150,7 +228,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                edtBirthday.setText(simpleDateFormat.format(calendar.getTime()));
+                edt.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, year, month, day);
         datePickerDialog.show();
@@ -186,7 +264,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     public void closeDialogFragment(List<People> peopleList) {
         mCreateNodeInterface.sendDataToMap(peopleList.get(0));
         this.dismiss();
-        getActivity().onBackPressed();
     }
 
     public interface CreateNodeInterface{

@@ -23,7 +23,7 @@ public class DialogNodeFragmentPresenterImpl implements DialogNodeFragmentPresen
     @Override
     public void createPeopleSuccess(List<People> peopleList) {
         mDialogNodeFragmentView.closeProgressDialog();
-//        mDialogNodeFragmentView.showMap(peopleList);
+        mDialogNodeFragmentView.closeDialogFragment(peopleList);
     }
 
     @Override

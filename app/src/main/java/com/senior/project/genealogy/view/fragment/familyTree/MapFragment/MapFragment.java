@@ -140,20 +140,16 @@ public class MapFragment extends Fragment implements MapFragmentView{
             }
         };
         setAlgorithm(adapter);
-
         graphView.setAdapter(adapter);
         graphView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Snackbar.make(graphView, "Clicked on ", Toast.LENGTH_SHORT).show();
                 People people= ((People)graph.getNode(position).getData());
-
-                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people);
+                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people, null);
                 dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
                 dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
                     @Override
                     public void sendDataToMap(People people) {
-                        ArrayList<Node> nodeList = new ArrayList<>();
                         graph.addNode(new Node(people));
                         graph.addEdge(findNode(graph, people.getParentId()), findNode(graph, people.getId()));
                     }
@@ -162,12 +158,11 @@ public class MapFragment extends Fragment implements MapFragmentView{
         });
     }
 
-
     public void setAlgorithm(GraphAdapter adapter) {
         final BuchheimWalkerConfiguration configuration = new BuchheimWalkerConfiguration.Builder()
-                .setSiblingSeparation(100)
+                .setSiblingSeparation(400)
                 .setLevelSeparation(300)
-                .setSubtreeSeparation(300)
+                .setSubtreeSeparation(500)
                 .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
                 .build();
         adapter.setAlgorithm(new BuchheimWalkerAlgorithm(configuration));
@@ -177,8 +172,17 @@ public class MapFragment extends Fragment implements MapFragmentView{
     public void onClick()
     {
         //when map don't have any node!!!
-//        DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
-//        dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
+        DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(null, String.valueOf(getArguments().getInt("branchId")));
+        dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
+        dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
+            @Override
+            public void sendDataToMap(People people) {
+                graph = new Graph();
+                graph.addNode(new Node(people));
+                setupAdapter(graph);
+                addNode.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
