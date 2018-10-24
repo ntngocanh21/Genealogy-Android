@@ -90,9 +90,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
 
         if (getArguments().getSerializable("people") != null){
             txtNewNode.setText("Add relative to " + ((People)getArguments().getSerializable("people")).getName());
-            if(((People) getArguments().getSerializable("people")).getParentId() == null){
-                spRelative.rem
-            }
         } else {
             txtNewNode.setText("Add first node");
             spRelative.setVisibility(View.GONE);
