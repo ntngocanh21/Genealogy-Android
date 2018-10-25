@@ -1,7 +1,9 @@
 package com.senior.project.genealogy.view.fragment.familyTree.MapFragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.activity.register.RegisterActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.DialogProfile.DialogProfileFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -99,6 +102,12 @@ public class MapFragment extends Fragment implements MapFragmentView{
         }
     }
 
+    @Override
+    public void deletePeople(int peopleId) {
+        graph.removeNode(findNode(graph, peopleId));
+        adapter.notifySizeChanged();
+    }
+
     public Node findNode(Graph graph, int id){
         List<Node> nodeList = graph.getNodes();
         Node nodeReturn = null;
@@ -145,17 +154,47 @@ public class MapFragment extends Fragment implements MapFragmentView{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 People people= ((People)graph.getNode(position).getData());
-                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people, null);
-                dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
-                dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
+                DialogProfileFragment dialogProfileFragment = DialogProfileFragment.newInstance(people, getArguments().getInt("branchId"));
+                dialogProfileFragment.show(getActivity().getSupportFragmentManager(), null);
+
+                dialogProfileFragment.attackInterface(new DialogProfileFragment.DialogProfileInterface() {
                     @Override
                     public void sendDataToMap(People people) {
                         graph.addNode(new Node(people));
                         graph.addEdge(findNode(graph, people.getParentId()), findNode(graph, people.getId()));
                     }
                 });
+
             }
         });
+        graphView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showLoginAlertDialog(adapter.getNode(position));
+                return false;
+            }
+        });
+    }
+
+    public void showLoginAlertDialog(final Node node){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Delete this person");
+        builder.setMessage("Are you sure you want to delete " + ((People) node.getData()).getName() + " from the family tree?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mapFragmentPresenterImpl.deletePeople(((People) node.getData()).getId(), token);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     public void setAlgorithm(GraphAdapter adapter) {

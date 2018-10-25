@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.fragment.familyTree.MapFragment;
 
+import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.FamilyTreeResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.FamilyTreeApi;
@@ -41,6 +42,31 @@ public class MapModelImpl implements MapModel {
             @Override
             public void onFailure(Call<FamilyTreeResponse> call, Throwable t) {
                 mMapFragmentPresenter.getFamilyTreeByBranchIdFalse();
+            }
+        });
+    }
+
+    @Override
+    public void deletePeople(final int peopleId, String token) {
+        Call<CodeResponse> call = mApplicationApi.getClient().create(FamilyTreeApi.class).deletePeople(peopleId, token);
+        call.enqueue(new Callback<CodeResponse>() {
+            @Override
+            public void onResponse(Call<CodeResponse> call, Response<CodeResponse> response) {
+                CodeResponse codeResponse = response.body();
+                int code = Integer.parseInt(codeResponse.getError().getCode());
+                switch (code) {
+                    case Constants.HTTPCodeResponse.SUCCESS:
+                        mMapFragmentPresenter.deletePeopleSuccess(peopleId);
+                        break;
+                    default:
+                        mMapFragmentPresenter.deletePeopleFalse();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodeResponse> call, Throwable t) {
+                mMapFragmentPresenter.deletePeopleFalse();
             }
         });
     }

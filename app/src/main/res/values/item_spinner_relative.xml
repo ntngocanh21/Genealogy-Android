@@ -7,4 +7,10 @@
         <item>Sister</item>
         <item>Married</item>
     </string-array>
+
+    <string-array name="relative_array_first_node">
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Married</item>
+    </string-array>
 </resources>

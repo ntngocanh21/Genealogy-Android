@@ -9,4 +9,5 @@ public interface MapFragmentView {
     void showProgressDialog();
     void closeProgressDialog();
     void showMap(List<People> peopleList);
+    void deletePeople(int peopleId);
 }

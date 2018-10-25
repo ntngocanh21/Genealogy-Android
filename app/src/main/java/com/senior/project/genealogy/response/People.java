@@ -60,6 +60,10 @@ public class People implements Serializable{
     @Expose
     private Integer parentId;
 
+    @SerializedName("appellation")
+    @Expose
+    private String appellation;
+
     public People() {
     }
 
@@ -74,21 +78,6 @@ public class People implements Serializable{
         this.id = id;
         this.name = name;
         this.gender = gender;
-        this.parentId = parentId;
-    }
-
-    public People(Integer branchId, String name, String nickname, Date birthday, Date deathDay, Integer gender, String image, String address, String degree, String description, Integer lifeIndex, Integer parentId) {
-        this.branchId = branchId;
-        this.name = name;
-        this.nickname = nickname;
-        this.birthday = birthday;
-        this.deathDay = deathDay;
-        this.gender = gender;
-        this.image = image;
-        this.address = address;
-        this.degree = degree;
-        this.description = description;
-        this.lifeIndex = lifeIndex;
         this.parentId = parentId;
     }
 
@@ -195,4 +184,28 @@ public class People implements Serializable{
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
-}
+
+    public String getAppellation() {
+        return appellation;
+    }
+
+    public void setAppellation(String appellation) {
+        this.appellation = appellation;
+    }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

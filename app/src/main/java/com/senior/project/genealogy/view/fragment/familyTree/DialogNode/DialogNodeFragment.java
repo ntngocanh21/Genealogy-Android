@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,12 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
+
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,8 +91,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         View view = inflater.inflate(R.layout.fragment_dialog_node, container, false);
         setCancelable(false);
         ButterKnife.bind(this, view);
-        showSpinnerRelative();
-
         if (getArguments().getSerializable("people") != null){
             txtNewNode.setText("Add relative to " + ((People)getArguments().getSerializable("people")).getName());
         } else {
@@ -97,6 +100,11 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
             radioGender.setVisibility(View.VISIBLE);
         }
 
+        if(getArguments().getSerializable("people") != null && ((People)getArguments().getSerializable("people")).getParentId() == null){
+            showSpinnerRelative(false);
+        } else {
+            showSpinnerRelative(true);
+        }
         return view;
     }
 
@@ -175,18 +183,27 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                         newPeople.setGender(0);
                     }
                 }
+                if(!"".equals(edtBirthday.getText().toString())){
+                    String birthday = edtBirthday.getText().toString();
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try {
+                        Log.i("TAG", new Date().toString());
+                        Log.i("TAG", dateFormat.parse(birthday).toString());
+                        newPeople.setBirthday(dateFormat.parse(birthday));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-//                try {
-//                    if(!"".equals(edtBirthday.getText().toString())){
-//                        newPeople.setBirthday(new SimpleDateFormat("MM/dd/yyyy").parse(edtBirthday.getText().toString()));
-//                    }
-//                    if(!"".equals(edtDeathday.getText().toString())){
-//                        newPeople.setDeathDay(new SimpleDateFormat("MM/dd/yyyy").parse(edtDeathday.getText().toString()));
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-
+                if(!"".equals(edtDeathday.getText().toString())){
+                    String deathday = edtDeathday.getText().toString();
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        newPeople.setDeathDay(dateFormat.parse(deathday));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
 //                newPeople.setImage();
 //                newPeople.setDegree();
 
@@ -196,8 +213,13 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         }
     }
 
-    public void showSpinnerRelative() {
-        ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array, android.R.layout.simple_spinner_item);
+    public void showSpinnerRelative(Boolean check) {
+        ArrayAdapter<CharSequence> dataAdapter = null;
+        if (check == false){
+            dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_node, android.R.layout.simple_spinner_item);
+        } else {
+            dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array, android.R.layout.simple_spinner_item);
+        }
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRelative.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

@@ -38,4 +38,20 @@ public class MapFragmentPresenterImpl implements MapFragmentPresenter {
         mMapFragmentView.closeProgressDialog();
     }
 
+    @Override
+    public void deletePeople(int peopleId, String token) {
+        mMapFragmentView.showProgressDialog();
+        mMapModel.deletePeople(peopleId, token);
+    }
+
+    @Override
+    public void deletePeopleSuccess(int peopleId) {
+        mMapFragmentView.closeProgressDialog();
+        mMapFragmentView.deletePeople(peopleId);
+    }
+
+    @Override
+    public void deletePeopleFalse() {
+        mMapFragmentView.closeProgressDialog();
+    }
 }
