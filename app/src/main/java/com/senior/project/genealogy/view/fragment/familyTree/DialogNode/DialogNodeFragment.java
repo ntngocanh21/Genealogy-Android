@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogNode;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -184,15 +185,22 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                     }
                 }
                 if(!"".equals(edtBirthday.getText().toString())){
-                    String birthday = edtBirthday.getText().toString();
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = null;
                     try {
-                        Log.i("TAG", new Date().toString());
-                        Log.i("TAG", dateFormat.parse(birthday).toString());
-                        newPeople.setBirthday(dateFormat.parse(birthday));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy");
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+                        String birthday = edtBirthday.getText().toString();
+                        try {
+                            date = format1.parse(birthday);
+                        } catch(ParseException e){
+                            e.printStackTrace();
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
+                    newPeople.setBirthday(date);
                 }
 
                 if(!"".equals(edtDeathday.getText().toString())){
