@@ -185,33 +185,43 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                     }
                 }
                 if(!"".equals(edtBirthday.getText().toString())){
-                    Date date = null;
+                    Date date;
                     try {
                         @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy");
+                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
                         @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
                         String birthday = edtBirthday.getText().toString();
                         try {
                             date = format1.parse(birthday);
+                            newPeople.setBirthday(format2.parse(format2.format(date)));
                         } catch(ParseException e){
                             e.printStackTrace();
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                    newPeople.setBirthday(date);
                 }
 
                 if(!"".equals(edtDeathday.getText().toString())){
-                    String deathday = edtDeathday.getText().toString();
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date;
                     try {
-                        newPeople.setDeathDay(dateFormat.parse(deathday));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+                        @SuppressLint("SimpleDateFormat")
+                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+                        String birthday = edtDeathday.getText().toString();
+                        try {
+                            date = format1.parse(birthday);
+                            newPeople.setDeathDay(format2.parse(format2.format(date)));
+                        } catch(ParseException e){
+                            e.printStackTrace();
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
+
 //                newPeople.setImage();
 //                newPeople.setDegree();
 
