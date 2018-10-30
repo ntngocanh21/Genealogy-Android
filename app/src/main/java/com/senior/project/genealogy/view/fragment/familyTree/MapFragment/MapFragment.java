@@ -105,7 +105,6 @@ public class MapFragment extends Fragment implements MapFragmentView{
     @Override
     public void deletePeople(int peopleId) {
         graph.removeNode(findNode(graph, peopleId));
-        adapter.notifySizeChanged();
     }
 
     public Node findNode(Graph graph, int id){

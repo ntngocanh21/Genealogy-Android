@@ -92,10 +92,11 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
         }
         txtFullname.setText(people.getName());
         txtNickname.setText(people.getNickname());
-
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String birthday = formatter.format(people.getBirthday());
-        txtBirthday.setText(birthday);
+        if (people.getBirthday() != null){
+            String birthday = formatter.format(people.getBirthday());
+            txtBirthday.setText(birthday);
+        }
         if (people.getDeathDay() != null){
             txtDeathdayTitle.setVisibility(View.VISIBLE);
             txtDeathday.setVisibility(View.VISIBLE);

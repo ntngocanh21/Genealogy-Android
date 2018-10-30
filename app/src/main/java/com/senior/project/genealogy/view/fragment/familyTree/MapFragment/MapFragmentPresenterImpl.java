@@ -36,6 +36,7 @@ public class MapFragmentPresenterImpl implements MapFragmentPresenter {
     @Override
     public void getFamilyTreeByBranchIdFalse() {
         mMapFragmentView.closeProgressDialog();
+        mMapFragmentView.showToast("False");
     }
 
     @Override
