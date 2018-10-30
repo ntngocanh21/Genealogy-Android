@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
-import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 
 import java.text.DateFormat;
@@ -23,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DetailInformationBranchFragment extends Fragment implements DetailInformationBranchFragmentView{
+public class DetailInformationBranchFragment extends Fragment implements DetailInformationBranchFragmentView {
 
     @BindView(R.id.txtBranchName)
     TextView txtBranchName;
@@ -56,16 +55,21 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch_information, container, false);
         ButterKnife.bind(this, view);
-        branch = (Branch) getArguments().getSerializable("branch");
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
-        showBranch(branch);
         return view;
     }
 
     @OnClick(R.id.btnEditBranch)
     public void onClick() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        branch = (Branch) getArguments().getSerializable("branch");
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+        showBranch(branch);
     }
 
     @Override

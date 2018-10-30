@@ -26,6 +26,9 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
 
     private Branch branch;
 
+    private DetailInformationBranchFragment mInformationBranchFrg;
+    private DetailMemberBranchFragment mMemberBranchFrg;
+
     public DetailBranchFragment() {
 
     }
@@ -36,21 +39,23 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         View view = inflater.inflate(R.layout.fragment_branch_detail, container, false);
         ButterKnife.bind(this, view);
         branch = (Branch) getArguments().getSerializable("branch");
+        if (mInformationBranchFrg == null)
+            mInformationBranchFrg = new DetailInformationBranchFragment();
+        if (mMemberBranchFrg == null)
+            mMemberBranchFrg = new DetailMemberBranchFragment();
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         return view;
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
-        DetailInformationBranchFragment fragmentInfo = new DetailInformationBranchFragment();
+        SectionsPageAdapter.TitleStringUtils titleStringUtils = new SectionsPageAdapter.TitleStringUtils(getActivity());
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg);
         Bundle bundle = new Bundle();
         bundle.putSerializable("branch", branch);
-        fragmentInfo.setArguments(bundle);
-        adapter.addFragment(fragmentInfo, "Information");
-
-        adapter.addFragment(new DetailMemberBranchFragment(), "Member");
+        mInformationBranchFrg.setArguments(bundle);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
     }
 
 }

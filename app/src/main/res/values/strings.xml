@@ -20,4 +20,7 @@
 
     <string name="frg_family_tree">Family tree</string>
 
+    <string name="tab_title_information">Information</string>
+    <string name="tab_title_member">Member</string>
+
 </resources>
