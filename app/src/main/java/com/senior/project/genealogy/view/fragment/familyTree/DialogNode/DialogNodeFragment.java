@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -184,43 +185,55 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                         newPeople.setGender(0);
                     }
                 }
-                if(!"".equals(edtBirthday.getText().toString())){
-                    Date date;
-                    try {
-                        @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-                        @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-                        String birthday = edtBirthday.getText().toString();
-                        try {
-                            date = format1.parse(birthday);
-                            newPeople.setBirthday(format2.parse(format2.format(date)));
-                        } catch(ParseException e){
-                            e.printStackTrace();
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+//                if(!"".equals(edtBirthday.getText().toString())){
+//                    Date date;
+//                    try {
+//                        @SuppressLint("SimpleDateFormat")
+//                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+//                        @SuppressLint("SimpleDateFormat")
+//                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+//                        String birthday = edtBirthday.getText().toString();
+//                        try {
+//                            date = format1.parse(birthday);
+//                            newPeople.setBirthday(format2.parse(format2.format(date)));
+//                        } catch(ParseException e){
+//                            e.printStackTrace();
+//                        }
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                }
+
+
+                if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    mCalendar.getTime();
+                    newPeople.setBirthday(new Date(simpleDateFormat.f));
                 }
 
-                if(!"".equals(edtDeathday.getText().toString())){
-                    Date date;
-                    try {
-                        @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-                        @SuppressLint("SimpleDateFormat")
-                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-                        String birthday = edtDeathday.getText().toString();
-                        try {
-                            date = format1.parse(birthday);
-                            newPeople.setDeathDay(format2.parse(format2.format(date)));
-                        } catch(ParseException e){
-                            e.printStackTrace();
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
+//                if(!"".equals(edtBirthday.getText().toString())){
+//                    newPeople.setBirthday(mCalendar.getTime());
+//                }
+
+
+//                if(!"".equals(edtDeathday.getText().toString())){
+//                    Date date;
+//                    try {
+//                        @SuppressLint("SimpleDateFormat")
+//                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+//                        @SuppressLint("SimpleDateFormat")
+//                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+//                        String birthday = edtDeathday.getText().toString();
+//                        try {
+//                            date = format1.parse(birthday);
+//                            newPeople.setDeathDay(format2.parse(format2.format(date)));
+//                        } catch(ParseException e){
+//                            e.printStackTrace();
+//                        }
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+//                }
 
 //                newPeople.setImage();
 //                newPeople.setDegree();
@@ -232,7 +245,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     }
 
     public void showSpinnerRelative(Boolean check) {
-        ArrayAdapter<CharSequence> dataAdapter = null;
+        ArrayAdapter<CharSequence> dataAdapter;
         if (check == false){
             dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_node, android.R.layout.simple_spinner_item);
         } else {
@@ -252,20 +265,21 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         spRelative.setAdapter(dataAdapter);
     }
 
+    private Calendar mCalendar;
 
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
     private void selectDate(final EditText edt){
-        final Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+        mCalendar = Calendar.getInstance();
+        int day = mCalendar.get(Calendar.DATE);
+        int month = mCalendar.get(Calendar.MONTH);
+        int year = mCalendar.get(Calendar.YEAR);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(year, month, dayOfMonth);
+                mCalendar.set(year, month, dayOfMonth);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                edt.setText(simpleDateFormat.format(calendar.getTime()));
+                edt.setText(simpleDateFormat.format(mCalendar.getTime()));
             }
         }, year, month, day);
         datePickerDialog.show();
