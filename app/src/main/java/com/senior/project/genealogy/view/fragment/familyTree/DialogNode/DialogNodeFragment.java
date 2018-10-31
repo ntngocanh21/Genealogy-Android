@@ -205,11 +205,11 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
 //                }
 
 
-                if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    mCalendar.getTime();
-                    newPeople.setBirthday(new Date(simpleDateFormat.f));
-                }
+//                if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())) {
+//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                    mCalendar.getTime();
+//                    newPeople.setBirthday(new Date(simpleDateFormat.f));
+//                }
 
 //                if(!"".equals(edtBirthday.getText().toString())){
 //                    newPeople.setBirthday(mCalendar.getTime());
