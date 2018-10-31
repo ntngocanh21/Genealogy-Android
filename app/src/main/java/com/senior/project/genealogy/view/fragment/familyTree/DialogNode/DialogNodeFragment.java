@@ -204,7 +204,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
 //                    }
 //                }
 
-
 //                if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())) {
 //                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //                    mCalendar.getTime();
