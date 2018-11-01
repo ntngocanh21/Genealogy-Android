@@ -26,6 +26,10 @@ public class Graph {
         if (!this.nodes.contains(node)) {
             this.nodes.add(node);
         }
+
+        for (NodeObserver observer : observers) {
+            observer.notifyNodeAdded(node);
+        }
     }
 
     /**

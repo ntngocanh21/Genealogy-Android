@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 public class People implements Serializable{
 
@@ -26,11 +26,11 @@ public class People implements Serializable{
 
     @SerializedName("birthday")
     @Expose
-    private Date birthday;
+    private String birthday;
 
     @SerializedName("deathDay")
     @Expose
-    private Date deathDay;
+    private String deathDay;
 
     @SerializedName("gender")
     @Expose
@@ -67,7 +67,7 @@ public class People implements Serializable{
     public People() {
     }
 
-    public People(String name, Date birthday, Integer gender, String image) {
+    public People(String name, String birthday, Integer gender, String image) {
         this.name = name;
         this.birthday = birthday;
         this.gender = gender;
@@ -113,19 +113,19 @@ public class People implements Serializable{
         this.nickname = nickname;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public Date getDeathDay() {
+    public String getDeathDay() {
         return deathDay;
     }
 
-    public void setDeathDay(Date deathDay) {
+    public void setDeathDay(String deathDay) {
         this.deathDay = deathDay;
     }
 

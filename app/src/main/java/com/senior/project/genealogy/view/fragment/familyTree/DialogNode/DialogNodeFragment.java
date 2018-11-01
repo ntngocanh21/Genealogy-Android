@@ -73,9 +73,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     @BindView(R.id.radioMale)
     RadioButton radioMale;
 
-    @BindView(R.id.radioFemale)
-    RadioButton radioFemale;
-
     @BindView(R.id.radioGender)
     RadioGroup radioGender;
 
@@ -102,10 +99,18 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
             radioGender.setVisibility(View.VISIBLE);
         }
 
-        if(getArguments().getSerializable("people") != null && ((People)getArguments().getSerializable("people")).getParentId() == null){
-            showSpinnerRelative(false);
+        if(getArguments().getSerializable("people") != null){
+            if(((People)getArguments().getSerializable("people")).getParentId() == null){
+                showSpinnerRelative(1);
+            } else {
+                if(((People)getArguments().getSerializable("people")).getGender() == 0){
+                    showSpinnerRelative(0);
+                } else {
+                    showSpinnerRelative(1);
+                }
+            }
         } else {
-            showSpinnerRelative(true);
+            showSpinnerRelative(2);
         }
         return view;
     }
@@ -185,54 +190,14 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                         newPeople.setGender(0);
                     }
                 }
-//                if(!"".equals(edtBirthday.getText().toString())){
-//                    Date date;
-//                    try {
-//                        @SuppressLint("SimpleDateFormat")
-//                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-//                        @SuppressLint("SimpleDateFormat")
-//                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-//                        String birthday = edtBirthday.getText().toString();
-//                        try {
-//                            date = format1.parse(birthday);
-//                            newPeople.setBirthday(format2.parse(format2.format(date)));
-//                        } catch(ParseException e){
-//                            e.printStackTrace();
-//                        }
-//                    } catch (Exception ex) {
-//                        ex.printStackTrace();
-//                    }
-//                }
 
-//                if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())) {
-//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                    mCalendar.getTime();
-//                    newPeople.setBirthday(new Date(simpleDateFormat.f));
-//                }
+                if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())){
+                    newPeople.setBirthday(edtBirthday.getText().toString());
+                }
 
-//                if(!"".equals(edtBirthday.getText().toString())){
-//                    newPeople.setBirthday(mCalendar.getTime());
-//                }
-
-
-//                if(!"".equals(edtDeathday.getText().toString())){
-//                    Date date;
-//                    try {
-//                        @SuppressLint("SimpleDateFormat")
-//                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-//                        @SuppressLint("SimpleDateFormat")
-//                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-//                        String birthday = edtDeathday.getText().toString();
-//                        try {
-//                            date = format1.parse(birthday);
-//                            newPeople.setDeathDay(format2.parse(format2.format(date)));
-//                        } catch(ParseException e){
-//                            e.printStackTrace();
-//                        }
-//                    } catch (Exception ex) {
-//                        ex.printStackTrace();
-//                    }
-//                }
+                if(!Constants.EMPTY_STRING.equals(edtDeathday.getText().toString())){
+                    newPeople.setBirthday(edtDeathday.getText().toString());
+                }
 
 //                newPeople.setImage();
 //                newPeople.setDegree();
@@ -243,12 +208,16 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         }
     }
 
-    public void showSpinnerRelative(Boolean check) {
+    public void showSpinnerRelative(int check) {
         ArrayAdapter<CharSequence> dataAdapter;
-        if (check == false){
-            dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_node, android.R.layout.simple_spinner_item);
+        if (check == 0){
+            dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_female_node, android.R.layout.simple_spinner_item);
         } else {
-            dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array, android.R.layout.simple_spinner_item);
+            if (check == 1){
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_node, android.R.layout.simple_spinner_item);
+            } else {
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array, android.R.layout.simple_spinner_item);
+            }
         }
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRelative.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()

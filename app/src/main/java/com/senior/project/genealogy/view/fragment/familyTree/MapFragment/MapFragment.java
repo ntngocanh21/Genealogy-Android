@@ -5,30 +5,29 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.otaliastudios.zoom.ZoomLayout;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
-import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.activity.register.RegisterActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogProfile.DialogProfileFragment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,6 @@ public class MapFragment extends Fragment implements MapFragmentView{
 
     @BindView(R.id.addNode)
     FloatingActionButton addNode;
-
 
     private MapFragmentPresenterImpl mapFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -90,7 +88,6 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 graph.addNode(node);
             }
             else {
-                ArrayList<Node> nodeList = new ArrayList<>();
                 for (People people : peopleList) {
                     graph.addNode(new Node(people));
                     if (people.getParentId() != null) {
@@ -105,6 +102,10 @@ public class MapFragment extends Fragment implements MapFragmentView{
     @Override
     public void deletePeople(int peopleId) {
         graph.removeNode(findNode(graph, peopleId));
+        if (graph.getNodes().size() == 0){
+            showToast("Don't have any node");
+            addNode.setVisibility(View.VISIBLE);
+        }
     }
 
     public Node findNode(Graph graph, int id){
@@ -129,10 +130,11 @@ public class MapFragment extends Fragment implements MapFragmentView{
             @Override
             public void onBindViewHolder(ViewHolder viewHolder, Object data, int position) {
                 viewHolder.txtName.setText(((People)data).getName());
-                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 if(((People)data).getBirthday() != null)
                 {
-                    final String date = formatter.format(((People)data).getBirthday());
+//                    final String date = formatter.format(((People)data).getBirthday());
+                    final String date = ((People)data).getBirthday();
                     viewHolder.txtDate.setText(date);
                 } else {
                     viewHolder.txtDate.setText("");
@@ -143,6 +145,19 @@ public class MapFragment extends Fragment implements MapFragmentView{
                         viewHolder.civProfile.setImageResource(R.drawable.man);
                     } else {
                         viewHolder.civProfile.setImageResource(R.drawable.woman);
+                    }
+                }
+
+                if(((People)data).getAppellation() != null){
+                    viewHolder.txtRelation.setVisibility(View.VISIBLE);
+                    viewHolder.txtRelation.setText(((People)data).getAppellation());
+
+                    if("Center".equals(((People)data).getAppellation())) {
+                        viewHolder.txtRelation.setText("Tôi");
+                        viewHolder.txtRelation.setTypeface(null, Typeface.ITALIC);
+                        viewHolder.txtRelation.setTypeface(null, Typeface.BOLD);
+                        @ColorInt int nodeBgColor = 0xFFE9C2B3;
+                        viewHolder.nodeBg.setBackgroundColor(nodeBgColor);
                     }
                 }
             }
@@ -164,18 +179,32 @@ public class MapFragment extends Fragment implements MapFragmentView{
                     }
                 });
 
+                dialogProfileFragment.attackInterface(new DialogProfileFragment.GetRelationInterface() {
+                    @Override
+                    public void sendDataToMap(List<People> peopleList) {
+                        deleteNode();
+
+                        for (People people : peopleList) {
+                            graph.addNode(new Node(people));
+                            if (people.getParentId() != null) {
+                                graph.addEdge(findNode(graph, people.getParentId()), findNode(graph, people.getId()));
+                            }
+                        }
+                    }
+                });
+
             }
         });
         graphView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showLoginAlertDialog(adapter.getNode(position));
+                showDeleteAlertDialog(adapter.getNode(position));
                 return false;
             }
         });
     }
 
-    public void showLoginAlertDialog(final Node node){
+    public void showDeleteAlertDialog(final Node node){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Delete this person");
         builder.setMessage("Are you sure you want to delete " + ((People) node.getData()).getName() + " from the family tree?");
@@ -196,10 +225,21 @@ public class MapFragment extends Fragment implements MapFragmentView{
         alertDialog.show();
     }
 
+    private void deleteNode(){
+        List<Node> nodes = graph.getNodes();
+        if(nodes.size() != 0){
+            for (Node node : nodes){
+                graph.removeNode(node);
+                break;
+            }
+            deleteNode();
+        }
+    }
+
     public void setAlgorithm(GraphAdapter adapter) {
         final BuchheimWalkerConfiguration configuration = new BuchheimWalkerConfiguration.Builder()
                 .setSiblingSeparation(400)
-                .setLevelSeparation(300)
+                .setLevelSeparation(200)
                 .setSubtreeSeparation(500)
                 .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
                 .build();
@@ -252,11 +292,15 @@ public class MapFragment extends Fragment implements MapFragmentView{
     private class ViewHolder {
         TextView txtName;
         TextView txtDate;
+        TextView txtRelation;
         CircleImageView civProfile;
+        LinearLayout nodeBg;
         ViewHolder(View view) {
             txtName = view.findViewById(R.id.txtName);
             txtDate = view.findViewById(R.id.txtDate);
+            txtRelation = view.findViewById(R.id.txtRelation);
             civProfile = view.findViewById(R.id.civProfile);
+            nodeBg = view.findViewById(R.id.nodeBg);
         }
     }
 }

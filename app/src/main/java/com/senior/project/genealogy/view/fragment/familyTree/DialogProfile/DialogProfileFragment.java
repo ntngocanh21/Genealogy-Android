@@ -1,5 +1,8 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogProfile;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -7,19 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.blox.graphview.Graph;
-import de.blox.graphview.Node;
 
 public class DialogProfileFragment extends DialogFragment implements DialogProfileFragmentView{
 
@@ -59,6 +63,8 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
     @BindView(R.id.txtDescription)
     TextView txtDescription;
 
+    private ProgressDialog mProgressDialog;
+    private DialogProfileFragmentPresenterImpl dialogProfileFragmentPresenterImpl;
     private People people;
     public DialogProfileFragment() {
 
@@ -92,19 +98,35 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
         }
         txtFullname.setText(people.getName());
         txtNickname.setText(people.getNickname());
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
         if (people.getBirthday() != null){
-            String birthday = formatter.format(people.getBirthday());
-            txtBirthday.setText(birthday);
+            txtBirthday.setText(people.getBirthday());
         }
+
         if (people.getDeathDay() != null){
             txtDeathdayTitle.setVisibility(View.VISIBLE);
             txtDeathday.setVisibility(View.VISIBLE);
-            String deathday = formatter.format(people.getDeathDay());
-            txtDeathday.setText(deathday);
+            txtDeathday.setText(people.getDeathDay());
         }
+
         txtAddress.setText(people.getAddress());
         txtDescription.setText(people.getDescription());
+    }
+
+    @Override
+    public void showRelationMap(List<People> peopleList) {
+        mGetRelationInterface.sendDataToMap(peopleList);
+        this.dismiss();
+    }
+
+    public interface GetRelationInterface{
+        void sendDataToMap(List<People> peopleList);
+    }
+
+    public GetRelationInterface mGetRelationInterface;
+
+    public void attackInterface(GetRelationInterface getRelationInterface){
+        mGetRelationInterface = getRelationInterface;
     }
 
     @OnClick({R.id.btnAddNode, R.id.btnRelative, R.id.btnMenu, R.id.btnClose})
@@ -125,6 +147,10 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
                 });
                 break;
             case R.id.btnRelative:
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                String token = sharedPreferences.getString("token", "");
+                dialogProfileFragmentPresenterImpl = new DialogProfileFragmentPresenterImpl(this);
+                dialogProfileFragmentPresenterImpl.getRelative(people.getId(), token);
                 break;
         }
     }
@@ -137,6 +163,32 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
 
     public void attackInterface(DialogProfileInterface dialogProfileInterface){
         mDialogProfileInterface = dialogProfileInterface;
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    public ProgressDialog initProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+        }
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        return mProgressDialog;
+    }
+
+    @Override
+    public void showProgressDialog() {
+        ProgressDialog progressDialog = initProgressDialog();
+        progressDialog.show();
+    }
+
+    @Override
+    public void closeProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 
 }

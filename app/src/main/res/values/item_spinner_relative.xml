@@ -13,4 +13,10 @@
         <item>Daughter</item>
         <item>Married</item>
     </string-array>
+
+    <string-array name="relative_array_female_node">
+        <item>Brother</item>
+        <item>Sister</item>
+        <item>Married</item>
+    </string-array>
 </resources>

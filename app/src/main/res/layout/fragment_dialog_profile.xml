@@ -202,7 +202,7 @@
                     android:src="@drawable/ic_add_relative"
                     app:fab_label="Add relative"
                     app:fab_size="mini"
-                    app:fab_colorNormal="#75605a"
+                    app:fab_colorNormal="#967066"
                     app:fab_colorPressed="@color/colorAccent"/>
 
                 <com.github.clans.fab.FloatingActionButton
