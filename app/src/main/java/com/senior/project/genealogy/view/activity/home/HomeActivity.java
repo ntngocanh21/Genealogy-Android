@@ -27,9 +27,11 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.login.LoginActivity;
+import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
+import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
 
@@ -212,6 +214,14 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
+            for(int i = 0; i<fm.getFragments().size(); i++){
+                if(fm.getFragments().get(i) instanceof DetailGenealogyFragment){
+                    updateTitleBar(getString(R.string.frg_view_genealogy));
+                }
+                if(fm.getFragments().get(i) instanceof GenealogyFragment){
+                    updateTitleBar(getString(R.string.frg_my_genealogy));
+                }
+            }
         } else {
             super.onBackPressed();
         }

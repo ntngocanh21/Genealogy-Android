@@ -22,5 +22,6 @@
 
     <string name="tab_title_information">Information</string>
     <string name="tab_title_member">Member</string>
+    <string name="tab_title_request">Request</string>
 
 </resources>

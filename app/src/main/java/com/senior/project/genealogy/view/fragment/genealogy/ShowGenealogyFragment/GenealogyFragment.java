@@ -17,6 +17,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -47,6 +48,9 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.txtNotice)
+    TextView txtNotice;
 
     RecyclerViewItemGenealogyAdapter mRcvAdapter;
     List<Genealogy> genealogies;
@@ -80,6 +84,9 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         mFragment.attackInterface(new CreateGenealogyFragment.CreateGenealogyInterface() {
             @Override
             public void sendDataToListGenealogy(Genealogy genealogy) {
+                if (txtNotice.getVisibility() == View.VISIBLE){
+                    txtNotice.setVisibility(View.GONE);
+                }
                 mRcvAdapter.updateGenealogy(genealogy);
             }
         });
@@ -142,7 +149,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         genealogies = new ArrayList<>();
 
         if(genealogyList == null){
-            showToast("You didn't have any genealogy");
+            txtNotice.setVisibility(View.VISIBLE);
         }
         else {
             genealogies.addAll(genealogyList);

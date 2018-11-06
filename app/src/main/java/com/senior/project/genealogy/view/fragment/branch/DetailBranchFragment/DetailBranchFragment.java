@@ -11,6 +11,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
+import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.SectionsPageAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
 
     private DetailInformationBranchFragment mInformationBranchFrg;
     private DetailMemberBranchFragment mMemberBranchFrg;
+    private DetailMemberRequestBranchFragment mMemberRequestBranchFrg;
 
     public DetailBranchFragment() {
 
@@ -43,6 +45,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             mInformationBranchFrg = new DetailInformationBranchFragment();
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
+        if (mMemberRequestBranchFrg == null)
+            mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         return view;
@@ -50,12 +54,14 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter.TitleStringUtils titleStringUtils = new SectionsPageAdapter.TitleStringUtils(getActivity());
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg);
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg, mMemberRequestBranchFrg);
         Bundle bundle = new Bundle();
         bundle.putSerializable("branch", branch);
         mInformationBranchFrg.setArguments(bundle);
+        mMemberBranchFrg.setArguments(bundle);
+        mMemberRequestBranchFrg.setArguments(bundle);
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
     }
 
 }

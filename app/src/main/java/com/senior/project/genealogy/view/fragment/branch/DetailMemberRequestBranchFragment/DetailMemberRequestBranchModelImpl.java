@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment;
+package com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment;
 
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.response.UserResponse;
@@ -11,19 +11,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DetailMemberBranchModelImpl implements DetailMemberBranchModel {
-    private DetailMemberBranchFragmentPresenter mDetailMemberBranchFragmentPresenter;
+public class DetailMemberRequestBranchModelImpl implements DetailMemberRequestBranchModel {
+    private DetailMemberRequestBranchFragmentPresenter mDetailMemberRequestBranchFragmentPresenter;
     private ApplicationApi mApplicationApi;
 
-    public DetailMemberBranchModelImpl(DetailMemberBranchFragmentPresenter detailMemberBranchFragmentPresenter) {
+    public DetailMemberRequestBranchModelImpl(DetailMemberRequestBranchFragmentPresenter detailMemberRequestBranchFragmentPresenter) {
         if (mApplicationApi == null) {
             mApplicationApi = new ApplicationApi();
         }
-        mDetailMemberBranchFragmentPresenter = detailMemberBranchFragmentPresenter;
+        mDetailMemberRequestBranchFragmentPresenter = detailMemberRequestBranchFragmentPresenter;
     }
 
     @Override
-    public void getMemberOfBranch(UserBranchPermission userBranchPermission, String token) {
+    public void getRequestMemberOfBranch(UserBranchPermission userBranchPermission, String token) {
         Call<UserResponse> call = mApplicationApi.getClient().create(MemberApi.class).getMemberOfBranch(userBranchPermission, token);
         call.enqueue(new Callback<UserResponse>() {
             @Override
@@ -31,15 +31,15 @@ public class DetailMemberBranchModelImpl implements DetailMemberBranchModel {
                 UserResponse userResponse = response.body();
                 int code = Integer.parseInt(userResponse.getError().getCode());
                 if (code == Constants.HTTPCodeResponse.SUCCESS) {
-                    mDetailMemberBranchFragmentPresenter.getMemberOfBranchSuccess(userResponse.getUserList());
+                    mDetailMemberRequestBranchFragmentPresenter.getRequestMemberOfBranchSuccess(userResponse.getUserList());
                 } else {
-                    mDetailMemberBranchFragmentPresenter.getMemberOfBranchFalse();
+                    mDetailMemberRequestBranchFragmentPresenter.getRequestMemberOfBranchFalse();
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                mDetailMemberBranchFragmentPresenter.getMemberOfBranchFalse();
+                mDetailMemberRequestBranchFragmentPresenter.getRequestMemberOfBranchFalse();
             }
         });
     }
