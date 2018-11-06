@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment;
 
+import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.response.UserResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
@@ -43,4 +44,49 @@ public class DetailMemberRequestBranchModelImpl implements DetailMemberRequestBr
             }
         });
     }
+
+    @Override
+    public void acceptRequestMemberOfBranch(UserBranchPermission userBranchPermission, String token, final int position) {
+        Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).acceptRequestMemberOfBranch(userBranchPermission, token);
+        call.enqueue(new Callback<CodeResponse>() {
+            @Override
+            public void onResponse(Call<CodeResponse> call, Response<CodeResponse> response) {
+                CodeResponse codeResponse = response.body();
+                int code = Integer.parseInt(codeResponse.getError().getCode());
+                if (code == Constants.HTTPCodeResponse.SUCCESS) {
+                    mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranchSuccess(position);
+                } else {
+                    mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranchFalse();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodeResponse> call, Throwable t) {
+                mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranchFalse();
+            }
+        });
+    }
+
+    @Override
+    public void declineRequestMemberOfBranch(UserBranchPermission userBranchPermission, String token, final int position) {
+        Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).declineRequestMemberOfBranch(userBranchPermission, token);
+        call.enqueue(new Callback<CodeResponse>() {
+            @Override
+            public void onResponse(Call<CodeResponse> call, Response<CodeResponse> response) {
+                CodeResponse codeResponse = response.body();
+                int code = Integer.parseInt(codeResponse.getError().getCode());
+                if (code == Constants.HTTPCodeResponse.SUCCESS) {
+                    mDetailMemberRequestBranchFragmentPresenter.declineRequestMemberOfBranchSuccess(position);
+                } else {
+                    mDetailMemberRequestBranchFragmentPresenter.declineRequestMemberOfBranchFalse();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodeResponse> call, Throwable t) {
+                mDetailMemberRequestBranchFragmentPresenter.declineRequestMemberOfBranchFalse();
+            }
+        });
+    }
+
 }

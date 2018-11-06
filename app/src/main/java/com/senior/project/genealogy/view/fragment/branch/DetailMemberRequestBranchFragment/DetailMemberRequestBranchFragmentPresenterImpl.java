@@ -31,4 +31,38 @@ public class DetailMemberRequestBranchFragmentPresenterImpl implements DetailMem
     public void getRequestMemberOfBranchFalse() {
         mDetailMemberRequestBranchFragmentView.closeProgressDialog();
     }
+
+    @Override
+    public void declineRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission,int position) {
+        mDetailMemberRequestBranchFragmentView.showProgressDialog();
+        mDetailMemberRequestBranchModel.declineRequestMemberOfBranch(userBranchPermission, token, position);
+    }
+
+    @Override
+    public void declineRequestMemberOfBranchSuccess(int position) {
+        mDetailMemberRequestBranchFragmentView.closeProgressDialog();
+        mDetailMemberRequestBranchFragmentView.declineMember(position);
+    }
+
+    @Override
+    public void declineRequestMemberOfBranchFalse() {
+        mDetailMemberRequestBranchFragmentView.closeProgressDialog();
+    }
+
+    @Override
+    public void acceptRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission,int position) {
+        mDetailMemberRequestBranchFragmentView.showProgressDialog();
+        mDetailMemberRequestBranchModel.acceptRequestMemberOfBranch(userBranchPermission, token, position);
+    }
+
+    @Override
+    public void acceptRequestMemberOfBranchSuccess(int position) {
+        mDetailMemberRequestBranchFragmentView.closeProgressDialog();
+        mDetailMemberRequestBranchFragmentView.acceptMember(position);
+    }
+
+    @Override
+    public void acceptRequestMemberOfBranchFalse() {
+        mDetailMemberRequestBranchFragmentView.closeProgressDialog();
+    }
 }

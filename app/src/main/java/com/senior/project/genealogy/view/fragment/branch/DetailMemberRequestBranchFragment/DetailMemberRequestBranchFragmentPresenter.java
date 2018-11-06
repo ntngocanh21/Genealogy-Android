@@ -9,4 +9,14 @@ public interface DetailMemberRequestBranchFragmentPresenter {
     void getRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission);
     void getRequestMemberOfBranchSuccess(List<User> userList);
     void getRequestMemberOfBranchFalse();
+
+    void declineRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission, int position);
+    void declineRequestMemberOfBranchSuccess(int position);
+    void declineRequestMemberOfBranchFalse();
+
+    void acceptRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission, int position);
+    void acceptRequestMemberOfBranchSuccess(int position);
+    void acceptRequestMemberOfBranchFalse();
+
+
 }

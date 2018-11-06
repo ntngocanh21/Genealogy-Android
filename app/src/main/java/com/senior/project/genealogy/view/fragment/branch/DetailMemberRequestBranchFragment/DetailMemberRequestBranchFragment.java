@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
@@ -74,7 +75,7 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        mRcvAdapter = new RecyclerViewItemRequestMemberAdapter(getActivity(), fragmentManager, users);
+        mRcvAdapter = new RecyclerViewItemRequestMemberAdapter(getActivity(), fragmentManager, users, branch.getId(), detailMemberRequestBranchFragmentPresenterImpl);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -104,4 +105,19 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
             mProgressDialog.dismiss();
     }
 
+    @Override
+    public void acceptMember(int position) {
+        showToast("Your branch have 1 new member!");
+        mRcvAdapter.removeItem(position);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void declineMember(int position) {
+        mRcvAdapter.removeItem(position);
+    }
 }
