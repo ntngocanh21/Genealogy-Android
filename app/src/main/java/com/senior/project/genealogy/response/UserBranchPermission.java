@@ -37,6 +37,12 @@ public class UserBranchPermission implements Serializable{
         this.branch_id = branch_id;
     }
 
+    public UserBranchPermission(String username, int branch_id, int branch_permission_id) {
+        this.username = username;
+        this.branch_id = branch_id;
+        this.branch_permission_id = branch_permission_id;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -10,6 +10,6 @@ public interface DetailMemberRequestBranchFragmentView {
     void showProgressDialog();
     void closeProgressDialog();
     void showRequestMember(List<User> userList);
-    void acceptMember(int position);
+    void acceptMember(int position, User user);
     void declineMember(int position);
 }

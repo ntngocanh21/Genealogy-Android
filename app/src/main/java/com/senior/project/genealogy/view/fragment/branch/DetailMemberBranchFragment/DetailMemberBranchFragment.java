@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -15,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
@@ -79,15 +79,14 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
             users.addAll(userList);
         }
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        mRcvAdapter = new RecyclerViewItemMemberAdapter(getActivity(), fragmentManager, users);
+        mRcvAdapter = new RecyclerViewItemMemberAdapter(getActivity(), users, branch.getId(), detailMemberBranchFragmentPresenterImpl);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         rcvMember.setLayoutManager(layoutManager);
         rcvMember.setAdapter(mRcvAdapter);
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemMemberTouchHelper(0, ItemTouchHelper.LEFT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemMemberTouchHelper(0, ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rcvMember);
     }
 
@@ -141,5 +140,14 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    public void updateMember(User user) {
+        mRcvAdapter.updateMember(user);
     }
 }

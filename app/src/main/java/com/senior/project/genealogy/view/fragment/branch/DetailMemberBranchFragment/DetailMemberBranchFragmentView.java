@@ -8,5 +8,6 @@ import java.util.List;
 public interface DetailMemberBranchFragmentView {
     void showProgressDialog();
     void closeProgressDialog();
+    void showToast(String msg);
     void showMember(List<User> userList);
 }

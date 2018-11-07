@@ -1,6 +1,7 @@
 package com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment;
 
 import com.senior.project.genealogy.response.CodeResponse;
+import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.response.UserResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
@@ -46,7 +47,7 @@ public class DetailMemberRequestBranchModelImpl implements DetailMemberRequestBr
     }
 
     @Override
-    public void acceptRequestMemberOfBranch(UserBranchPermission userBranchPermission, String token, final int position) {
+    public void acceptRequestMemberOfBranch(UserBranchPermission userBranchPermission, final User user, String token, final int position) {
         Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).acceptRequestMemberOfBranch(userBranchPermission, token);
         call.enqueue(new Callback<CodeResponse>() {
             @Override
@@ -54,7 +55,7 @@ public class DetailMemberRequestBranchModelImpl implements DetailMemberRequestBr
                 CodeResponse codeResponse = response.body();
                 int code = Integer.parseInt(codeResponse.getError().getCode());
                 if (code == Constants.HTTPCodeResponse.SUCCESS) {
-                    mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranchSuccess(position);
+                    mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranchSuccess(position, user);
                 } else {
                     mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranchFalse();
                 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +17,8 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment.CreateBranchFragment;
+import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemRequestMemberAdapter;
 
 import java.util.ArrayList;
@@ -56,11 +57,10 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
     public void onResume() {
         super.onResume();
         branch = (Branch) getArguments().getSerializable("branch");
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
         UserBranchPermission userBranchPermission = new UserBranchPermission(false, branch.getId());
         detailMemberRequestBranchFragmentPresenterImpl = new DetailMemberRequestBranchFragmentPresenterImpl(this);
         detailMemberRequestBranchFragmentPresenterImpl.getRequestMemberOfBranch(token, userBranchPermission);
+
     }
 
     @Override
@@ -74,8 +74,7 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
             users.addAll(userList);
         }
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        mRcvAdapter = new RecyclerViewItemRequestMemberAdapter(getActivity(), fragmentManager, users, branch.getId(), detailMemberRequestBranchFragmentPresenterImpl);
+        mRcvAdapter = new RecyclerViewItemRequestMemberAdapter(getActivity(), users, branch.getId(), detailMemberRequestBranchFragmentPresenterImpl);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -106,7 +105,8 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
     }
 
     @Override
-    public void acceptMember(int position) {
+    public void acceptMember(int position, User member) {
+        mRequestMemberInterface.sendDataToListMember(member);
         showToast("Your branch have 1 new member!");
         mRcvAdapter.removeItem(position);
     }
@@ -120,4 +120,15 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
     public void declineMember(int position) {
         mRcvAdapter.removeItem(position);
     }
+
+    public interface RequestMemberInterface{
+        void sendDataToListMember(User member);
+    }
+
+    public RequestMemberInterface mRequestMemberInterface;
+
+    public void attackInterface(RequestMemberInterface requestMemberInterface){
+        mRequestMemberInterface = requestMemberInterface;
+    }
+
 }

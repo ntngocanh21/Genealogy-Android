@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
+import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
@@ -47,9 +49,19 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             mMemberBranchFrg = new DetailMemberBranchFragment();
         if (mMemberRequestBranchFrg == null)
             mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
+        mMemberRequestBranchFrg.attackInterface(new DetailMemberRequestBranchFragment.RequestMemberInterface() {
+            @Override
+            public void sendDataToListMember(User member) {
+                updateMember(member);
+            }
+        });
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         return view;
+    }
+
+    public void updateMember(User user){
+        mMemberBranchFrg.updateMember(user);
     }
 
     private void setupViewPager(ViewPager viewPager) {

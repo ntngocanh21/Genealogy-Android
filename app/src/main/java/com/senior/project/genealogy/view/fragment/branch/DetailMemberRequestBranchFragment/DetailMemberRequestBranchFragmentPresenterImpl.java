@@ -50,15 +50,15 @@ public class DetailMemberRequestBranchFragmentPresenterImpl implements DetailMem
     }
 
     @Override
-    public void acceptRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission,int position) {
+    public void acceptRequestMemberOfBranch(String token, UserBranchPermission userBranchPermission, User user, int position) {
         mDetailMemberRequestBranchFragmentView.showProgressDialog();
-        mDetailMemberRequestBranchModel.acceptRequestMemberOfBranch(userBranchPermission, token, position);
+        mDetailMemberRequestBranchModel.acceptRequestMemberOfBranch(userBranchPermission, user, token, position);
     }
 
     @Override
-    public void acceptRequestMemberOfBranchSuccess(int position) {
+    public void acceptRequestMemberOfBranchSuccess(int position, User user) {
         mDetailMemberRequestBranchFragmentView.closeProgressDialog();
-        mDetailMemberRequestBranchFragmentView.acceptMember(position);
+        mDetailMemberRequestBranchFragmentView.acceptMember(position, user);
     }
 
     @Override

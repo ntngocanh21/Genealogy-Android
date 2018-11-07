@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment;
 
+import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.response.UserResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
@@ -40,6 +41,28 @@ public class DetailMemberBranchModelImpl implements DetailMemberBranchModel {
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 mDetailMemberBranchFragmentPresenter.getMemberOfBranchFalse();
+            }
+        });
+    }
+
+    @Override
+    public void changeRoleMemberOfBranch(UserBranchPermission userBranchPermission, String token) {
+        Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).changeRoleMemberOfBranch(userBranchPermission, token);
+        call.enqueue(new Callback<CodeResponse>() {
+            @Override
+            public void onResponse(Call<CodeResponse> call, Response<CodeResponse> response) {
+                CodeResponse codeResponse = response.body();
+                int code = Integer.parseInt(codeResponse.getError().getCode());
+                if (code == Constants.HTTPCodeResponse.SUCCESS) {
+                    mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranchSuccess();
+                } else {
+                    mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranchFalse();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodeResponse> call, Throwable t) {
+                mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranchFalse();
             }
         });
     }

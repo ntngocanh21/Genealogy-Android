@@ -22,7 +22,7 @@ public class RecyclerItemMemberTouchHelper extends ItemTouchHelper.SimpleCallbac
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((RecyclerViewItemMemberAdapter.RecyclerViewHolder) viewHolder).viewForeground;
 
             getDefaultUIUtil().onSelected(foregroundView);
         }
@@ -32,14 +32,14 @@ public class RecyclerItemMemberTouchHelper extends ItemTouchHelper.SimpleCallbac
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((RecyclerViewItemMemberAdapter.RecyclerViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((RecyclerViewItemMemberAdapter.RecyclerViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -47,7 +47,7 @@ public class RecyclerItemMemberTouchHelper extends ItemTouchHelper.SimpleCallbac
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((RecyclerViewItemBranchAdapter.RecyclerViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((RecyclerViewItemMemberAdapter.RecyclerViewHolder) viewHolder).viewForeground;
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);

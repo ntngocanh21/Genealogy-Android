@@ -1,6 +1,7 @@
 package com.senior.project.genealogy.view.fragment.branch.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,19 +19,28 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.response.UserBranchPermission;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragmentPresenter;
+import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragmentPresenterImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<RecyclerViewItemMemberAdapter.RecyclerViewHolder>{
     private Context mContext;
-    private FragmentManager mFragmentManager;
-    private List<User> mUser = new ArrayList<>();
+    private List<User> mUser;
+    private int branchId;
+    private DetailMemberBranchFragmentPresenter mDetailMemberBranchFragmentPresenter;
 
-    public RecyclerViewItemMemberAdapter(Context mContext, FragmentManager mFragmentManager, List<User> mUser) {
+    private String token;
+
+    public RecyclerViewItemMemberAdapter(Context mContext, List<User> mUser, int branchId, DetailMemberBranchFragmentPresenter mDetailMemberBranchFragmentPresenter) {
         this.mContext = mContext;
-        this.mFragmentManager = mFragmentManager;
         this.mUser = mUser;
+        this.branchId = branchId;
+        this.mDetailMemberBranchFragmentPresenter = mDetailMemberBranchFragmentPresenter;
     }
 
     @Override
@@ -42,12 +52,15 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
+
         final String memberName = mUser.get(position).getFullname();
         final String memberUsername = mUser.get(position).getUsername();
         final String memberRole = mUser.get(position).getRole();
 
         holder.txtName.setText(memberName);
-        showSpinner(holder.spRole);
+        showSpinner(holder.spRole, mUser.get(position));
         if("Admin".equals(memberRole)){
             holder.spRole.setSelection(0);
         } else {
@@ -57,7 +70,7 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
     }
 
 
-    public void showSpinner(Spinner spinner) {
+    public void showSpinner(final Spinner spinner, final User user) {
         ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(mContext, R.array.role_member_array, android.R.layout.simple_spinner_item);
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -65,6 +78,19 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                int roleId = 0;
+                String role = spinner.getSelectedItem().toString();
+                switch (role){
+                    case "Admin":
+                        roleId = 2;
+                        break;
+                    case "Member":
+                        roleId = 3;
+                        break;
+                }
+
+                UserBranchPermission userBranchPermission = new UserBranchPermission(user.getUsername(), branchId, roleId);
+                mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranch(token, userBranchPermission);
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -84,7 +110,7 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
         notifyItemRemoved(position);
     }
 
-    public void updateBranch(User user) {
+    public void updateMember(User user) {
         mUser.add(user);
         notifyDataSetChanged();
     }
@@ -116,22 +142,4 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
         this.onItemClickedListener = onItemClickedListener;
     }
 
-    public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
-        try {
-            FragmentTransaction ft = mFragmentManager.beginTransaction();
-            ft.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-            if (type == HomeActivity.PushFrgType.REPLACE) {
-                ft.replace(mContainerId, fragment, tag);
-                ft.addToBackStack(fragment.getTag());
-                ft.commitAllowingStateLoss();
-            } else if (type == HomeActivity.PushFrgType.ADD) {
-                ft.add(mContainerId, fragment, tag);
-                ft.addToBackStack(fragment.getTag());
-                ft.commit();
-            }
-            mFragmentManager.executePendingTransactions();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "134676966416",
+    "firebase_url": "https://genealogy-c2e67.firebaseio.com",
+    "project_id": "genealogy-c2e67",
+    "storage_bucket": "genealogy-c2e67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134676966416:android:5eb8fe774b7a3ed3",
+        "android_client_info": {
+          "package_name": "com.senior.project.genealogy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134676966416-0b2v1scsjmv8qls0ga5r4uvi46gmlcad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.senior.project.genealogy",
+            "certificate_hash": "6facb357d504a4beadab3ff0fea930fedf6f63bc"
+          }
+        },
+        {
+          "client_id": "134676966416-p0ph3p27e176kmotu9rkqm8ss1odq8jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC75fykrHbep7pJpPHAas6mEiDNUjhCXNs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134676966416-p0ph3p27e176kmotu9rkqm8ss1odq8jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
