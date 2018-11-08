@@ -41,7 +41,7 @@ public class DetailMemberBranchFragmentPresenterImpl implements DetailMemberBran
     @Override
     public void changeRoleMemberOfBranchSuccess() {
 //        mDetailMemberBranchFragmentView.closeProgressDialog();
-        mDetailMemberBranchFragmentView.showToast("Success");
+//        mDetailMemberBranchFragmentView.showToast("Success");
     }
 
     @Override

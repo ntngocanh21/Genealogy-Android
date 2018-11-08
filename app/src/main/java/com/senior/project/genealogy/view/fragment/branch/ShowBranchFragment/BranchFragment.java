@@ -54,6 +54,9 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @BindView(R.id.txtNotice)
     TextView txtNotice;
 
+    @BindView(R.id.txtNoticeBranch)
+    TextView txtNoticeBranch;
+
     RecyclerViewItemBranchAdapter mRcvAdapter;
     List<Branch> branches;
 
@@ -128,6 +131,9 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
         mFragment.attackInterface(new CreateBranchFragment.CreateBranchInterface() {
             @Override
             public void sendDataToListBranch(Branch branch) {
+                if(txtNoticeBranch.getVisibility() == View.VISIBLE){
+                    txtNoticeBranch.setVisibility(View.GONE);
+                }
                 mRcvAdapter.updateBranch(branch);
             }
         });
@@ -184,10 +190,11 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     public void showBranch(List<Branch> branchList) {
         branches = new ArrayList<>();
 
-        if(branchList == null){
-            showToast("You didn't have any branch");
+        if(branchList.size() == 0){
+            txtNoticeBranch.setVisibility(View.VISIBLE);
         }
         else {
+            txtNoticeBranch.setVisibility(View.GONE);
             branches.addAll(branchList);
         }
 
@@ -238,5 +245,8 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @Override
     public void deleteItemBranch(RecyclerView.ViewHolder viewHolder) {
         mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
+        if (mRcvAdapter.getItemCount() == 0){
+            txtNoticeBranch.setVisibility(View.VISIBLE);
+        }
     }
 }
