@@ -56,7 +56,7 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
         ButterKnife.bind(this, view);
         branch = (Branch) getArguments().getSerializable("branch");
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
+        token = sharedPreferences.getString("token", "");
         UserBranchPermission userBranchPermission = new UserBranchPermission(true, branch.getId());
         detailMemberBranchFragmentPresenterImpl = new DetailMemberBranchFragmentPresenterImpl(this);
         detailMemberBranchFragmentPresenterImpl.getMemberOfBranch(token, userBranchPermission);

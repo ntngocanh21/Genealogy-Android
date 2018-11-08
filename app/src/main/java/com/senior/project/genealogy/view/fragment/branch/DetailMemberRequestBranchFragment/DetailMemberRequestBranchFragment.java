@@ -17,8 +17,6 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment.CreateBranchFragment;
-import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemRequestMemberAdapter;
 
 import java.util.ArrayList;

@@ -1,10 +1,8 @@
 package com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment;
 
 import android.support.v7.widget.RecyclerView;
-
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
-
 import java.util.List;
 
 public interface BranchFragmentView {

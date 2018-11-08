@@ -1,7 +1,6 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogProfile;
 
 import com.senior.project.genealogy.response.People;
-
 import java.util.List;
 
 public interface DialogProfileFragmentPresenter {

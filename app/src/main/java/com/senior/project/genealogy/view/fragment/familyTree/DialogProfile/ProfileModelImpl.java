@@ -1,13 +1,9 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogProfile;
 
 import com.senior.project.genealogy.response.FamilyTreeResponse;
-import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.FamilyRelationApi;
-import com.senior.project.genealogy.service.FamilyTreeApi;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragmentPresenter;
-import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.NodeModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;

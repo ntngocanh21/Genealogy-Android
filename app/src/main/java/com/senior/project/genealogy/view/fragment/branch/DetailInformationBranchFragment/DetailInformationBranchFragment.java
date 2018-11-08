@@ -1,7 +1,5 @@
 package com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
-import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
 
@@ -67,8 +64,6 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     public void onResume() {
         super.onResume();
         branch = (Branch) getArguments().getSerializable("branch");
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
         showBranch(branch);
     }
 

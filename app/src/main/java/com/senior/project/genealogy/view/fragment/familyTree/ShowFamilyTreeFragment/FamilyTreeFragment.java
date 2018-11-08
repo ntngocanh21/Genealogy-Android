@@ -34,7 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentView,RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
 
     @BindView(R.id.recyclerViewBranch)

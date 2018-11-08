@@ -1,7 +1,6 @@
 package com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment;
 
 import com.senior.project.genealogy.response.Branch;
-import com.senior.project.genealogy.response.Genealogy;
 
 import java.util.List;
 

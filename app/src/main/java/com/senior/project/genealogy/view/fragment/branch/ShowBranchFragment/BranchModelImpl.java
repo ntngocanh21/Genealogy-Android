@@ -1,8 +1,6 @@
 package com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment;
 
 import android.support.v7.widget.RecyclerView;
-
-import com.senior.project.genealogy.response.BranchResponse;
 import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.GenealogyResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
