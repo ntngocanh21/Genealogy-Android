@@ -135,8 +135,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 //            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
 //            dialogNodeFragment.show(getSupportFragmentManager(), null);
         } else if (id == R.id.signout) {
-            saveAccount("", "");
-            showActivity(LoginActivity.class);
+            showLogoutDialog();
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -234,5 +233,27 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         editor.putString(Constants.SHARED_PREFERENCES_KEY.USERNAME,username);
         editor.putString(Constants.SHARED_PREFERENCES_KEY.PASSWORD,password);
         editor.apply();
+    }
+
+    public void showLogoutDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                saveAccount(Constants.EMPTY_STRING, Constants.EMPTY_STRING);
+                showActivity(LoginActivity.class);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

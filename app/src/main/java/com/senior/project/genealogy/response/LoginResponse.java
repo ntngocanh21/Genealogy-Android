@@ -15,6 +15,14 @@ public class LoginResponse {
     @Expose
     private String token;
 
+    @SerializedName("avatar")
+    @Expose
+    private String avatar;
+
+    @SerializedName("fullname")
+    @Expose
+    private String fullname;
+
     public Message getError() {
         return error;
     }
@@ -29,5 +37,21 @@ public class LoginResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

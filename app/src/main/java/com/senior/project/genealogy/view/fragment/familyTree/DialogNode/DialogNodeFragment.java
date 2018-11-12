@@ -134,7 +134,8 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
             case R.id.edtDeathday:
                 selectDate(edtDeathday);
                 break;
-            case R.id.btnNewNode:Bundle bundle = this.getArguments();
+            case R.id.btnNewNode:
+                Bundle bundle = this.getArguments();
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 token = sharedPreferences.getString("token", "");
                 People newPeople = new People();
