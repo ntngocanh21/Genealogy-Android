@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +25,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
+
     @BindView(R.id.username)
     EditText edtUsername;
 
@@ -44,20 +44,21 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
         checkAccount();
     }
 
     private void checkAccount(){
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, "");
-        String password = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.PASSWORD, "");
-        if(!username.equals("") && !password.equals(""))
+        String username = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, Constants.EMPTY_STRING);
+        String password = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.PASSWORD, Constants.EMPTY_STRING);
+        if(!username.equals(Constants.EMPTY_STRING) && !password.equals(Constants.EMPTY_STRING))
         {
             User user = new User(username, password);
             loginPresenterImpl.login(user);
+        } else {
+            setContentView(R.layout.activity_login);
+            ButterKnife.bind(this);
         }
     }
 
@@ -65,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
-
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
@@ -102,14 +102,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
-        /**
-         * Activity A => B (finish())
-         * ABCDE => BCDE
-         * ABCD
-         * ABC
-         * AB
-         * A [Login}
-         */
         finish();
     }
 
