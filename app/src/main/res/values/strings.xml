@@ -18,6 +18,9 @@
 
     <string name="frg_search">Search</string>
 
+    <string name="frg_profile">Profile</string>
+    <string name="frg_update_profile">Update profile</string>
+
     <string name="frg_family_tree">Family tree</string>
 
     <string name="tab_title_information">Information</string>
