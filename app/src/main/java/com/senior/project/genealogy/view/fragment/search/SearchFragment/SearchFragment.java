@@ -13,7 +13,7 @@ import com.senior.project.genealogy.view.activity.home.HomeActivity;
 public class SearchFragment extends Fragment {
 
     public SearchFragment() {
-        // Required empty public constructor
+
     }
 
     @Override

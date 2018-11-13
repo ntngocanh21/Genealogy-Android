@@ -7,7 +7,6 @@ import com.senior.project.genealogy.response.GenealogyResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
@@ -24,9 +23,6 @@ public interface GenealogyApi {
 
     @HTTP(method = "DELETE", path = "/api/genealogy",  hasBody = true)
     Call<CodeResponse> deleteGenealogy(@Body int genealogyId, @Header("Authorisation") String token);
-
-    @GET("/api/genealogy")
-    Call<GenealogyResponse> getGenealogies(@Header("Authorisation") String token);
 
     @GET("/api/genealogy/user")
     Call<GenealogyResponse> getGenealogiesByUserName(@Header("Authorisation") String token);
