@@ -19,7 +19,9 @@ import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,9 +72,20 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
         String token = sharedPreferences.getString("token","");
         genealogy.setName(edtGenealogyName.getText().toString());
         genealogy.setHistory(edtGenealogyHistory.getText().toString());
-        genealogy.setDate(null);
+
+        try {
+            String sDate1 = txtGenealogyDate.getText().toString();
+            Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+            genealogy.setDate(date1);
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
+
+        Genealogy updatedGenealogy = genealogy;
+        updatedGenealogy.setDate(null);
+
         updateGenealogyFragmentPresenterImpl = new UpdateGenealogyFragmentPresenterImpl(this);
-        updateGenealogyFragmentPresenterImpl.updateGenealogy(genealogy, token);
+        updateGenealogyFragmentPresenterImpl.updateGenealogy(updatedGenealogy, token);
     }
 
     @Override

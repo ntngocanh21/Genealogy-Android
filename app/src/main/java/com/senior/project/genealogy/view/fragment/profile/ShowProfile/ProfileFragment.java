@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragment.UpdateGenealogyFragment;
+import com.senior.project.genealogy.view.fragment.profile.UpdateProfile.UpdateProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +53,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
     @BindView(R.id.btnUpdateProfile)
     FloatingActionButton btnUpdateProfile;
 
+    private User myAccount;
     private ProfileFragmentPresenterImpl profileFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
@@ -75,8 +79,18 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
 
     @OnClick(R.id.btnUpdateProfile)
     public void onClick() {
-//        UpdateProfileFragment mFragment = new UpdateProfileFragment();
-//        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+        UpdateProfileFragment mFragment = new UpdateProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", myAccount);
+        mFragment.setArguments(bundle);
+        mFragment.attachInterface(new UpdateProfileFragment.UpdateProfileInterface() {
+            @Override
+            public void sendDataUpdateToProfile(User user) {
+                showProfile(user);
+            }
+        });
+        pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.profile_frame);
+
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
@@ -129,6 +143,7 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
 
     @Override
     public void showProfile(User user) {
+        myAccount = user;
         if(user.isGender()){
             imgGenger.setImageResource(R.drawable.ic_male);
         } else {
