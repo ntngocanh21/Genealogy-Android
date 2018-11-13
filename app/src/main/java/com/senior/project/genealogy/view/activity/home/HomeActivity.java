@@ -68,7 +68,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     protected void initAttributes() {
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
-
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         mDrawerLayout.addDrawerListener(this);
@@ -223,6 +223,9 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
                 }
                 if(fm.getFragments().get(i) instanceof GenealogyFragment){
                     updateTitleBar(getString(R.string.frg_my_genealogy));
+                }
+                if(fm.getFragments().get(i) instanceof DetailGenealogyFragment){
+                    updateTitleBar(getString(R.string.frg_view_genealogy));
                 }
             }
         } else {

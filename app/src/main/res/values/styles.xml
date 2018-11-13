@@ -26,7 +26,9 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <!-- Using custom theme for Navigation Drawer -->
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@android:color/white</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
