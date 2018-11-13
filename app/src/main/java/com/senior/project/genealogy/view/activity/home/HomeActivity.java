@@ -21,6 +21,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -33,6 +34,7 @@ import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNo
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
+import com.senior.project.genealogy.view.fragment.profile.ShowProfile.ProfileFragment;
 import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
 
 import butterknife.BindView;
@@ -47,7 +49,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @BindView(R.id.nav_view_home)
     NavigationView mNavigationView;
-
 
     /**
      * Apply Dagger Here
@@ -74,6 +75,8 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
+//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+//        String fullname = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.FULLNAME, Constants.EMPTY_STRING);
 
         Fragment mFragment = new SearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
@@ -118,7 +121,8 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         int id = item.getItemId();
 
         if (id == R.id.profile) {
-
+            Fragment mFragment = new ProfileFragment();
+            pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.search) {
             Fragment mFragment = new SearchFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
