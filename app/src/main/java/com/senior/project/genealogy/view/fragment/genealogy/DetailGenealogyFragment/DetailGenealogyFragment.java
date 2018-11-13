@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;

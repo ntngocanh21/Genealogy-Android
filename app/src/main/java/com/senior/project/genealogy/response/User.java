@@ -3,7 +3,9 @@ package com.senior.project.genealogy.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     @SerializedName("username")
     @Expose
