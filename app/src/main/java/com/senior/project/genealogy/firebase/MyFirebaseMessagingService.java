@@ -22,32 +22,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-//        if (remoteMessage == null)
-//            return;
-//
-//        if (remoteMessage.getNotification() != null) {
-//            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-//            handleNotification(remoteMessage.getNotification().getBody());
-//        }
-//
-//        if (remoteMessage.getData().size() > 0) {
-//            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
-//
-//            try {
-//                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-//                handleDataMessage(json);
-//            } catch (Exception e) {
-//                Log.e(TAG, "Exception: " + e.getMessage());
-//            }
-//        }
+        if (remoteMessage == null)
+            return;
 
         if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Title: " + remoteMessage.getNotification().getTitle());
-            Log.e(TAG, "Body: " + remoteMessage.getNotification().getBody());
+            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification().getBody());
         }
 
         if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data: " + remoteMessage.getData());
+            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                handleDataMessage(json);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
+            }
         }
     }
 

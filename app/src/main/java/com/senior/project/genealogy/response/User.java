@@ -13,19 +13,46 @@ public class User {
     @Expose
     private String password;
 
-    @SerializedName("fullname")
-    @Expose
-    private String fullname;
-
     @SerializedName("role")
     @Expose
     private String role;
 
-    public User(String username, String password, String fullname, String role) {
+    @SerializedName("fullname")
+    @Expose
+    private String fullname;
+
+    @SerializedName("mail")
+    @Expose
+    private String mail;
+
+    @SerializedName("address")
+    @Expose
+    private String address;
+
+    @SerializedName("avatar")
+    @Expose
+    private String avatar;
+
+    @SerializedName("birthday")
+    @Expose
+    private String birthday;
+
+    @SerializedName("gender")
+    @Expose
+    private boolean gender;
+
+    public User() {
+    }
+
+    public User(String username, String password, String fullname, String mail, String address, String avatar, String birthday, boolean gender) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
-        this.role = role;
+        this.mail = mail;
+        this.address = address;
+        this.avatar = avatar;
+        this.birthday = birthday;
+        this.gender = gender;
     }
 
     public User(String username, String password, String fullname) {
@@ -37,6 +64,21 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, String role, String fullname) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.fullname = fullname;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getUsername() {
@@ -63,11 +105,43 @@ public class User {
         this.fullname = fullname;
     }
 
-    public String getRole() {
-        return role;
+    public String getMail() {
+        return mail;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
     }
 }

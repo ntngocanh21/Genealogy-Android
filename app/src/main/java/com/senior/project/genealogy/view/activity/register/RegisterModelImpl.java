@@ -35,7 +35,8 @@ public class RegisterModelImpl implements RegisterModel {
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
                         mRegisterPresenter.registerSuccess(String.valueOf(loginResponse.getError().getDescription()));
-                        mRegisterPresenter.saveToken(String.valueOf(loginResponse.getToken()));
+                        mRegisterPresenter.saveUser(String.valueOf(loginResponse.getToken()), String.valueOf(loginResponse.getAvatar()),
+                                String.valueOf(loginResponse.getFullname()));
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_EXISTED:
                         mRegisterPresenter.showToast(String.valueOf(loginResponse.getError().getDescription()));

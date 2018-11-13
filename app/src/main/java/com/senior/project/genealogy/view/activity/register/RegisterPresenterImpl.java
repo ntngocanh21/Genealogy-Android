@@ -39,8 +39,8 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     }
 
     @Override
-    public void saveToken(String token) {
-        mRegisterView.saveToken(token);
+    public void saveUser(String token, String avatar, String fullname)  {
+        mRegisterView.saveUser(token, avatar, fullname);
     }
 
 }

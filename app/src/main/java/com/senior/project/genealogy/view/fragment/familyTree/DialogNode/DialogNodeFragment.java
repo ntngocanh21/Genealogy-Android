@@ -1,15 +1,12 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogNode;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +23,8 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -140,7 +134,8 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
             case R.id.edtDeathday:
                 selectDate(edtDeathday);
                 break;
-            case R.id.btnNewNode:Bundle bundle = this.getArguments();
+            case R.id.btnNewNode:
+                Bundle bundle = this.getArguments();
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 token = sharedPreferences.getString("token", "");
                 People newPeople = new People();

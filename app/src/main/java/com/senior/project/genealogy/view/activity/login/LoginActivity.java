@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +36,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.btnLogin)
     Button btnLogin;
 
-    @BindView(R.id.txtSignup)
-    TextView txtSignup;
+    @BindView(R.id.lnSignup)
+    LinearLayout lnSignup;
 
     private LoginPresenterImpl loginPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             btnLogin.setEnabled(true);
         }
     }
-    @OnClick({R.id.btnLogin, R.id.txtSignup})
+    @OnClick({R.id.btnLogin, R.id.lnSignup})
     public void onClick(View view)
     {
         switch(view.getId())
@@ -87,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 saveAccount(user.getUsername(), user.getPassword());
                 break;
 
-            case R.id.txtSignup:
+            case R.id.lnSignup:
                 showActivity(RegisterActivity.class);
                 break;
         }
@@ -156,10 +157,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void saveToken(String token) {
+    public void saveUser(String token, String avatar, String fullname) {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.SHARED_PREFERENCES_KEY.TOKEN,"Token " + token);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.AVATAR,avatar);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.FULLNAME,fullname);
         editor.apply();
     }
 

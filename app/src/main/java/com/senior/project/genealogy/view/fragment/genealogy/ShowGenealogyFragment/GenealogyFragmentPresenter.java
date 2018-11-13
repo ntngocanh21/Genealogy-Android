@@ -1,9 +1,7 @@
 package com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment;
 
 import android.support.v7.widget.RecyclerView;
-
 import com.senior.project.genealogy.response.Genealogy;
-
 import java.util.List;
 
 public interface GenealogyFragmentPresenter {

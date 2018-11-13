@@ -13,24 +13,21 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<RecyclerViewItemBranchAdapter.RecyclerViewHolder>{
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private List<Branch> mBranches = new ArrayList<>();
+    private List<Branch> mBranches;
 
     public RecyclerViewItemBranchAdapter(Context mContext, FragmentManager mFragmentManager, List<Branch> mBranches) {
         this.mContext = mContext;

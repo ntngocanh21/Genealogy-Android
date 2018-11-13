@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -33,7 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentView,RecyclerItemBranchTouchHelper.RecyclerItemTouchHelperListener{
 
     @BindView(R.id.recyclerViewBranch)
@@ -41,6 +41,12 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
 
     @BindView(R.id.spGenealogy)
     Spinner spGenealogy;
+
+    @BindView(R.id.txtNotice)
+    TextView txtNotice;
+
+    @BindView(R.id.txtNoticeBranch)
+    TextView txtNoticeBranch;
 
     RecyclerViewItemBranchAdapter mRcvAdapter;
     List<Branch> branches;
@@ -68,21 +74,24 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
     }
 
     public void addItemsOnSpinnerGenealogy(List<Genealogy> genealogyList) {
-        ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
-                showBranch(genealogy.getBranchList());
-            }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-            }
-        });
+        if(genealogyList == null) {
+            recyclerViewBranch.setVisibility(View.GONE);
+            spGenealogy.setVisibility(View.GONE);
+            txtNotice.setVisibility(View.VISIBLE);
+        } else {
+            ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
+                    showBranch(genealogy.getBranchList());
+                }
 
-        spGenealogy.setAdapter(dataAdapter);
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            spGenealogy.setAdapter(dataAdapter);
+        }
     }
 
     @Override
@@ -114,8 +123,13 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
     @Override
     public void showBranch(List<Branch> branchList) {
         branches = new ArrayList<>();
-        for (Branch branch : branchList) {
-            branches.add(branch);
+
+        if(branchList.size() == 0){
+            txtNoticeBranch.setVisibility(View.VISIBLE);
+        }
+        else {
+            txtNoticeBranch.setVisibility(View.GONE);
+            branches.addAll(branchList);
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -165,5 +179,8 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
     @Override
     public void deleteItemBranch(RecyclerView.ViewHolder viewHolder) {
         mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
+        if (mRcvAdapter.getItemCount() == 0){
+            txtNoticeBranch.setVisibility(View.VISIBLE);
+        }
     }
 }

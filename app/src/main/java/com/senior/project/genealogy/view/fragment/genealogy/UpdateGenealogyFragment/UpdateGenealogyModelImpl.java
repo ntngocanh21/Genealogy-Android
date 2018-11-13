@@ -1,18 +1,10 @@
 package com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragment;
 
-
-
-import android.util.Log;
-import android.widget.Toast;
-
 import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.Genealogy;
-import com.senior.project.genealogy.response.GenealogyResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.GenealogyApi;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragmentPresenter;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;

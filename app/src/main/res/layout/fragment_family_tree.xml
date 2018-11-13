@@ -14,6 +14,14 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <TextView
+            android:id="@+id/txtNotice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="You didn't have any genealogy. \nPlease create a genealogy first."
+            android:gravity="center"
+            android:visibility="gone"/>
+
         <Spinner
             android:id="@+id/spGenealogy"
             android:layout_width="match_parent"
@@ -26,9 +34,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/txtNoticeBranch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Your genealody didn't have any family tree. \nPlease create a new branch."
+                android:gravity="center"
+                android:visibility="gone"/>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewBranch"
                     android:overScrollMode="never"

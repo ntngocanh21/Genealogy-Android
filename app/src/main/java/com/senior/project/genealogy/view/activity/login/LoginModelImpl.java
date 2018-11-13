@@ -32,7 +32,8 @@ public class LoginModelImpl implements LoginModel {
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
                         mLoginPresenter.loginSuccess(String.valueOf(loginResponse.getError().getDescription()));
-                        mLoginPresenter.saveToken(String.valueOf(loginResponse.getToken()));
+                        mLoginPresenter.saveUser(String.valueOf(loginResponse.getToken()), String.valueOf(loginResponse.getAvatar()),
+                                String.valueOf(loginResponse.getFullname()));
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
                         mLoginPresenter.showToast(String.valueOf(loginResponse.getError().getDescription()));

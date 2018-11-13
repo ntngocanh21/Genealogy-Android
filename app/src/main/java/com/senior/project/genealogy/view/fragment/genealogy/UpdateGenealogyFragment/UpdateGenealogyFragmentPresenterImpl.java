@@ -1,12 +1,6 @@
 package com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragment;
 
 import com.senior.project.genealogy.response.Genealogy;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragmentPresenter;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragmentView;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyModel;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyModelImpl;
-
-import java.util.List;
 
 public class UpdateGenealogyFragmentPresenterImpl implements UpdateGenealogyFragmentPresenter {
 

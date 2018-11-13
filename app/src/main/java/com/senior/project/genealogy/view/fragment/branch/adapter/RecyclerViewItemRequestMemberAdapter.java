@@ -54,14 +54,14 @@ public class RecyclerViewItemRequestMemberAdapter extends RecyclerView.Adapter<R
         holder.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranch(token, new UserBranchPermission(memberUsername, branchId), user, position);
+                mDetailMemberRequestBranchFragmentPresenter.acceptRequestMemberOfBranch(token, new UserBranchPermission(memberUsername, branchId), user, holder.getAdapterPosition());
             }
         });
 
         holder.btnDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDetailMemberRequestBranchFragmentPresenter.declineRequestMemberOfBranch(token, new UserBranchPermission(memberUsername, branchId), position);
+                mDetailMemberRequestBranchFragmentPresenter.declineRequestMemberOfBranch(token, new UserBranchPermission(memberUsername, branchId), holder.getAdapterPosition());
             }
         });
     }

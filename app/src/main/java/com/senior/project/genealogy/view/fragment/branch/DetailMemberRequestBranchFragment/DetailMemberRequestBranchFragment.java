@@ -17,8 +17,6 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.fragment.branch.CreateBranchFragment.CreateBranchFragment;
-import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemRequestMemberAdapter;
 
 import java.util.ArrayList;
@@ -50,17 +48,11 @@ public class DetailMemberRequestBranchFragment extends Fragment implements Detai
         ButterKnife.bind(this, view);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         branch = (Branch) getArguments().getSerializable("branch");
         UserBranchPermission userBranchPermission = new UserBranchPermission(false, branch.getId());
         detailMemberRequestBranchFragmentPresenterImpl = new DetailMemberRequestBranchFragmentPresenterImpl(this);
         detailMemberRequestBranchFragmentPresenterImpl.getRequestMemberOfBranch(token, userBranchPermission);
-
+        return view;
     }
 
     @Override

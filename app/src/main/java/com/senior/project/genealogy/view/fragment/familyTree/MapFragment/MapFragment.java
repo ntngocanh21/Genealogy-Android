@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -28,7 +26,6 @@ import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogProfile.DialogProfileFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,6 +48,9 @@ public class MapFragment extends Fragment implements MapFragmentView{
 
     @BindView(R.id.addNode)
     FloatingActionButton addNode;
+
+    @BindView(R.id.txtNotice)
+    TextView txtNotice;
 
     private MapFragmentPresenterImpl mapFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -79,9 +79,10 @@ public class MapFragment extends Fragment implements MapFragmentView{
     public void showMap(List<People> peopleList){
 
         if(peopleList.size() == 0){
-            showToast("Don't have any node");
+            txtNotice.setVisibility(View.VISIBLE);
             addNode.setVisibility(View.VISIBLE);
         }else {
+            txtNotice.setVisibility(View.GONE);
             graph = new Graph();
             if (peopleList.size() == 1){
                 Node node = new Node(peopleList.get(0));
@@ -103,7 +104,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
     public void deletePeople(int peopleId) {
         graph.removeNode(findNode(graph, peopleId));
         if (graph.getNodes().size() == 0){
-            showToast("Don't have any node");
+            txtNotice.setVisibility(View.VISIBLE);
             addNode.setVisibility(View.VISIBLE);
         }
     }
@@ -259,6 +260,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 graph.addNode(new Node(people));
                 setupAdapter(graph);
                 addNode.setVisibility(View.GONE);
+                txtNotice.setVisibility(View.GONE);
             }
         });
     }

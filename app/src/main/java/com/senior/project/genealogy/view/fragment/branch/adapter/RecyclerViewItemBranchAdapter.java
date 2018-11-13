@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
@@ -29,7 +28,7 @@ import java.util.List;
 public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<RecyclerViewItemBranchAdapter.RecyclerViewHolder>{
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private List<Branch> mBranches = new ArrayList<>();
+    private List<Branch> mBranches;
 
     public RecyclerViewItemBranchAdapter(Context mContext, FragmentManager mFragmentManager, List<Branch> mBranches) {
         this.mContext = mContext;

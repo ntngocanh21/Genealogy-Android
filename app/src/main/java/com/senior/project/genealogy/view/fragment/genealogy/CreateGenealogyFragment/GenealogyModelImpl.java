@@ -1,7 +1,5 @@
 package com.senior.project.genealogy.view.fragment.genealogy.CreateGenealogyFragment;
 
-
-
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.GenealogyResponse;
 import com.senior.project.genealogy.service.ApplicationApi;

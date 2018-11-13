@@ -40,7 +40,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void saveToken(String token) {
-        mLoginView.saveToken(token);
+    public void saveUser(String token, String avatar, String fullname) {
+        mLoginView.saveUser(token, avatar, fullname);
     }
 }

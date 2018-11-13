@@ -1,15 +1,20 @@
 package com.senior.project.genealogy.view.activity.register;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
@@ -19,6 +24,9 @@ import com.senior.project.genealogy.view.activity.login.LoginActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,19 +35,37 @@ import butterknife.OnTextChanged;
 public class RegisterActivity extends AppCompatActivity implements RegisterView{
 
     @BindView(R.id.username)
-    EditText edtUsername;
+    TextInputEditText edtUsername;
 
     @BindView(R.id.password)
-    EditText edtPassword;
+    TextInputEditText edtPassword;
 
     @BindView(R.id.fullname)
-    EditText edtFullname;
+    TextInputEditText edtFullname;
+
+    @BindView(R.id.address)
+    TextInputEditText edtAddress;
+
+    @BindView(R.id.mail)
+    TextInputEditText edtMail;
+
+    @BindView(R.id.birthday)
+    TextInputEditText edtBirthday;
+
+    @BindView(R.id.radioGender)
+    RadioGroup radioGender;
+
+    @BindView(R.id.radioMale)
+    RadioButton radioMale;
+
+    @BindView(R.id.radioFemale)
+    RadioButton radioFemale;
+
+    @BindView(R.id.btnBack)
+    ImageButton btnBack;
 
     @BindView(R.id.btnRegister)
     Button btnRegister;
-
-    @BindView(R.id.txtLogin)
-    TextView txtLogin;
 
     private RegisterPresenterImpl registerPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -68,22 +94,58 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
 
     }
 
-    @OnClick({R.id.btnRegister, R.id.txtLogin})
+    @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
+    @OnClick({R.id.btnRegister, R.id.btnBack, R.id.birthday})
     public void onClick(View view)
     {
         switch(view.getId())
         {
             case R.id.btnRegister:
                 String password = BCrypt.hashpw(edtPassword.getText().toString(), BCrypt.gensalt());
-                User user = new User(edtUsername.getText().toString(), password, edtFullname.getText().toString());
+                User user = new User();
+                user.setUsername(edtUsername.getText().toString());
+                user.setPassword(password);
+                user.setFullname(edtFullname.getText().toString());
+                user.setMail(edtMail.getText().toString());
+                user.setAddress(edtAddress.getText().toString());
+                user.setBirthday(edtBirthday.getText().toString());
+
+                if(radioFemale.isChecked()){
+                    user.setGender(false);
+                } else {
+                    user.setGender(true);
+                }
                 registerPresenterImpl.register(user);
                 break;
-
-            case R.id.txtLogin:
+            case R.id.btnBack:
                 showActivity(LoginActivity.class);
+                break;
+            case R.id.birthday:
+                selectDate();
                 break;
         }
     }
+
+    private Calendar mCalendar;
+
+    @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
+    private void selectDate(){
+        mCalendar = Calendar.getInstance();
+        int day = mCalendar.get(Calendar.DATE);
+        int month = mCalendar.get(Calendar.MONTH);
+        int year = mCalendar.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                mCalendar.set(year, month, dayOfMonth);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                edtBirthday.setText(simpleDateFormat.format(mCalendar.getTime()));
+            }
+        }, year, month, day);
+        datePickerDialog.show();
+    }
+
     @Override
     public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -118,10 +180,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     }
 
     @Override
-    public void saveToken(String token) {
+    public void saveUser(String token, String avatar, String fullname) {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("token","Token " + token);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.TOKEN,"Token " + token);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.AVATAR,avatar);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.FULLNAME,fullname);
         editor.apply();
     }
 

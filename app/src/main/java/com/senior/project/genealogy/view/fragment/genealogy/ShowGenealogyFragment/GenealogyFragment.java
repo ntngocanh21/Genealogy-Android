@@ -202,5 +202,8 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     public void deleteItemGenealogy(RecyclerView.ViewHolder viewHolder){
         mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
+        if (mRcvAdapter.getItemCount() == 0){
+            txtNotice.setVisibility(View.VISIBLE);
+        }
     }
 }

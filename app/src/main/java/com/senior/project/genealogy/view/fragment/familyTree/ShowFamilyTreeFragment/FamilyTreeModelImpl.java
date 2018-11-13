@@ -37,7 +37,8 @@ public class FamilyTreeModelImpl implements FamilyTreeModel {
                         mFamilyTreeFragmentPresenter.getGenealogiesByUsernameSuccess(genealogyResponse.getGenealogyList());
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
-                        mFamilyTreeFragmentPresenter.showToast(String.valueOf(genealogyResponse.getError().getDescription()));
+                        mFamilyTreeFragmentPresenter.getGenealogiesByUsernameSuccess(genealogyResponse.getGenealogyList());
+//                        mFamilyTreeFragmentPresenter.showToast(String.valueOf(genealogyResponse.getError().getDescription()));
                         break;
                     default:
                         mFamilyTreeFragmentPresenter.getGenealogiesByUsernameFalse();
