@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.senior.project.genealogy.util.Config;
+import com.senior.project.genealogy.util.NotificationUtils;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 
 import org.json.JSONException;

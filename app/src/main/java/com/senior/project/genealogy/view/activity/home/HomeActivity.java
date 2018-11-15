@@ -68,15 +68,14 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     protected void initAttributes() {
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         mDrawerLayout.addDrawerListener(this);
         toggle.syncState();
+        mToolbar.setNavigationIcon(R.drawable.done);
 
         mNavigationView.setNavigationItemSelectedListener(this);
-//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-//        String fullname = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.FULLNAME, Constants.EMPTY_STRING);
 
         Fragment mFragment = new SearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);

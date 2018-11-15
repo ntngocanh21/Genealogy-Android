@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.firebase;
+package com.senior.project.genealogy.util;
 
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.util.Config;
 
 import java.io.IOException;
 import java.io.InputStream;

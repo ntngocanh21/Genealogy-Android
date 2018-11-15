@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.firebase;
+package com.senior.project.genealogy.util;
 
 /**
  * Created by lorence on 13/11/2018.
