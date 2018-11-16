@@ -41,9 +41,16 @@ public class Utils {
     }
 
     public static boolean isValidUsername(String username) {
+        /*
+         *  English uppercase characters (A – Z)
+         *  English lowercase characters (a – z)
+         *  Base 10 digits (0 – 9)
+         *  Length >=6
+         *  Unicode characters
+         */
         Pattern pattern;
         Matcher matcher;
-        final String USERNAME_PATTERN = "/\\A(?!.*[:;]-\\))[ -~]+\\z/'";
+        final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{6,}$";
         pattern = Pattern.compile(USERNAME_PATTERN);
         matcher = pattern.matcher(username);
         return matcher.matches();
