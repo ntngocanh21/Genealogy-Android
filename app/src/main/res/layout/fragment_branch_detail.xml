@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             app:tabTextColor="@color/colorPrimaryDark"
             android:background="@color/white"
+            android:elevation="4dp"
             />
 
     </LinearLayout>

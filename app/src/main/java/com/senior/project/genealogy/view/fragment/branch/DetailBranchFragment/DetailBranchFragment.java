@@ -7,6 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
@@ -56,12 +60,19 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         });
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
+//        setupTabIcons();
         return view;
     }
 
     public void updateMember(User user){
         mMemberBranchFrg.updateMember(user);
     }
+
+//    private void setupTabIcons() {
+//        mTabLayout.getTabAt(0).setIcon(Integer.valueOf(R.drawable.ic_infor));
+//        mTabLayout.getTabAt(1).setIcon(Integer.valueOf(R.drawable.ic_member));
+//        mTabLayout.getTabAt(2).setIcon(Integer.valueOf(R.drawable.ic_request));
+//    }
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter.TitleStringUtils titleStringUtils = new SectionsPageAdapter.TitleStringUtils(getActivity());
