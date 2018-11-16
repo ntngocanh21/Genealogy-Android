@@ -107,12 +107,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         switch(view.getId())
         {
             case R.id.btnLogin:
-                /*if (isValidData()) {*/
+                if (isValidData()) {
                     resetValidDataonFields();
                     User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                     loginPresenterImpl.login(user);
                     saveAccount(user.getUsername(), user.getPassword());
-                /*}*/
+                }
                 break;
             case R.id.lnSignup:
                 showActivity(RegisterActivity.class);
