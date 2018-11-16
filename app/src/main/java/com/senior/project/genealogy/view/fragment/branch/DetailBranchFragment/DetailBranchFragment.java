@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,6 +62,14 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
 //        setupTabIcons();
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        TextView tv1 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(0)).getChildAt(1));
+        tv1.setScaleY(-1);
+        TextView tv2 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(1)).getChildAt(1));
+        tv2.setScaleY(-1);
+        TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
+        tv3.setScaleY(-1);
         return view;
     }
 
