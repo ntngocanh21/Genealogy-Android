@@ -26,4 +26,6 @@ public class Constants {
         public static final int OBJECT_NOT_FOUND = 404;
         public static final int UNAUTHORIZED = 401;
     }
+
+    public static final int DOUBLE_CLICK_TIME_DELTA = 400;
 }

@@ -5,21 +5,26 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.login.LoginActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -73,8 +78,25 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            this.getWindow().setStatusBarColor(Color.WHITE);
+        }
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+        if (edtMail != null)
+            edtMail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    if (i == EditorInfo.IME_ACTION_DONE ||
+                            keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                    keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                        Utils.hiddenKeyBoard(RegisterActivity.this);
+                        return true;
+                    }
+                    return false;
+                }
+            });
         registerPresenterImpl = new RegisterPresenterImpl(this);
     }
 
@@ -86,9 +108,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         String fullname = edtFullname.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty() || fullname.isEmpty()){
+            btnRegister.setBackgroundResource(R.color.btn_disable_login);
             btnRegister.setEnabled(false);
         }
         else {
+            btnRegister.setBackgroundResource(R.color.btn_login);
             btnRegister.setEnabled(true);
         }
 
@@ -98,24 +122,28 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     @OnClick({R.id.btnRegister, R.id.btnBack, R.id.birthday})
     public void onClick(View view)
     {
+        if (Utils.isDoubleClick()) return;
         switch(view.getId())
         {
             case R.id.btnRegister:
-                String password = BCrypt.hashpw(edtPassword.getText().toString(), BCrypt.gensalt());
-                User user = new User();
-                user.setUsername(edtUsername.getText().toString());
-                user.setPassword(password);
-                user.setFullname(edtFullname.getText().toString());
-                user.setMail(edtMail.getText().toString());
-                user.setAddress(edtAddress.getText().toString());
-                user.setBirthday(edtBirthday.getText().toString());
+                if (isValidData()) {
+                    resetValidDataFields();
+                    String password = BCrypt.hashpw(edtPassword.getText().toString(), BCrypt.gensalt());
+                    User user = new User();
+                    user.setUsername(edtUsername.getText().toString());
+                    user.setPassword(password);
+                    user.setFullname(edtFullname.getText().toString());
+                    user.setMail(edtMail.getText().toString());
+                    user.setAddress(edtAddress.getText().toString());
+                    user.setBirthday(edtBirthday.getText().toString());
 
-                if(radioFemale.isChecked()){
-                    user.setGender(false);
-                } else {
-                    user.setGender(true);
+                    if(radioFemale.isChecked()){
+                        user.setGender(false);
+                    } else {
+                        user.setGender(true);
+                    }
+                    registerPresenterImpl.register(user);
                 }
-                registerPresenterImpl.register(user);
                 break;
             case R.id.btnBack:
                 showActivity(LoginActivity.class);
@@ -124,6 +152,29 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
                 selectDate();
                 break;
         }
+    }
+
+    private boolean isValidData() {
+        boolean errorOccurred = false;
+        if (!Utils.isValidUsername(edtUsername.getText().toString())) {
+            edtUsername.requestFocus();
+            edtUsername.setError(getString(R.string.error_username));
+            errorOccurred = true;
+        } else if (!Utils.isValidPassword(edtPassword.getText().toString())) {
+            edtPassword.requestFocus();
+            edtPassword.setError(getString(R.string.error_password));
+            errorOccurred = true;
+        } else if (edtFullname.getText().toString().length() == 0) {
+            edtFullname.requestFocus();
+            edtFullname.setError(getString(R.string.error_fullname));
+            errorOccurred = true;
+        }
+        return !errorOccurred;
+    }
+
+    private void resetValidDataFields() {
+        edtUsername.setError(null);
+        edtPassword.setError(null);
     }
 
     private Calendar mCalendar;

@@ -107,12 +107,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         switch(view.getId())
         {
             case R.id.btnLogin:
-                if (isValidData()) {
+                /*if (isValidData()) {*/
                     resetValidDataonFields();
                     User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                     loginPresenterImpl.login(user);
                     saveAccount(user.getUsername(), user.getPassword());
-                }
+                /*}*/
                 break;
             case R.id.lnSignup:
                 showActivity(RegisterActivity.class);
@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
     }
 
-    public boolean isValidData() {
+    private boolean isValidData() {
         boolean errorOccurred = false;
         if (!Utils.isValidUsername(edtUsername.getText().toString())) {
             edtUsername.requestFocus();
@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         return !errorOccurred;
     }
 
-    public void resetValidDataonFields() {
+    private void resetValidDataonFields() {
         edtUsername.setError(null);
         edtPassword.setError(null);
     }

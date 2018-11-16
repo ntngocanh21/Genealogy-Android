@@ -29,6 +29,7 @@
 
     <string name="error_username">Invalid username format</string>
     <string name="error_password">Your password is not strong enough. Make sure it follows the rules above</string>
+    <string name="error_fullname">Fullname Field is Empty</string>
     <string name="sign_up">Sign up!</string>
     <string name="label_register_account">Don\'t have an account?</string>
     <string name="btn_login">Login</string>

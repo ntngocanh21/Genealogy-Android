@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+    private static long sLastClickTime = 0;
+
     public static void hiddenKeyBoard(Activity activity) {
         View view = activity.getCurrentFocus();
         if (view != null) {
@@ -54,6 +56,16 @@ public class Utils {
         pattern = Pattern.compile(USERNAME_PATTERN);
         matcher = pattern.matcher(username);
         return matcher.matches();
+    }
+
+    public static boolean isDoubleClick() {
+        long clickTime = System.currentTimeMillis();
+        if (clickTime - sLastClickTime < Constants.DOUBLE_CLICK_TIME_DELTA) {
+            sLastClickTime = clickTime;
+            return true;
+        }
+        sLastClickTime = clickTime;
+        return false;
     }
 
 }
