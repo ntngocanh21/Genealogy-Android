@@ -24,15 +24,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25dp"
+                android:textColor="@color/black"
                 android:paddingBottom="10dp"
                 android:layout_gravity="center"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Branch's name:" />
+                android:text="Branch's name:"
+                android:textSize="18dp"
+                android:paddingLeft="3dp"
+                android:textColor="@color/colorPrimaryDark" />
 
             <EditText
                 android:id="@+id/edtBranchName"
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -40,34 +46,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin:" />
+                    android:text="Admin:"
+                    android:textSize="18dp"
+                    android:paddingLeft="3dp"
+                    android:textColor="@color/colorPrimaryDark" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <EditText
                         android:id="@+id/edtUsername"
+                        android:textSize="18dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
-                    <Button
+                    <ImageButton
+                        android:id="@+id/btnFind"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Find"
-                        android:id="@+id/btnFind"/>
+                        android:layout_height="match_parent"
+                        android:background="@drawable/radius_button"
+                        android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        android:src="@drawable/ic_find"/>
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description:" />
+                android:text="Description:"
+                android:textSize="18dp"
+                android:paddingLeft="3dp"
+                android:textColor="@color/colorPrimaryDark" />
 
             <EditText
                 android:id="@+id/edtDescription"
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top|left"
@@ -86,7 +105,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnCreateBranch"
                 android:enabled="false"
-                android:text="OK"/>
+                android:textColor="@color/white"
+                android:text="OK"
+                android:background="@drawable/radius_button"/>
         </LinearLayout>
 
     </LinearLayout>

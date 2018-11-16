@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
@@ -29,9 +30,6 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     @BindView(R.id.txtBranchName)
     TextView txtBranchName;
 
-    @BindView(R.id.txtBranchOwner)
-    TextView txtBranchOwner;
-
     @BindView(R.id.txtBranchDate)
     TextView txtBranchDate;
 
@@ -39,7 +37,7 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     TextView txtPeople;
 
     @BindView(R.id.btnFamilyTree)
-    Button btnFamilyTree;
+    ImageButton btnFamilyTree;
 
     @BindView(R.id.btnEditBranch)
     FloatingActionButton btnEditBranch;

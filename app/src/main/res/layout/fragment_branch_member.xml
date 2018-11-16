@@ -15,7 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create notification"
-            android:id="@+id/btnCreateNotification"/>
+            android:textColor="@color/black"
+            android:id="@+id/btnCreateNotification"
+            android:background="@drawable/radius_button_border"
+            android:layout_marginBottom="10dp"/>
 
         <ScrollView
             android:layout_width="match_parent"

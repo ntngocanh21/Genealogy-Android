@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +42,9 @@ import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFr
 import butterknife.BindView;
 
 public class HomeActivity extends BaseActivity implements HomeView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
+
+    @BindView(R.id.actionBar)
+    AppBarLayout actionBar;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -73,10 +78,8 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         mDrawerLayout.addDrawerListener(toggle);
         mDrawerLayout.addDrawerListener(this);
         toggle.syncState();
-
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mNavigationView.setNavigationItemSelectedListener(this);
-//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-//        String fullname = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.FULLNAME, Constants.EMPTY_STRING);
 
         Fragment mFragment = new SearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);

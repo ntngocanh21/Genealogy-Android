@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,7 +22,6 @@ import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.De
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,6 +57,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         holder.txtBranchName.setText(branchName);
         holder.txtNumberOfPeople.setText(String.valueOf(member));
         holder.txtBranchDate.setText(date);
+        holder.imgRole.setImageResource(R.drawable.ic_admin);
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +92,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         TextView txtBranchName;
         TextView txtNumberOfPeople;
         TextView txtBranchDate;
+        ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
 
@@ -99,6 +101,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             txtBranchName = (TextView) itemView.findViewById(R.id.txtBranchName);
             txtNumberOfPeople = (TextView) itemView.findViewById(R.id.txtNumberOfPeople);
             txtBranchDate = (TextView) itemView.findViewById(R.id.txtBranchDate);
+            imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
             line = (FrameLayout) itemView.findViewById(R.id.lineBranch);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.viewBackgroundBranch);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.viewForegroundBranch);

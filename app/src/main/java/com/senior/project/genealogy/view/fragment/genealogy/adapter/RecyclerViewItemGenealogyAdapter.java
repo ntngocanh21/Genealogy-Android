@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         holder.txtGenealogyName.setText(genealogyName);
         holder.txtGenealogyBranches.setText(String.valueOf(genealogyBranch));
         holder.txtGenealogyDate.setText(date);
+        holder.imgRole.setImageResource(R.drawable.ic_admin);
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +101,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         TextView txtGenealogyName;
         TextView txtGenealogyBranches;
         TextView txtGenealogyDate;
+        ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
 
@@ -107,6 +110,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
             txtGenealogyName = (TextView) itemView.findViewById(R.id.txtGenealogyName);
             txtGenealogyBranches = (TextView) itemView.findViewById(R.id.txtGenealogyBranches);
             txtGenealogyDate = (TextView) itemView.findViewById(R.id.txtGenealogyDate);
+            imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
             line = (FrameLayout) itemView.findViewById(R.id.line);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.view_background);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.view_foreground);

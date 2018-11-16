@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:textSize="18dp"
-            android:text="fsdfsa"/>
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/btnAccept"

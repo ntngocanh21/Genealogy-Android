@@ -72,9 +72,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         if (username.isEmpty() || password.isEmpty()){
             btnLogin.setEnabled(false);
+            btnLogin.getBackground().setAlpha(64);
         }
         else {
             btnLogin.setEnabled(true);
+            btnLogin.getBackground().setAlpha(255);
         }
     }
     @OnClick({R.id.btnLogin, R.id.lnSignup})
