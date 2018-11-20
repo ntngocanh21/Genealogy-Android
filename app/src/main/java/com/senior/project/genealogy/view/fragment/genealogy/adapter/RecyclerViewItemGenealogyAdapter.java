@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 
@@ -47,6 +48,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
         final int genealogyId = data.get(position).getId();
+
         final String genealogyName = data.get(position).getName();
         final String genealogyHistory = data.get(position).getHistory();
         final String genealogyOwner = data.get(position).getOwner();
@@ -59,14 +61,23 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         holder.txtGenealogyName.setText(genealogyName);
         holder.txtGenealogyBranches.setText(String.valueOf(genealogyBranch));
         holder.txtGenealogyDate.setText(date);
-        holder.imgRole.setImageResource(R.drawable.ic_admin);
+
+        final int role = data.get(position).getRole();
+        switch (role){
+            case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_admin);
+                break;
+            case Constants.ROLE.MEMBER_ROLE:
+                break;
+        }
+
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
                 Bundle bundle = new Bundle();
-                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch);
+                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
                 bundle.putSerializable("genealogy", genealogy);
                 mFragment.setArguments(bundle);
 

@@ -19,6 +19,17 @@ public class SectionsPageAdapter extends FragmentStatePagerAdapter {
     private DetailMemberRequestBranchFragment mMemberRequestBranchFrg;
     private TitleStringUtils titles;
 
+    public SectionsPageAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
+    public SectionsPageAdapter(FragmentManager fragmentManager, TitleStringUtils titleStringUtils, DetailInformationBranchFragment informationBranchFrg, DetailMemberBranchFragment memberBranchFrg) {
+        super(fragmentManager);
+        titles = titleStringUtils;
+        mInformationBranchFrg =   informationBranchFrg;
+        mMemberBranchFrg = memberBranchFrg;
+    }
+
     public SectionsPageAdapter(FragmentManager fragmentManager, TitleStringUtils titleStringUtils, DetailInformationBranchFragment informationBranchFrg, DetailMemberBranchFragment memberBranchFrg, DetailMemberRequestBranchFragment memberRequestBranchFrg) {
         super(fragmentManager);
         titles = titleStringUtils;

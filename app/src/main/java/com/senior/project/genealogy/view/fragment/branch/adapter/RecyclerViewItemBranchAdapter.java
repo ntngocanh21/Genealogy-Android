@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 
@@ -57,14 +58,25 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         holder.txtBranchName.setText(branchName);
         holder.txtNumberOfPeople.setText(String.valueOf(member));
         holder.txtBranchDate.setText(date);
-        holder.imgRole.setImageResource(R.drawable.ic_admin);
+
+        final int role = mBranches.get(position).getRole();
+        switch (role){
+            case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_admin);
+                break;
+            case Constants.ROLE.MOD_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_mod);
+                break;
+            case Constants.ROLE.MEMBER_ROLE:
+                break;
+        }
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DetailBranchFragment mFragment = new DetailBranchFragment();
                 Bundle bundle = new Bundle();
-                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member);
+                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member, role);
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);

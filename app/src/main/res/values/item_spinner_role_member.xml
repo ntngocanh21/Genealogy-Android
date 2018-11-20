@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="role_member_array">
-        <item>Admin</item>
+        <item>Mod</item>
         <item>Member</item>
     </string-array>
 </resources>

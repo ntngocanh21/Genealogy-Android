@@ -17,7 +17,7 @@ public class User implements Serializable {
 
     @SerializedName("role")
     @Expose
-    private String role;
+    private Integer role;
 
     @SerializedName("fullname")
     @Expose
@@ -68,18 +68,18 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String username, String password, String role, String fullname) {
+    public User(String username, String password, Integer role, String fullname) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.fullname = fullname;
     }
 
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 

@@ -72,6 +72,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch, container, false);
+
         ButterKnife.bind(this, view);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
@@ -97,6 +98,11 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                 {
                     Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
+                    if(genealogy.getRole() == Constants.ROLE.ADMIN_ROLE){
+                        btnCreateBranch.setVisibility(View.VISIBLE);
+                    } else {
+                        btnCreateBranch.setVisibility(View.GONE);
+                    }
                     showBranch(genealogy.getBranchList());
                     //branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
                 }

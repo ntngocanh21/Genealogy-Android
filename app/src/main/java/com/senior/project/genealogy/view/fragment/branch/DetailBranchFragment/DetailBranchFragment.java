@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
@@ -51,25 +52,36 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             mInformationBranchFrg = new DetailInformationBranchFragment();
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
-        if (mMemberRequestBranchFrg == null)
-            mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
-        mMemberRequestBranchFrg.attackInterface(new DetailMemberRequestBranchFragment.RequestMemberInterface() {
-            @Override
-            public void sendDataToListMember(User member) {
-                updateMember(member);
-            }
-        });
-        setupViewPager(mViewPager);
-        mTabLayout.setupWithViewPager(mViewPager);
-//        setupTabIcons();
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        TextView tv1 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(0)).getChildAt(1));
-        tv1.setScaleY(-1);
-        TextView tv2 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(1)).getChildAt(1));
-        tv2.setScaleY(-1);
-        TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
-        tv3.setScaleY(-1);
+        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+            if (mMemberRequestBranchFrg == null)
+                mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
+            mMemberRequestBranchFrg.attackInterface(new DetailMemberRequestBranchFragment.RequestMemberInterface() {
+                @Override
+                public void sendDataToListMember(User member) {
+                    updateMember(member);
+                }
+            });
+            setupViewPager(mViewPager);
+            mTabLayout.setupWithViewPager(mViewPager);
+            mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            TextView tv1 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(0)).getChildAt(1));
+            tv1.setScaleY(-1);
+            TextView tv2 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(1)).getChildAt(1));
+            tv2.setScaleY(-1);
+            TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
+            tv3.setScaleY(-1);
+        } else {
+            setupViewPager(mViewPager);
+            mTabLayout.setupWithViewPager(mViewPager);
+            mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            TextView tv1 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(0)).getChildAt(1));
+            tv1.setScaleY(-1);
+            TextView tv2 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(1)).getChildAt(1));
+            tv2.setScaleY(-1);
+        }
         return view;
     }
 
@@ -85,12 +97,19 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter.TitleStringUtils titleStringUtils = new SectionsPageAdapter.TitleStringUtils(getActivity());
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg, mMemberRequestBranchFrg);
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
         Bundle bundle = new Bundle();
         bundle.putSerializable("branch", branch);
-        mInformationBranchFrg.setArguments(bundle);
-        mMemberBranchFrg.setArguments(bundle);
-        mMemberRequestBranchFrg.setArguments(bundle);
+        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg, mMemberRequestBranchFrg);
+            mInformationBranchFrg.setArguments(bundle);
+            mMemberBranchFrg.setArguments(bundle);
+            mMemberRequestBranchFrg.setArguments(bundle);
+        } else {
+            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg);
+            mInformationBranchFrg.setArguments(bundle);
+            mMemberBranchFrg.setArguments(bundle);
+        }
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
     }

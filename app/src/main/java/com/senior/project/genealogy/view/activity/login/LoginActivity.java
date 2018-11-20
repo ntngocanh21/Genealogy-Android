@@ -41,12 +41,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private LoginPresenterImpl loginPresenterImpl;
     private ProgressDialog mProgressDialog;
+    private User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
         checkAccount();
     }
@@ -59,6 +58,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         {
             User user = new User(username, password);
             loginPresenterImpl.login(user);
+        } else {
+            setContentView(R.layout.activity_login);
+            ButterKnife.bind(this);
         }
     }
 
@@ -85,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         switch(view.getId())
         {
             case R.id.btnLogin:
-                User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
+                user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                 loginPresenterImpl.login(user);
                 saveAccount(user.getUsername(), user.getPassword());
                 break;
@@ -152,7 +154,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         builder.setPositiveButton("retry", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                 loginPresenterImpl.login(user);
             }
         });
