@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.register.RegisterActivity;
 
 import butterknife.BindView;
@@ -27,6 +31,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
+
     @BindView(R.id.username)
     EditText edtUsername;
 
@@ -41,26 +46,42 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private LoginPresenterImpl loginPresenterImpl;
     private ProgressDialog mProgressDialog;
-    private User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginPresenterImpl = new LoginPresenterImpl(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+        }
         checkAccount();
     }
 
     private void checkAccount(){
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, "");
-        String password = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.PASSWORD, "");
-        if(!username.equals("") && !password.equals(""))
+        String username = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, Constants.EMPTY_STRING);
+        String password = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.PASSWORD, Constants.EMPTY_STRING);
+        if(!username.equals(Constants.EMPTY_STRING) && !password.equals(Constants.EMPTY_STRING))
         {
             User user = new User(username, password);
             loginPresenterImpl.login(user);
         } else {
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
+            if (edtPassword != null)
+                edtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if (i == EditorInfo.IME_ACTION_DONE ||
+                                keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                        keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            Utils.hiddenKeyBoard(LoginActivity.this);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
         }
     }
 
@@ -68,34 +89,55 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
-
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty()){
+            btnLogin.setBackgroundResource(R.color.btn_disable_login);
             btnLogin.setEnabled(false);
-            btnLogin.getBackground().setAlpha(64);
         }
         else {
+            btnLogin.setBackgroundResource(R.color.btn_login);
             btnLogin.setEnabled(true);
-            btnLogin.getBackground().setAlpha(255);
         }
     }
     @OnClick({R.id.btnLogin, R.id.lnSignup})
     public void onClick(View view)
     {
+        Utils.hiddenKeyBoard(this);
         switch(view.getId())
         {
             case R.id.btnLogin:
-                user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
-                loginPresenterImpl.login(user);
-                saveAccount(user.getUsername(), user.getPassword());
+                if (isValidData()) {
+                    resetValidDataonFields();
+                    User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
+                    loginPresenterImpl.login(user);
+                    saveAccount(user.getUsername(), user.getPassword());
+                }
                 break;
-
             case R.id.lnSignup:
                 showActivity(RegisterActivity.class);
                 break;
         }
+    }
+
+    private boolean isValidData() {
+        boolean errorOccurred = false;
+        if (!Utils.isValidUsername(edtUsername.getText().toString())) {
+            edtUsername.requestFocus();
+            edtUsername.setError(getString(R.string.error_username));
+            errorOccurred = true;
+        } else if (!Utils.isValidPassword(edtPassword.getText().toString())) {
+            edtPassword.requestFocus();
+            edtPassword.setError(getString(R.string.error_password));
+            errorOccurred = true;
+        }
+        return !errorOccurred;
+    }
+
+    private void resetValidDataonFields() {
+        edtUsername.setError(null);
+        edtPassword.setError(null);
     }
 
     @Override
@@ -107,14 +149,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
-        /**
-         * Activity A => B (finish())
-         * ABCDE => BCDE
-         * ABCD
-         * ABC
-         * AB
-         * A [Login}
-         */
         finish();
     }
 
@@ -154,6 +188,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         builder.setPositiveButton("retry", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                 loginPresenterImpl.login(user);
             }
         });

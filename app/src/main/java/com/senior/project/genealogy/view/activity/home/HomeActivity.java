@@ -10,29 +10,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.login.LoginActivity;
-import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
-import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
@@ -178,13 +173,12 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onDrawerOpened(@NonNull View drawerView) {
-        //getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
     }
 
     @Override

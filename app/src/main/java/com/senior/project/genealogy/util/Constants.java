@@ -2,8 +2,8 @@ package com.senior.project.genealogy.util;
 
 public class Constants {
 
-//    public static String BASE_URL = "http://10.0.2.2:3000/";
-    public static String BASE_URL = " http://192.168.0.24:8080/";
+    public static String BASE_URL = "http://10.0.2.2:3000/";
+//    public static String BASE_URL = " http://192.168.0.24:8080/";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
 
@@ -34,4 +34,6 @@ public class Constants {
         public static final int MEMBER_MOD_ROLE = 4;
         public static final int GUEST_ROLE = 0;
     }
+
+    public static final int DOUBLE_CLICK_TIME_DELTA = 400;
 }

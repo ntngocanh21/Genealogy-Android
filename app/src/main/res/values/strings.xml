@@ -27,4 +27,16 @@
     <string name="tab_title_member">Member</string>
     <string name="tab_title_request">Request</string>
 
+    <string name="error_username">Invalid username format</string>
+    <string name="error_password">Your password is not strong enough. Make sure it follows the rules above</string>
+    <string name="error_fullname">Fullname Field is Empty</string>
+    <string name="sign_up">Sign up!</string>
+    <string name="label_register_account">Don\'t have an account?</string>
+    <string name="btn_login">Login</string>
+    <string name="hint_password">Password</string>
+    <string name="label_username">Username</string>
+
+    <string name="notifications_admin_channel_name">Global channel</string>
+    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
+
 </resources>
