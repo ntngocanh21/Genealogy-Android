@@ -51,7 +51,7 @@ public class SectionsPageAdapter extends FragmentStatePagerAdapter {
         }
 
         public String[] gettitlesAsRoleIsNormal() {
-            return new String[]{mContext.getResources().getString(R.string.tab_title_information), mContext.getString(R.string.tab_title_member), mContext.getResources().getString(R.string.tab_title_request)};
+            return new String[]{mContext.getResources().getString(R.string.tab_title_information), mContext.getString(R.string.tab_title_member)};
         }
     }
 }

@@ -55,7 +55,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
 
-        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
             if (mMemberRequestBranchFrg == null)
                 mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
             mMemberRequestBranchFrg.attackInterface(new DetailMemberRequestBranchFragment.RequestMemberInterface() {
@@ -94,6 +94,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter.TitleStringUtils titleStringUtils = new SectionsPageAdapter.TitleStringUtils(getActivity());
         SectionsPageAdapter adapter;
+        int numPage;
         List<Fragment> arrListFrg = new ArrayList<>();
         Bundle bundle = new Bundle();
         bundle.putSerializable("branch", branch);
@@ -101,20 +102,22 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             arrListFrg.add(mInformationBranchFrg);
             arrListFrg.add(mMemberBranchFrg);
             arrListFrg.add(mMemberRequestBranchFrg);
-            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             mMemberRequestBranchFrg.setArguments(bundle);
+            numPage = titleStringUtils.gettitlesAsRoleIsAdmin().length;
+            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
         } else {
             arrListFrg.add(mInformationBranchFrg);
             arrListFrg.add(mMemberBranchFrg);
-            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
+            numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;
+            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
         }
         adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(numPage);
     }
 
 }
