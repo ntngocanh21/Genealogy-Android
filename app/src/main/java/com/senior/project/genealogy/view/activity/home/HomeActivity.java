@@ -220,15 +220,12 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
-            for(int i = 0; i<fm.getFragments().size(); i++){
+            for(int i = 0; i< fm.getFragments().size(); i++){
                 if(fm.getFragments().get(i) instanceof DetailGenealogyFragment){
                     updateTitleBar(getString(R.string.frg_view_genealogy));
                 }
                 if(fm.getFragments().get(i) instanceof GenealogyFragment){
                     updateTitleBar(getString(R.string.frg_my_genealogy));
-                }
-                if(fm.getFragments().get(i) instanceof DetailGenealogyFragment){
-                    updateTitleBar(getString(R.string.frg_view_genealogy));
                 }
             }
         } else {
