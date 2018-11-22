@@ -24,7 +24,7 @@ public class SearchFragment extends Fragment {
     TabLayout mTabLayout;
 
     public SearchFragment() {
-        // Required empty public constructor
+
     }
 
     @Override

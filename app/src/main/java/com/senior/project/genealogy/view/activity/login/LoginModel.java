@@ -4,5 +4,4 @@ import com.senior.project.genealogy.response.User;
 
 public interface LoginModel {
     void login(User user);
-
 }

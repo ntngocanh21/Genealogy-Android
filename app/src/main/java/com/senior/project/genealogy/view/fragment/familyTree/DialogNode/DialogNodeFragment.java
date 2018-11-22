@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -124,6 +125,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
     @OnClick({R.id.btnNewNode, R.id.btnClose, R.id.edtBirthday, R.id.edtDeathday})
     void onClick(View view) {
+        if (Utils.isDoubleClick())  return;
         switch (view.getId()) {
             case R.id.btnClose:
                 this.dismiss();
@@ -135,7 +137,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                 selectDate(edtDeathday);
                 break;
             case R.id.btnNewNode:
-                Bundle bundle = this.getArguments();
+                if (!isValidData()) return;
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 token = sharedPreferences.getString("token", "");
                 People newPeople = new People();
@@ -193,9 +195,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                 if(!Constants.EMPTY_STRING.equals(edtDeathday.getText().toString())){
                     newPeople.setBirthday(edtDeathday.getText().toString());
                 }
-
-//                newPeople.setImage();
-//                newPeople.setDegree();
 
                 dialogNodeFragmentPresenterImpl = new DialogNodeFragmentPresenterImpl(this);
                 dialogNodeFragmentPresenterImpl.createPeople(newPeople ,token);
@@ -278,6 +277,16 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     public void closeDialogFragment(List<People> peopleList) {
         mCreateNodeInterface.sendDataToMap(peopleList.get(0));
         this.dismiss();
+    }
+
+    public boolean isValidData() {
+        boolean errorOccurred = false;
+        if (edtFullName.getText().toString().length() == 0) {
+            edtFullName.requestFocus();
+            edtFullName.setError(getString(R.string.error_fullname));
+            errorOccurred = true;
+        }
+        return !errorOccurred;
     }
 
     public interface CreateNodeInterface{
