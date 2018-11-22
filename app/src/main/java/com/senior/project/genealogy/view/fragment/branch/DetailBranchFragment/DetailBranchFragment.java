@@ -7,8 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +18,10 @@ import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranch
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.adapter.SectionsPageAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -53,7 +55,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
 
-        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
             if (mMemberRequestBranchFrg == null)
                 mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
             mMemberRequestBranchFrg.attackInterface(new DetailMemberRequestBranchFragment.RequestMemberInterface() {
@@ -89,29 +91,33 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         mMemberBranchFrg.updateMember(user);
     }
 
-//    private void setupTabIcons() {
-//        mTabLayout.getTabAt(0).setIcon(Integer.valueOf(R.drawable.ic_infor));
-//        mTabLayout.getTabAt(1).setIcon(Integer.valueOf(R.drawable.ic_member));
-//        mTabLayout.getTabAt(2).setIcon(Integer.valueOf(R.drawable.ic_request));
-//    }
-
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter.TitleStringUtils titleStringUtils = new SectionsPageAdapter.TitleStringUtils(getActivity());
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
+        SectionsPageAdapter adapter;
+        int numPage;
+        List<Fragment> arrListFrg = new ArrayList<>();
         Bundle bundle = new Bundle();
         bundle.putSerializable("branch", branch);
-        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
-            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg, mMemberRequestBranchFrg);
+        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE) {
+            arrListFrg.add(mInformationBranchFrg);
+            arrListFrg.add(mMemberBranchFrg);
+            arrListFrg.add(mMemberRequestBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             mMemberRequestBranchFrg.setArguments(bundle);
+            numPage = titleStringUtils.gettitlesAsRoleIsAdmin().length;
+            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
         } else {
-            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils, mInformationBranchFrg, mMemberBranchFrg);
+            arrListFrg.add(mInformationBranchFrg);
+            arrListFrg.add(mMemberBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
+            numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;
+            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
         }
+        adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(numPage);
     }
 
 }

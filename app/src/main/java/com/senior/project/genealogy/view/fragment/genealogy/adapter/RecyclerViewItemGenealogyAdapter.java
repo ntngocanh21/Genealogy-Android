@@ -123,6 +123,12 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         notifyDataSetChanged();
     }
 
+    public void disable(RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+            ((RecyclerViewHolder) viewHolder).viewBackground.setEnabled(false);
+        }
+    }
+
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtGenealogyName;

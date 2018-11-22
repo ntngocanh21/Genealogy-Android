@@ -33,4 +33,6 @@ public class Constants {
         public static final int MEMBER_ROLE = 3;
         public static final int GUEST_ROLE = 4;
     }
+
+    public static final int DOUBLE_CLICK_TIME_DELTA = 400;
 }

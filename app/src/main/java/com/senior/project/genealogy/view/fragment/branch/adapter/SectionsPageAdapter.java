@@ -6,62 +6,35 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
-import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
-import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class SectionsPageAdapter extends FragmentStatePagerAdapter {
 
-    private DetailInformationBranchFragment mInformationBranchFrg;
-    private DetailMemberBranchFragment mMemberBranchFrg;
-    private DetailMemberRequestBranchFragment mMemberRequestBranchFrg;
-    private TitleStringUtils titles;
+    private String[] titles;
+    private List<Fragment> arrListFrg;
 
-    public SectionsPageAdapter(FragmentManager fm) {
-        super(fm);
-    }
-
-    public SectionsPageAdapter(FragmentManager fragmentManager, TitleStringUtils titleStringUtils, DetailInformationBranchFragment informationBranchFrg, DetailMemberBranchFragment memberBranchFrg) {
+    public SectionsPageAdapter(FragmentManager fragmentManager, String[] titleStringUtils, List<Fragment> arrListFrg) {
         super(fragmentManager);
         titles = titleStringUtils;
-        mInformationBranchFrg =   informationBranchFrg;
-        mMemberBranchFrg = memberBranchFrg;
-    }
-
-    public SectionsPageAdapter(FragmentManager fragmentManager, TitleStringUtils titleStringUtils, DetailInformationBranchFragment informationBranchFrg, DetailMemberBranchFragment memberBranchFrg, DetailMemberRequestBranchFragment memberRequestBranchFrg) {
-        super(fragmentManager);
-        titles = titleStringUtils;
-        mInformationBranchFrg = informationBranchFrg;
-        mMemberBranchFrg = memberBranchFrg;
-        mMemberRequestBranchFrg = memberRequestBranchFrg;
+        this.arrListFrg = arrListFrg;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch(position){
-            case 0:{
-                return mInformationBranchFrg;
-            }
-            case 1:{
-                return mMemberBranchFrg;
-            }
-            case 2:{
-                return mMemberRequestBranchFrg;
-            }
-        }
-        return null;
+        return arrListFrg.get(position);
     }
 
     @Override
     public int getCount() {
-        return titles.getGroupTitleFragment().length;
+        return titles.length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles.getGroupTitleFragment()[position];
+        return titles[position];
     }
 
     public static class TitleStringUtils {
@@ -73,8 +46,12 @@ public class SectionsPageAdapter extends FragmentStatePagerAdapter {
             mContext = context;
         }
 
-        public String[] getGroupTitleFragment() {
+        public String[] gettitlesAsRoleIsAdmin() {
             return new String[]{mContext.getResources().getString(R.string.tab_title_information), mContext.getString(R.string.tab_title_member), mContext.getResources().getString(R.string.tab_title_request)};
+        }
+
+        public String[] gettitlesAsRoleIsNormal() {
+            return new String[]{mContext.getResources().getString(R.string.tab_title_information), mContext.getString(R.string.tab_title_member)};
         }
     }
 }

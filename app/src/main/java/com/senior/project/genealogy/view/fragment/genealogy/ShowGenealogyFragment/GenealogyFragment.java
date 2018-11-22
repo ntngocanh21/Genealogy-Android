@@ -41,7 +41,7 @@ import static com.senior.project.genealogy.util.Constants.EMPTY_STRING;
  * CreateBranchFragment => click button [ADD]
  * DetailGenealogyFragment => click each row
  */
-public class GenealogyFragment extends Fragment implements GenealogyFragmentView,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class GenealogyFragment extends Fragment implements GenealogyFragmentView {
 
     @BindView(R.id.btnCreateGenealogy)
     FloatingActionButton btnCreateGenealogy;
@@ -164,20 +164,20 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mRcvAdapter);
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, new RecyclerItemTouchHelper.RecyclerItemTouchHelperListener() {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+                if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+                    final int deletedIndex = viewHolder.getAdapterPosition();
+                    showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder, position);
+                }
+            }
+        });
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
-
     }
 
-    @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
-            final int deletedIndex = viewHolder.getAdapterPosition();
-            showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder);
-        }
-    }
 
-    public void showAlertDialog(String title, String message, String positive, String negative, final RecyclerView.ViewHolder viewHolder){
+    public void showAlertDialog(String title, String message, String positive, String negative, final RecyclerView.ViewHolder viewHolder, int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title);
         builder.setMessage(message);
@@ -186,6 +186,12 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int genealogyId = genealogies.get(viewHolder.getAdapterPosition()).getId();
+                /**
+                 * If User is Admin call method mRecyclerView.scrollToPosition(position);
+                 * and return;
+                 * Ignore this case, prevent delete.
+                 * Show Toast shows user can't delete this row.
+                 */
                 genealogyFragmentPresenterImpl.deleteGenealogy(genealogyId, token, viewHolder);
             }
         });
