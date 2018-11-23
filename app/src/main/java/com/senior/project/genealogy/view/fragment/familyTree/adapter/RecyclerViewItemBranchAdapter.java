@@ -44,7 +44,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
-        final int branchId = mBranches.get(position).getId();
+        final Branch branch = mBranches.get(position);
         final String branchName = mBranches.get(position).getName();
         final String branchDescription = mBranches.get(position).getDescription();
         final int member = mBranches.get(position).getMember();
@@ -62,7 +62,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             public void onClick(View v) {
                 MapFragment mFragment = new MapFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("branchId", branchId);
+                bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.family_tree_frame);
             }

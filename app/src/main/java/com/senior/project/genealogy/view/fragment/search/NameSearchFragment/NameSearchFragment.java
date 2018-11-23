@@ -11,17 +11,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.response.Search;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
+import com.senior.project.genealogy.view.fragment.search.NameSearchResultFragment.NameSearchResultFragment;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,21 +40,11 @@ import static com.senior.project.genealogy.util.Constants.EMPTY_STRING;
 
 public class NameSearchFragment extends Fragment implements NameSearchFragmentView{
 
-//    @BindView(R.id.viewpager)
-//    ViewPager mViewPager;
-//
-    @BindView(R.id.edtSearch)
-    EditText edtSearch;
-
-    @BindView(R.id.rcvGenealogy)
-    RecyclerView rcvGenealogy;
-
     private ProgressDialog mProgressDialog;
     private NameSearchFragmentPresenter nameSearchFragmentPresenter;
     private String token;
 
     public NameSearchFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -58,10 +54,19 @@ public class NameSearchFragment extends Fragment implements NameSearchFragmentVi
         ButterKnife.bind(this, view);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.TOKEN, EMPTY_STRING);
-        GenealogyFragment mFragment = new GenealogyFragment();
         nameSearchFragmentPresenter = new NameSearchFragmentPresenterImpl(this);
         nameSearchFragmentPresenter.getGenealogies(token);
 
+//        edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                    nameSearchFragmentPresenter.searchGenealogyByName(new Search(edtSearch.getText().toString()), token);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         return view;
     }
 
@@ -72,11 +77,21 @@ public class NameSearchFragment extends Fragment implements NameSearchFragmentVi
             Bundle bundle = new Bundle();
             bundle.putSerializable("genealogyList", (Serializable) genealogyList);
             mFragment.setArguments(bundle);
-            pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.result_frame);
+            pushFragment(HomeActivity.PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.result_frame);
         } else {
             //check
             showToast("null");
         }
+    }
+
+    @Override
+    public void showGenealogyAndBranch(List<Genealogy> genealogyList, List<Branch> branchList) {
+        NameSearchResultFragment mFragment = new NameSearchResultFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("genealogyList", (Serializable) genealogyList);
+        bundle.putSerializable("branchList", (Serializable) branchList);
+        mFragment.setArguments(bundle);
+        pushFragment(HomeActivity.PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.result_frame);
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {

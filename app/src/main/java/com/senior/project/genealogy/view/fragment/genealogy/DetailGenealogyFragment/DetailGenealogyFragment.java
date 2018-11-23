@@ -24,6 +24,7 @@ import com.senior.project.genealogy.view.fragment.genealogy.UpdateGenealogyFragm
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

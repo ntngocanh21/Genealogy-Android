@@ -1,13 +1,12 @@
-package com.senior.project.genealogy.view.fragment.search.NameSearchFragment;
+package com.senior.project.genealogy.view.fragment.search.NameSearchResultFragment;
 
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
 
 import java.util.List;
 
-public interface NameSearchFragmentView {
+public interface NameSearchResultFragmentView {
     void showToast(String msg);
-    void showGenealogy(List<Genealogy> genealogyList);
     void showProgressDialog();
     void closeProgressDialog();
     void showGenealogyAndBranch(List<Genealogy> genealogyList, List<Branch> branchList);

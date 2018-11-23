@@ -2,7 +2,9 @@ package com.senior.project.genealogy.view.fragment.search.NameSearchFragment;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.response.Search;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragmentPresenter;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragmentView;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyModel;
@@ -34,6 +36,23 @@ public class NameSearchFragmentPresenterImpl implements NameSearchFragmentPresen
 
     @Override
     public void getGenealogiesFalse() {
+        mNameSearchFragmentView.closeProgressDialog();
+    }
+
+    @Override
+    public void searchGenealogyByName(Search search, String token) {
+        mNameSearchFragmentView.showProgressDialog();
+        mNameSearchModel.searchGenealogyByName(search, token);
+    }
+
+    @Override
+    public void searchGenealogyByNameSuccess(List<Genealogy> genealogyList, List<Branch> branchList) {
+        mNameSearchFragmentView.closeProgressDialog();
+        mNameSearchFragmentView.showGenealogyAndBranch(genealogyList, branchList);
+    }
+
+    @Override
+    public void searchGenealogyByNameFalse() {
         mNameSearchFragmentView.closeProgressDialog();
     }
 

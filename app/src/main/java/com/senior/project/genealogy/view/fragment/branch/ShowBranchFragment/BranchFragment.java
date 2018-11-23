@@ -64,6 +64,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     private ProgressDialog mProgressDialog;
     private String token;
     private Genealogy genealogy;
+    private List<Genealogy> genealogyList;
 
     public BranchFragment() {
 
@@ -77,8 +78,17 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_branches));
-        branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
-        branchFragmentPresenterImpl.getGenealogiesByUsername(token);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null && (List<Genealogy>) getArguments().getSerializable("genealogyList")!= null) {
+            genealogyList = (List<Genealogy>) getArguments().getSerializable("genealogyList");
+            addItemsOnSpinnerGenealogy(genealogyList);
+            spGenealogy.setVisibility(View.GONE);
+            btnCreateBranch.setVisibility(View.GONE);
+        } else {
+            branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
+            branchFragmentPresenterImpl.getGenealogiesByUsername(token);
+        }
 
         return view;
     }

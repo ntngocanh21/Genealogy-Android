@@ -55,6 +55,9 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
         View view = inflater.inflate(R.layout.fragment_branch_member, container, false);
         ButterKnife.bind(this, view);
         branch = (Branch) getArguments().getSerializable("branch");
+        if (!(branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE)){
+            btnCreateNotification.setVisibility(View.GONE);
+        }
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         UserBranchPermission userBranchPermission = new UserBranchPermission(true, branch.getId());

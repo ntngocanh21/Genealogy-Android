@@ -79,6 +79,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         if (bundle != null) {
             genealogyList = (List<Genealogy>) getArguments().getSerializable("genealogyList");
             showGenealogy(genealogyList);
+            btnCreateGenealogy.setVisibility(View.GONE);
         } else {
             genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
             genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);

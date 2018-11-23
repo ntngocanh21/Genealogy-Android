@@ -15,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
@@ -52,6 +54,9 @@ public class MapFragment extends Fragment implements MapFragmentView{
     @BindView(R.id.txtNotice)
     TextView txtNotice;
 
+    @BindView(R.id.btnJoin)
+    ImageButton btnJoin;
+
     private MapFragmentPresenterImpl mapFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
@@ -69,9 +74,18 @@ public class MapFragment extends Fragment implements MapFragmentView{
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_family_tree));
-        int branchId = getArguments().getInt("branchId");
+        Branch branch = (Branch) getArguments().getSerializable("branch");
         mapFragmentPresenterImpl = new MapFragmentPresenterImpl(this);
-        mapFragmentPresenterImpl.getFamilyTreeByBranchId(branchId, token);
+        mapFragmentPresenterImpl.getFamilyTreeByBranchId(branch.getId(), token);
+        if (branch.getRole() == Constants.ROLE.GUEST_ROLE){
+            btnJoin.setVisibility(View.VISIBLE);
+        } else {
+            if (branch.getRole() == Constants.ROLE.MEMBER_ROLE) {
+                btnJoin.setImageResource(R.drawable.ic_followed);
+            }else {
+                btnJoin.setVisibility(View.GONE);
+            }
+        }
         return view;
     }
 

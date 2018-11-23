@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class FamilyTreeResponse {
+public class PeopleResponse {
     @SerializedName("error")
     @Expose
     private Message error;
@@ -14,7 +14,7 @@ public class FamilyTreeResponse {
     @Expose
     private List<People> peopleList;
 
-    public FamilyTreeResponse(Message error, List<People> peopleList) {
+    public PeopleResponse(Message error, List<People> peopleList) {
         this.error = error;
         this.peopleList = peopleList;
     }

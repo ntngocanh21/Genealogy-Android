@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragm
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.profile.ShowProfile.ProfileFragment;
-import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
+import com.senior.project.genealogy.view.fragment.search.NameSearchFragment.NameSearchFragment;
 
 import butterknife.BindView;
 
@@ -75,9 +76,15 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         toggle.syncState();
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mNavigationView.setNavigationItemSelectedListener(this);
-
-        Fragment mFragment = new SearchFragment();
+        mToolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_menu_circle));
+        Fragment mFragment = new NameSearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return true;
     }
 
     public enum PushFrgType {
@@ -122,7 +129,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new ProfileFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.search) {
-            Fragment mFragment = new SearchFragment();
+            Fragment mFragment = new NameSearchFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.genealogies) {
             Fragment mFragment = new GenealogyFragment();
