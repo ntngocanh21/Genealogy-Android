@@ -123,7 +123,6 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
         try {
-//            FragmentManager manager = getChildFragmentManager();
             FragmentManager manager = getActivity().getSupportFragmentManager();
 
             FragmentTransaction ft = manager.beginTransaction();

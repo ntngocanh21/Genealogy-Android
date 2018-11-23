@@ -58,6 +58,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     private GenealogyFragmentPresenterImpl genealogyFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
+    private List<Genealogy> genealogyList;
 
     public GenealogyFragment() {
 
@@ -73,8 +74,15 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         if (getActivity() instanceof HomeActivity) {
             ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_my_genealogy));
         }
-        genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
-        genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            genealogyList = (List<Genealogy>) getArguments().getSerializable("genealogyList");
+            showGenealogy(genealogyList);
+        } else {
+            genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
+            genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
+        }
         return view;
     }
 

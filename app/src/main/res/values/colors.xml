@@ -13,4 +13,5 @@
     <!-- Login theme -->
     <color name="btn_disable_login">#bf574c</color>
     <color name="btn_login">#C73424</color>
+    <color name="btn_disable">#6e8c1004</color>
 </resources>

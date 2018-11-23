@@ -96,12 +96,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         String password = edtPassword.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty()){
-            btnLogin.setBackgroundResource(R.color.btn_disable_login);
+            btnLogin.setBackgroundResource(R.drawable.radius_button_disable);
             btnLogin.setEnabled(false);
         }
         else {
-            btnLogin.setBackgroundResource(R.color.btn_login);
             btnLogin.setEnabled(true);
+            btnLogin.setBackgroundResource(R.drawable.radius_button);
         }
     }
     @OnClick({R.id.btnLogin, R.id.lnSignup})
@@ -111,12 +111,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         switch(view.getId())
         {
             case R.id.btnLogin:
-                if (isValidData()) {
-                    resetValidDataonFields();
+//                if (isValidData()) {
+//                    resetValidDataonFields();
                     User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString());
                     loginPresenterImpl.login(user);
                     saveAccount(user.getUsername(), user.getPassword());
-                }
+//                }
                 break;
             case R.id.lnSignup:
                 showActivity(RegisterActivity.class);

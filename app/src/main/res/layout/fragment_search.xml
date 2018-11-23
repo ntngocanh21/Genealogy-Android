@@ -18,7 +18,6 @@
             app:tabTextColor="@color/colorPrimaryDark"
             android:background="@color/white"
             app:tabIndicatorHeight="2dp"
-            android:scaleY="-1"
             />
 
         <android.support.v4.view.ViewPager

@@ -109,11 +109,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         String fullname = edtFullname.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty() || fullname.isEmpty()){
-            btnRegister.setBackgroundResource(R.color.btn_disable_login);
+            btnRegister.setBackgroundResource(R.drawable.radius_button_disable);
             btnRegister.setEnabled(false);
         }
         else {
-            btnRegister.setBackgroundResource(R.color.btn_login);
+            btnRegister.setBackgroundResource(R.drawable.radius_button);
             btnRegister.setEnabled(true);
         }
 
