@@ -24,13 +24,17 @@
 
     <!-- Using custom theme for Navigation Drawer -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:background">@android:color/white</item>
-
+        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:itemTextAppearance">@style/menu_item_color</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
 
     <!-- Using custom theme for Navigation Drawer -->
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
 
+    </style>
+    <style name="menu_item_color">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -2,11 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/search_name_genealogy"
-        android:title="Search by genealogy name" />
+        android:id="@+id/search_genealogy"
+        android:title="Search by genealogy name"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView">
+    </item>
     <item
-        android:id="@+id/search_name_branch"
-        android:title="Search by branch name" />
+        android:id="@+id/search_branch"
+        android:title="Search by branch name"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
     <item
         android:id="@+id/search_people"
         android:title="Search by people" />

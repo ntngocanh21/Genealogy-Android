@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.search.NameSearchFragment;
+package com.senior.project.genealogy.view.fragment.search.GenealogySearchFragment;
 
 import com.senior.project.genealogy.response.GenealogyAndBranchResponse;
 import com.senior.project.genealogy.response.GenealogyResponse;
@@ -12,15 +12,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NameSearchModelImpl implements NameSearchModel {
-    private NameSearchFragmentPresenter mNameSearchFragmentPresenter;
+public class GenealogySearchModelImpl implements GenealogySearchModel {
+    private GenealogySearchFragmentPresenter mGenealogySearchFragmentPresenter;
     private ApplicationApi mApplicationApi;
 
-    public NameSearchModelImpl(NameSearchFragmentPresenter nameSearchFragmentPresenter) {
+    public GenealogySearchModelImpl(GenealogySearchFragmentPresenter genealogySearchFragmentPresenter) {
         if (mApplicationApi == null) {
             mApplicationApi = new ApplicationApi();
         }
-        mNameSearchFragmentPresenter = nameSearchFragmentPresenter;
+        mGenealogySearchFragmentPresenter = genealogySearchFragmentPresenter;
     }
 
     @Override
@@ -33,43 +33,42 @@ public class NameSearchModelImpl implements NameSearchModel {
                 int code = Integer.parseInt(genealogyResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mNameSearchFragmentPresenter.getGenealogiesSuccess(genealogyResponse.getGenealogyList());
+                        mGenealogySearchFragmentPresenter.getGenealogiesSuccess(genealogyResponse.getGenealogyList());
                         break;
                     default:
-                        mNameSearchFragmentPresenter.getGenealogiesFalse();
+                        mGenealogySearchFragmentPresenter.getGenealogiesFalse();
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<GenealogyResponse> call, Throwable t) {
-                mNameSearchFragmentPresenter.getGenealogiesFalse();
+                mGenealogySearchFragmentPresenter.getGenealogiesFalse();
             }
         });
     }
 
     @Override
     public void searchGenealogyByName(Search search, String token) {
-        Call<GenealogyAndBranchResponse> call = mApplicationApi.getClient().create(SearchApi.class).searchGenealogyByName(search, token);
-        call.enqueue(new Callback<GenealogyAndBranchResponse>() {
+        Call<GenealogyResponse> call = mApplicationApi.getClient().create(SearchApi.class).searchGenealogyByName(search, token);
+        call.enqueue(new Callback<GenealogyResponse>() {
             @Override
-            public void onResponse(Call<GenealogyAndBranchResponse> call, Response<GenealogyAndBranchResponse> response) {
-                GenealogyAndBranchResponse genealogyAndBranchResponse = response.body();
-                int code = Integer.parseInt(genealogyAndBranchResponse.getError().getCode());
+            public void onResponse(Call<GenealogyResponse> call, Response<GenealogyResponse> response) {
+                GenealogyResponse genealogyResponse = response.body();
+                int code = Integer.parseInt(genealogyResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mNameSearchFragmentPresenter.searchGenealogyByNameSuccess(genealogyAndBranchResponse.getGenealogyList(),
-                                genealogyAndBranchResponse.getBranchList());
+                        mGenealogySearchFragmentPresenter.searchGenealogyByNameSuccess(genealogyResponse.getGenealogyList());
                         break;
                     default:
-                        mNameSearchFragmentPresenter.searchGenealogyByNameFalse();
+                        mGenealogySearchFragmentPresenter.searchGenealogyByNameFalse();
                         break;
                 }
             }
 
             @Override
-            public void onFailure(Call<GenealogyAndBranchResponse> call, Throwable t) {
-                mNameSearchFragmentPresenter.searchGenealogyByNameFalse();
+            public void onFailure(Call<GenealogyResponse> call, Throwable t) {
+                mGenealogySearchFragmentPresenter.searchGenealogyByNameFalse();
             }
         });
     }

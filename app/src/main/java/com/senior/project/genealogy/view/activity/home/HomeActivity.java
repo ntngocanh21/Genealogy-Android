@@ -33,7 +33,7 @@ import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragm
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.profile.ShowProfile.ProfileFragment;
-import com.senior.project.genealogy.view.fragment.search.NameSearchFragment.NameSearchFragment;
+import com.senior.project.genealogy.view.fragment.search.GenealogySearchFragment.GenealogySearchFragment;
 
 import butterknife.BindView;
 
@@ -77,7 +77,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mNavigationView.setNavigationItemSelectedListener(this);
         mToolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_menu_circle));
-        Fragment mFragment = new NameSearchFragment();
+        Fragment mFragment = new GenealogySearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
     }
 
@@ -129,7 +129,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new ProfileFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.search) {
-            Fragment mFragment = new NameSearchFragment();
+            Fragment mFragment = new GenealogySearchFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.genealogies) {
             Fragment mFragment = new GenealogyFragment();
