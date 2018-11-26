@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.branch.adapter;
+package com.senior.project.genealogy.view.fragment.search.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -80,7 +80,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
                 Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member, role);
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
-                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
+                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.search_frame);
             }
         });
     }
@@ -90,16 +90,11 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         return mBranches.size();
     }
 
-    public void removeItem(int position) {
-        mBranches.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void updateBranch(Branch branch) {
-        mBranches.add(branch);
+    public void updateRcvBranch(List<Branch> branchList){
+        mBranches.clear();
+        mBranches.addAll(branchList);
         notifyDataSetChanged();
     }
-
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtBranchName;

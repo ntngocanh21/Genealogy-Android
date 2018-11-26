@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.genealogy.adapter;
+package com.senior.project.genealogy.view.fragment.search.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -30,11 +30,11 @@ import java.util.List;
 public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<RecyclerViewItemGenealogyAdapter.RecyclerViewHolder>{
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private List<Genealogy> data = new ArrayList<>();
+    private List<Genealogy> genealogies = new ArrayList<>();
 
     public RecyclerViewItemGenealogyAdapter(Context mContext, FragmentManager mFragmentManager, List<Genealogy> data) {
         this.mContext = mContext;
-        this.data = data;
+        this.genealogies = data;
         this.mFragmentManager = mFragmentManager;
     }
 
@@ -48,13 +48,13 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
-        final int genealogyId = data.get(position).getId();
+        final int genealogyId = genealogies.get(position).getId();
 
-        final String genealogyName = data.get(position).getName();
-        final String genealogyHistory = data.get(position).getHistory();
-        final String genealogyOwner = data.get(position).getOwner();
-        final int genealogyBranch = data.get(position).getBranch();
-        final Date genealogyDate = data.get(position).getDate();
+        final String genealogyName = genealogies.get(position).getName();
+        final String genealogyHistory = genealogies.get(position).getHistory();
+        final String genealogyOwner = genealogies.get(position).getOwner();
+        final int genealogyBranch = genealogies.get(position).getBranch();
+        final Date genealogyDate = genealogies.get(position).getDate();
 
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         final String date = formatter.format(genealogyDate);
@@ -63,7 +63,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         holder.txtGenealogyBranches.setText(String.valueOf(genealogyBranch));
         holder.txtGenealogyDate.setText(date);
 
-        final int role = data.get(position).getRole();
+        final int role = genealogies.get(position).getRole();
         switch (role){
             case Constants.ROLE.ADMIN_ROLE:
                 holder.imgRole.setImageResource(R.drawable.ic_admin);
@@ -75,6 +75,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
                 holder.imgRole.setImageResource(R.drawable.ic_member);
                 break;
         }
+
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +93,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
                 if(mContext instanceof HomeActivity){
                     ((HomeActivity) mContext).updateTitleBar("Genealogy Information");
                 }
-                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.search_frame);
                 mFragment.attachInterface(new DetailGenealogyFragment.UpdateGenealogyListInterface() {
                     @Override
                     public void sendDataUpdateToGenealogyList(Genealogy newGenealogy) {
@@ -110,19 +111,20 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return genealogies.size();
     }
 
     public void removeItem(int position) {
-        data.remove(position);
+        genealogies.remove(position);
         // notify the item removed by position
         // to perform recycler view delete animations
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
 
-    public void updateGenealogy(Genealogy genealogy) {
-        data.add(genealogy);
+    public void updateRcvGenealogy(List<Genealogy> genealogyList){
+        genealogies.clear();
+        genealogies.addAll(genealogyList);
         notifyDataSetChanged();
     }
 

@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MemberSearchFragment extends Fragment {
+public class PeopleSearchFragment extends Fragment {
 
 //    @BindView(R.id.viewpager)
 //    ViewPager mViewPager;
@@ -23,14 +23,14 @@ public class MemberSearchFragment extends Fragment {
 //    @BindView(R.id.tabs)
 //    TabLayout mTabLayout;
 
-    public MemberSearchFragment() {
+    public PeopleSearchFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_member_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_people, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

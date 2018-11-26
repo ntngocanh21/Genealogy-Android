@@ -47,11 +47,7 @@ public class SectionsPageAdapter extends FragmentStatePagerAdapter {
         }
 
         public String[] gettitlesSearchType() {
-            return new String[]{mContext.getResources().getString(R.string.tab_title_search_type_name), mContext.getResources().getString(R.string.tab_title_search_type_member)};
-        }
-
-        public String[] gettitlesNameSearch() {
-            return new String[]{mContext.getResources().getString(R.string.tab_title_genealogy), mContext.getString(R.string.tab_title_branch)};
+            return new String[]{mContext.getResources().getString(R.string.tab_title_search_genealogy), mContext.getResources().getString(R.string.tab_title_search_branch), mContext.getResources().getString(R.string.tab_title_search_people)};
         }
     }
 }

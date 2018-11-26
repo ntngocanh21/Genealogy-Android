@@ -36,7 +36,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:paddingBottom="10dp"
         android:id="@+id/viewForegroundBranch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,6 +44,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -54,12 +54,12 @@
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:layout_marginBottom="-5dp"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="-5dp">
 
                 <TextView
                     android:id="@+id/txtPeople"
@@ -91,6 +91,13 @@
                     android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e1e1e1"
+            android:layout_alignParentBottom="true">
         </LinearLayout>
     </RelativeLayout>
 

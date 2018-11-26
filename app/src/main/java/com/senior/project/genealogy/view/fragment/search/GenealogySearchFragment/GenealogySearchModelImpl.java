@@ -1,28 +1,29 @@
-package com.senior.project.genealogy.view.fragment.search.NameSearchFragment;
+package com.senior.project.genealogy.view.fragment.search.GenealogySearchFragment;
 
 import com.senior.project.genealogy.response.GenealogyResponse;
+import com.senior.project.genealogy.response.Search;
 import com.senior.project.genealogy.service.ApplicationApi;
-import com.senior.project.genealogy.service.GenealogyApi;
+import com.senior.project.genealogy.service.SearchApi;
 import com.senior.project.genealogy.util.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NameSearchModelImpl implements NameSearchModel {
-    private NameSearchFragmentPresenter mNameSearchFragmentPresenter;
+public class GenealogySearchModelImpl implements GenealogySearchModel {
+    private GenealogySearchFragmentPresenter mGenealogySearchFragmentPresenter;
     private ApplicationApi mApplicationApi;
 
-    public NameSearchModelImpl(NameSearchFragmentPresenter nameSearchFragmentPresenter) {
+    public GenealogySearchModelImpl(GenealogySearchFragmentPresenter genealogySearchFragmentPresenter) {
         if (mApplicationApi == null) {
             mApplicationApi = new ApplicationApi();
         }
-        mNameSearchFragmentPresenter = nameSearchFragmentPresenter;
+        mGenealogySearchFragmentPresenter = genealogySearchFragmentPresenter;
     }
 
     @Override
-    public void getGenealogies(String token) {
-        Call<GenealogyResponse> call = mApplicationApi.getClient().create(GenealogyApi.class).getGenealogies(token);
+    public void searchGenealogyByName(Search search, String token) {
+        Call<GenealogyResponse> call = mApplicationApi.getClient().create(SearchApi.class).searchGenealogyByName(search, token);
         call.enqueue(new Callback<GenealogyResponse>() {
             @Override
             public void onResponse(Call<GenealogyResponse> call, Response<GenealogyResponse> response) {
@@ -30,17 +31,17 @@ public class NameSearchModelImpl implements NameSearchModel {
                 int code = Integer.parseInt(genealogyResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mNameSearchFragmentPresenter.getGenealogiesSuccess(genealogyResponse.getGenealogyList());
+                        mGenealogySearchFragmentPresenter.searchGenealogyByNameSuccess(genealogyResponse.getGenealogyList());
                         break;
                     default:
-                        mNameSearchFragmentPresenter.getGenealogiesFalse();
+                        mGenealogySearchFragmentPresenter.searchGenealogyByNameFalse();
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<GenealogyResponse> call, Throwable t) {
-                mNameSearchFragmentPresenter.getGenealogiesFalse();
+                mGenealogySearchFragmentPresenter.searchGenealogyByNameFalse();
             }
         });
     }

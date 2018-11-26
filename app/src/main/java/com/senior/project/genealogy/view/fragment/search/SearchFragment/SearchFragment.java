@@ -7,21 +7,19 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.search.Adapter.SectionsPageAdapter;
-import com.senior.project.genealogy.view.fragment.search.MemberSearchFragment.MemberSearchFragment;
-import com.senior.project.genealogy.view.fragment.search.NameSearchFragment.NameSearchFragment;
+import com.senior.project.genealogy.view.fragment.search.BranchSearchFragment.BranchSearchFragment;
+import com.senior.project.genealogy.view.fragment.search.GenealogySearchFragment.GenealogySearchFragment;
+import com.senior.project.genealogy.view.fragment.search.MemberSearchFragment.PeopleSearchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 public class SearchFragment extends Fragment {
 
@@ -31,10 +29,12 @@ public class SearchFragment extends Fragment {
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
 
-    private NameSearchFragment mNameSearchFragment;
-    private MemberSearchFragment mMemberSearchFragment;
+    private GenealogySearchFragment mGenealogySearchFragment;
+    private BranchSearchFragment mBranchSearchFragment;
+    private PeopleSearchFragment mPeopleSearchFragment;
 
     public SearchFragment() {
+
     }
 
     @Override
@@ -43,10 +43,12 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_search));
         ButterKnife.bind(this, view);
-        if (mNameSearchFragment == null)
-            mNameSearchFragment = new NameSearchFragment();
-        if (mMemberSearchFragment == null)
-            mMemberSearchFragment = new MemberSearchFragment();
+        if (mGenealogySearchFragment == null)
+            mGenealogySearchFragment = new GenealogySearchFragment();
+        if (mBranchSearchFragment == null)
+            mBranchSearchFragment = new BranchSearchFragment();
+        if (mPeopleSearchFragment == null)
+            mPeopleSearchFragment = new PeopleSearchFragment();
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -58,8 +60,9 @@ public class SearchFragment extends Fragment {
         SectionsPageAdapter adapter;
         int numPage;
         List<Fragment> arrListFrg = new ArrayList<>();
-        arrListFrg.add(mNameSearchFragment);
-        arrListFrg.add(mMemberSearchFragment);
+        arrListFrg.add(mGenealogySearchFragment);
+        arrListFrg.add(mBranchSearchFragment);
+        arrListFrg.add(mPeopleSearchFragment);
         numPage = titleStringUtils.gettitlesSearchType().length;
         adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesSearchType(), arrListFrg);
         adapter.notifyDataSetChanged();
