@@ -106,14 +106,14 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             mMemberBranchFrg.setArguments(bundle);
             mMemberRequestBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsAdmin().length;
-            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
+            adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
         } else {
             arrListFrg.add(mInformationBranchFrg);
             arrListFrg.add(mMemberBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;
-            adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
+            adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
         }
         adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);

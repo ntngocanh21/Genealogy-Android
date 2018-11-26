@@ -23,6 +23,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.Search;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.search.Adapter.RecyclerViewItemGenealogyAdapter;
@@ -73,6 +74,7 @@ public class GenealogySearchFragment extends Fragment implements GenealogySearch
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     genealogySearchFragmentPresenter.searchGenealogyByName(new Search(edtSearchGenealogy.getText().toString()), token);
+                    Utils.hiddenKeyBoard(getActivity());
                     return true;
                 }
                 return false;

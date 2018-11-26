@@ -47,6 +47,7 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     TextView txtDescription;
 
     private Branch branch;
+
     public DetailInformationBranchFragment() {
 
     }

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Search;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.fragment.search.Adapter.RecyclerViewItemBranchAdapter;
 
 import java.util.ArrayList;
@@ -69,6 +69,7 @@ public class BranchSearchFragment extends Fragment implements BranchSearchFragme
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     branchSearchFragmentPresenter.searchBranchByName(new Search(edtSearchBranch.getText().toString()), token);
+                    Utils.hiddenKeyBoard(getActivity());
                     return true;
                 }
                 return false;
