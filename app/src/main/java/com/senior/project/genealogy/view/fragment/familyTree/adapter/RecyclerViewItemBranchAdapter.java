@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
 
@@ -43,7 +45,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
         final int branchId = mBranches.get(position).getId();
         final String branchName = mBranches.get(position).getName();
         final String branchDescription = mBranches.get(position).getDescription();
@@ -57,12 +59,26 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         holder.txtNumberOfPeople.setText(String.valueOf(member));
         holder.txtBranchDate.setText(date);
 
+        final int role = mBranches.get(position).getRole();
+        switch (role){
+            case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_admin);
+                break;
+            case Constants.ROLE.MOD_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_mod);
+                break;
+            case Constants.ROLE.MEMBER_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_member);
+                break;
+        }
+
+        final Branch branch = mBranches.get(position);
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MapFragment mFragment = new MapFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("branchId", branchId);
+                bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.family_tree_frame);
             }
@@ -89,6 +105,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         TextView txtBranchName;
         TextView txtNumberOfPeople;
         TextView txtBranchDate;
+        ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
 
@@ -97,6 +114,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             txtBranchName = (TextView) itemView.findViewById(R.id.txtBranchName);
             txtNumberOfPeople = (TextView) itemView.findViewById(R.id.txtNumberOfPeople);
             txtBranchDate = (TextView) itemView.findViewById(R.id.txtBranchDate);
+            imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
             line = (FrameLayout) itemView.findViewById(R.id.lineBranch);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.viewBackgroundBranch);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.viewForegroundBranch);

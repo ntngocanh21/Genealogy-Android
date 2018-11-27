@@ -114,8 +114,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             mMemberBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;
             adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
-        }
-        adapter.notifyDataSetChanged();
+        }        adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(numPage);
     }

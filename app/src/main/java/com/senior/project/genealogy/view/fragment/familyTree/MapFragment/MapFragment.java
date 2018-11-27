@@ -15,11 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
@@ -49,13 +52,23 @@ public class MapFragment extends Fragment implements MapFragmentView{
     @BindView(R.id.addNode)
     FloatingActionButton addNode;
 
+    @BindView(R.id.btnFollow)
+    ImageButton btnFollow;
+
+    @BindView(R.id.btnFollowed)
+    ImageButton btnFollowed;
+
     @BindView(R.id.txtNotice)
     TextView txtNotice;
+
+    @BindView(R.id.txtNoticeMemberAndGuest)
+    TextView txtNoticeMemberAndGuest;
 
     private MapFragmentPresenterImpl mapFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
     private Graph graph;
+    private Branch branch;
     protected BaseGraphAdapter<ViewHolder> adapter;
 
     public MapFragment() {
@@ -69,9 +82,15 @@ public class MapFragment extends Fragment implements MapFragmentView{
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_family_tree));
-        int branchId = getArguments().getInt("branchId");
+        branch = (Branch) getArguments().getSerializable("branch");
+        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE
+                || branch.getRole() == Constants.ROLE.MEMBER_ROLE){
+            btnFollowed.setVisibility(View.VISIBLE);
+        }else {
+            btnFollow.setVisibility(View.VISIBLE);
+        }
         mapFragmentPresenterImpl = new MapFragmentPresenterImpl(this);
-        mapFragmentPresenterImpl.getFamilyTreeByBranchId(branchId, token);
+        mapFragmentPresenterImpl.getFamilyTreeByBranchId(branch.getId(), token);
         return view;
     }
 
@@ -79,8 +98,13 @@ public class MapFragment extends Fragment implements MapFragmentView{
     public void showMap(List<People> peopleList){
 
         if(peopleList.size() == 0){
-            txtNotice.setVisibility(View.VISIBLE);
-            addNode.setVisibility(View.VISIBLE);
+            if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+                addNode.setVisibility(View.VISIBLE);
+                txtNotice.setVisibility(View.VISIBLE);
+            }else {
+                addNode.setVisibility(View.GONE);
+                txtNoticeMemberAndGuest.setVisibility(View.VISIBLE);
+            }
         }else {
             txtNotice.setVisibility(View.GONE);
             graph = new Graph();

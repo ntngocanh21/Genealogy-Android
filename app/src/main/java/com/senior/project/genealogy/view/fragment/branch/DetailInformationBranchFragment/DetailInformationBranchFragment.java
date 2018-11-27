@@ -72,7 +72,7 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
         {
             case R.id.btnFamilyTree:
                 MapFragment mFragment = new MapFragment();
-                bundle.putInt("branchId", branch.getId());
+                bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.detail_branch_frame);
                 break;

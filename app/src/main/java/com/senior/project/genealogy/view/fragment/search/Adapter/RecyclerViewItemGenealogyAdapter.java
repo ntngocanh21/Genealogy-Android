@@ -19,8 +19,9 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
+import com.senior.project.genealogy.view.fragment.search.DetailGenealogyFragment.DetailGenealogyFragment;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.List;
 public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<RecyclerViewItemGenealogyAdapter.RecyclerViewHolder>{
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private List<Genealogy> genealogies = new ArrayList<>();
+    private List<Genealogy> genealogies;
 
     public RecyclerViewItemGenealogyAdapter(Context mContext, FragmentManager mFragmentManager, List<Genealogy> data) {
         this.mContext = mContext;
@@ -76,35 +77,23 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
                 break;
         }
 
-
+        final Genealogy genealogy = genealogies.get(position);
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
                 Bundle bundle = new Bundle();
-                final Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
                 if (updatedGenealogy != null){
                     bundle.putSerializable("genealogy", updatedGenealogy);
                 } else {
                     bundle.putSerializable("genealogy", genealogy);
                 }
+                bundle.putSerializable("genealogyList", (Serializable) genealogies);
                 mFragment.setArguments(bundle);
                 if(mContext instanceof HomeActivity){
                     ((HomeActivity) mContext).updateTitleBar("Genealogy Information");
                 }
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.search_frame);
-                mFragment.attachInterface(new DetailGenealogyFragment.UpdateGenealogyListInterface() {
-                    @Override
-                    public void sendDataUpdateToGenealogyList(Genealogy newGenealogy) {
-                        if (genealogyId == newGenealogy.getId()){
-                            updatedGenealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
-                            updatedGenealogy.setName(newGenealogy.getName());
-                            updatedGenealogy.setHistory(newGenealogy.getHistory());
-                            holder.txtGenealogyName.setText(newGenealogy.getName());
-                        }
-                    }
-                });
             }
         });
     }
@@ -114,13 +103,6 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         return genealogies.size();
     }
 
-    public void removeItem(int position) {
-        genealogies.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
-        notifyItemRemoved(position);
-    }
 
     public void updateRcvGenealogy(List<Genealogy> genealogyList){
         genealogies.clear();

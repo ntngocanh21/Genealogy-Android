@@ -50,10 +50,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     @BindView(R.id.nav_view_home)
     NavigationView mNavigationView;
 
-    /**
-     * Apply Dagger Here
-     * Create GenealogyModule, GenealogyComponent.
-     */
     @Override
     public void distributedDaggerComponents() {
 
