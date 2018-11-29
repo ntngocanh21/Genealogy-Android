@@ -1,6 +1,6 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogNode;
 
-import com.senior.project.genealogy.response.FamilyTreeResponse;
+import com.senior.project.genealogy.response.PeopleResponse;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.FamilyTreeApi;
@@ -22,15 +22,15 @@ public class NodeModelImpl implements NodeModel {
 
     @Override
     public void createPeople(People people, String token) {
-        Call<FamilyTreeResponse> call = mApplicationApi.getClient().create(FamilyTreeApi.class).createPeople(people, token);
-        call.enqueue(new Callback<FamilyTreeResponse>() {
+        Call<PeopleResponse> call = mApplicationApi.getClient().create(FamilyTreeApi.class).createPeople(people, token);
+        call.enqueue(new Callback<PeopleResponse>() {
             @Override
-            public void onResponse(Call<FamilyTreeResponse> call, Response<FamilyTreeResponse> response) {
-                FamilyTreeResponse familyTreeResponse = response.body();
-                int code = Integer.parseInt(familyTreeResponse.getError().getCode());
+            public void onResponse(Call<PeopleResponse> call, Response<PeopleResponse> response) {
+                PeopleResponse peopleResponse = response.body();
+                int code = Integer.parseInt(peopleResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mDialogNodeFragmentPresenter.createPeopleSuccess(familyTreeResponse.getPeopleList());
+                        mDialogNodeFragmentPresenter.createPeopleSuccess(peopleResponse.getPeopleList());
                         break;
                     default:
                         mDialogNodeFragmentPresenter.createPeopleFalse();
@@ -39,7 +39,7 @@ public class NodeModelImpl implements NodeModel {
             }
 
             @Override
-            public void onFailure(Call<FamilyTreeResponse> call, Throwable t) {
+            public void onFailure(Call<PeopleResponse> call, Throwable t) {
                 mDialogNodeFragmentPresenter.createPeopleFalse();
             }
         });

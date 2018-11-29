@@ -194,6 +194,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
                 edtBirthday.setText(simpleDateFormat.format(mCalendar.getTime()));
             }
         }, year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(mCalendar.getTimeInMillis());
         datePickerDialog.show();
     }
 

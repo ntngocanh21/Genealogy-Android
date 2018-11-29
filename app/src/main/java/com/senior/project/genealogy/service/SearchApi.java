@@ -2,7 +2,7 @@ package com.senior.project.genealogy.service;
 
 
 import com.senior.project.genealogy.response.BranchResponse;
-import com.senior.project.genealogy.response.FamilyTreeResponse;
+import com.senior.project.genealogy.response.PeopleResponse;
 import com.senior.project.genealogy.response.GenealogyResponse;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.response.Search;
@@ -21,6 +21,6 @@ public interface SearchApi {
     Call<BranchResponse> searchBranchByName(@Body Search search, @Header("Authorisation") String token);
 
     @POST("/api/search/people")
-    Call<FamilyTreeResponse> searchBranchByPeople(@Body People people, @Header("Authorisation") String token);
+    Call<PeopleResponse> searchBranchByPeople(@Body People people, @Header("Authorisation") String token);
 
 }

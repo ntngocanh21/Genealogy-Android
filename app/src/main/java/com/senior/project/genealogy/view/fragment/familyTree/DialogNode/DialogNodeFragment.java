@@ -157,22 +157,22 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                     String relativeType = spRelative.getSelectedItem().toString();
                     switch(relativeType)
                     {
-                        case "Son":
+                        case Constants.RELATIVE_TYPE.SON:
                             newPeople.setLifeIndex(people.getLifeIndex()+1);
                             newPeople.setParentId(people.getId());
                             newPeople.setGender(1);
                             break;
-                        case "Daughter":
+                        case Constants.RELATIVE_TYPE.DAUGHTER:
                             newPeople.setLifeIndex(people.getLifeIndex()+1);
                             newPeople.setParentId(people.getId());
                             newPeople.setGender(0);
                             break;
-                        case "Brother":
+                        case Constants.RELATIVE_TYPE.BROTHER:
                             newPeople.setLifeIndex(people.getLifeIndex());
                             newPeople.setParentId(people.getParentId());
                             newPeople.setGender(1);
                             break;
-                        case "Sister":
+                        case Constants.RELATIVE_TYPE.SISTER:
                             newPeople.setLifeIndex(people.getLifeIndex());
                             newPeople.setParentId(people.getParentId());
                             newPeople.setGender(0);

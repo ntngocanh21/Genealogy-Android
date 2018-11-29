@@ -83,6 +83,7 @@ public class BranchSearchFragment extends Fragment implements BranchSearchFragme
     public void showBranch(List<Branch> branchList) {
         if(branchList.size() == 0){
             txtNotFoundBranch.setVisibility(View.VISIBLE);
+            mRcvAdapter.updateRcvBranch(branchList);
         }
         else {
             txtNotFoundBranch.setVisibility(View.GONE);

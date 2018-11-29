@@ -1,7 +1,7 @@
 package com.senior.project.genealogy.view.fragment.familyTree.MapFragment;
 
 import com.senior.project.genealogy.response.CodeResponse;
-import com.senior.project.genealogy.response.FamilyTreeResponse;
+import com.senior.project.genealogy.response.PeopleResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.FamilyTreeApi;
 import com.senior.project.genealogy.util.Constants;
@@ -23,15 +23,15 @@ public class MapModelImpl implements MapModel {
 
     @Override
     public void getFamilyTreeByBranchId(int branchId, String token) {
-        Call<FamilyTreeResponse> call = mApplicationApi.getClient().create(FamilyTreeApi.class).getPeopleByBranchId(branchId, token);
-        call.enqueue(new Callback<FamilyTreeResponse>() {
+        Call<PeopleResponse> call = mApplicationApi.getClient().create(FamilyTreeApi.class).getPeopleByBranchId(branchId, token);
+        call.enqueue(new Callback<PeopleResponse>() {
             @Override
-            public void onResponse(Call<FamilyTreeResponse> call, Response<FamilyTreeResponse> response) {
-                FamilyTreeResponse familyTreeResponse = response.body();
-                int code = Integer.parseInt(familyTreeResponse.getError().getCode());
+            public void onResponse(Call<PeopleResponse> call, Response<PeopleResponse> response) {
+                PeopleResponse peopleResponse = response.body();
+                int code = Integer.parseInt(peopleResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mMapFragmentPresenter.getFamilyTreeByBranchIdSuccess(familyTreeResponse.getPeopleList());
+                        mMapFragmentPresenter.getFamilyTreeByBranchIdSuccess(peopleResponse.getPeopleList());
                         break;
                     default:
                         mMapFragmentPresenter.getFamilyTreeByBranchIdFalse();
@@ -40,7 +40,7 @@ public class MapModelImpl implements MapModel {
             }
 
             @Override
-            public void onFailure(Call<FamilyTreeResponse> call, Throwable t) {
+            public void onFailure(Call<PeopleResponse> call, Throwable t) {
                 mMapFragmentPresenter.getFamilyTreeByBranchIdFalse();
             }
         });

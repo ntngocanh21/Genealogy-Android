@@ -1,7 +1,7 @@
 package com.senior.project.genealogy.service;
 
 import com.senior.project.genealogy.response.CodeResponse;
-import com.senior.project.genealogy.response.FamilyTreeResponse;
+import com.senior.project.genealogy.response.PeopleResponse;
 import com.senior.project.genealogy.response.People;
 
 import retrofit2.Call;
@@ -14,7 +14,7 @@ import retrofit2.http.PUT;
 public interface FamilyTreeApi {
 
     @POST("/api/people")
-    Call<FamilyTreeResponse> createPeople(@Body People people, @Header("Authorisation") String token);
+    Call<PeopleResponse> createPeople(@Body People people, @Header("Authorisation") String token);
 
     @PUT("/api/people")
     Call<CodeResponse> updatePeople(@Body People people, @Header("Authorisation") String token);
@@ -23,6 +23,6 @@ public interface FamilyTreeApi {
     Call<CodeResponse> deletePeople(@Body int peopleId, @Header("Authorisation") String token);
 
     @POST("/api/people/branch")
-    Call<FamilyTreeResponse> getPeopleByBranchId(@Body int branchId, @Header("Authorisation") String token);
+    Call<PeopleResponse> getPeopleByBranchId(@Body int branchId, @Header("Authorisation") String token);
 
 }

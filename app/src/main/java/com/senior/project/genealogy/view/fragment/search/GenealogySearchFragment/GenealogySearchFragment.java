@@ -25,10 +25,8 @@ import com.senior.project.genealogy.response.Search;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 import com.senior.project.genealogy.view.fragment.search.Adapter.RecyclerViewItemGenealogyAdapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.senior.project.genealogy.util.Constants.EMPTY_STRING;
-
 
 public class GenealogySearchFragment extends Fragment implements GenealogySearchFragmentView{
 
@@ -87,6 +84,7 @@ public class GenealogySearchFragment extends Fragment implements GenealogySearch
     public void showGenealogy(List<Genealogy> genealogyList) {
         if(genealogyList.size() == 0){
             txtNotFoundGenealogy.setVisibility(View.VISIBLE);
+            mRcvAdapter.updateRcvGenealogy(genealogyList);
         }
         else {
             txtNotFoundGenealogy.setVisibility(View.GONE);
