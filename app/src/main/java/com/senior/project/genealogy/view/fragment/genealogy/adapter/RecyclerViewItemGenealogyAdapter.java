@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 
@@ -46,6 +48,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
         final int genealogyId = data.get(position).getId();
+
         final String genealogyName = data.get(position).getName();
         final String genealogyHistory = data.get(position).getHistory();
         final String genealogyOwner = data.get(position).getOwner();
@@ -59,12 +62,22 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         holder.txtGenealogyBranches.setText(String.valueOf(genealogyBranch));
         holder.txtGenealogyDate.setText(date);
 
+        final int role = data.get(position).getRole();
+        switch (role){
+            case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_admin);
+                break;
+            case Constants.ROLE.MEMBER_ROLE:
+                break;
+        }
+
+
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
                 Bundle bundle = new Bundle();
-                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch);
+                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
                 bundle.putSerializable("genealogy", genealogy);
                 mFragment.setArguments(bundle);
 
@@ -94,11 +107,18 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         notifyDataSetChanged();
     }
 
+    public void disable(RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+            ((RecyclerViewHolder) viewHolder).viewBackground.setEnabled(false);
+        }
+    }
+
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtGenealogyName;
         TextView txtGenealogyBranches;
         TextView txtGenealogyDate;
+        ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
 
@@ -107,6 +127,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
             txtGenealogyName = (TextView) itemView.findViewById(R.id.txtGenealogyName);
             txtGenealogyBranches = (TextView) itemView.findViewById(R.id.txtGenealogyBranches);
             txtGenealogyDate = (TextView) itemView.findViewById(R.id.txtGenealogyDate);
+            imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
             line = (FrameLayout) itemView.findViewById(R.id.line);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.view_background);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.view_foreground);

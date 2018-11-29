@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
+    android:background="@color/white"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -16,12 +17,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="15dp"
         android:background="@color/white"
         android:src="@drawable/ic_back" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimaryDark"
         app:hintTextAppearance="@style/MyAppearance">
@@ -41,6 +46,8 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimaryDark"
         app:hintTextAppearance="@style/MyAppearance">
@@ -60,6 +67,8 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:textColorHint="@color/colorPrimaryDark"
         app:hintTextAppearance="@style/MyAppearance">
 
@@ -79,6 +88,8 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:textColorHint="@color/colorPrimaryDark"
         app:hintTextAppearance="@style/MyAppearance">
 
@@ -97,6 +108,8 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:textColorHint="@color/colorPrimaryDark"
         app:hintTextAppearance="@style/MyAppearance">
 
@@ -116,6 +129,8 @@
         android:id="@+id/dpBirthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:hint="Birthday"
         android:textColorHint="@color/colorPrimaryDark"
         app:hintTextAppearance="@style/MyAppearance">
@@ -136,6 +151,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -155,10 +172,11 @@
 
     <Button
         android:id="@+id/btnRegister"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:background="@color/btn_disable_login"
         android:enabled="false"

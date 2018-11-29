@@ -11,17 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,12 +59,24 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         holder.txtNumberOfPeople.setText(String.valueOf(member));
         holder.txtBranchDate.setText(date);
 
+        final int role = mBranches.get(position).getRole();
+        switch (role){
+            case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_admin);
+                break;
+            case Constants.ROLE.MOD_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_mod);
+                break;
+            case Constants.ROLE.MEMBER_ROLE:
+                break;
+        }
+
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DetailBranchFragment mFragment = new DetailBranchFragment();
                 Bundle bundle = new Bundle();
-                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member);
+                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member, role);
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
@@ -91,6 +104,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         TextView txtBranchName;
         TextView txtNumberOfPeople;
         TextView txtBranchDate;
+        ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
 
@@ -99,6 +113,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             txtBranchName = (TextView) itemView.findViewById(R.id.txtBranchName);
             txtNumberOfPeople = (TextView) itemView.findViewById(R.id.txtNumberOfPeople);
             txtBranchDate = (TextView) itemView.findViewById(R.id.txtBranchDate);
+            imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
             line = (FrameLayout) itemView.findViewById(R.id.lineBranch);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.viewBackgroundBranch);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.viewForegroundBranch);

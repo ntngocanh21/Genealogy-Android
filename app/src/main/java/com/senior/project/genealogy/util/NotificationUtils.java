@@ -20,7 +20,6 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.util.Config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,29 +32,41 @@ import java.util.List;
 
 public class NotificationUtils {
 
+    private static String TAG = NotificationUtils.class.getSimpleName();
+
     private Context mContext;
 
-    public NotificationUtils(Context context) {
-        this.mContext = context;
+    public NotificationUtils(Context mContext) {
+        this.mContext = mContext;
     }
 
     public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
         showNotificationMessage(title, message, timeStamp, intent, null);
     }
 
-    public void showNotificationMessage(final String title, final String message, final String timeStamp, final Intent intent, String imageUrl) {
-        if (TextUtils.isEmpty(message)) {
+    public void showNotificationMessage(final String title, final String message, final String timeStamp, Intent intent, String imageUrl) {
+        // Check for empty push message
+        if (TextUtils.isEmpty(message))
             return;
-        }
 
+
+        // notification icon
         final int icon = R.mipmap.ic_launcher;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        final PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        final PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        mContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                );
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                mContext);
 
-        final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mContext.getPackageName() + "/raw/notification");
+        final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                + "://" + mContext.getPackageName() + "/raw/notification");
 
         if (!TextUtils.isEmpty(imageUrl)) {
 
@@ -65,16 +76,60 @@ public class NotificationUtils {
 
                 if (bitmap != null) {
                     showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-                    playNotificationSound();
                 } else {
                     showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-                    playNotificationSound();
                 }
             }
         } else {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
             playNotificationSound();
         }
+    }
+
+
+    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
+
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        inboxStyle.addLine(message);
+
+        Notification notification;
+        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setContentIntent(resultPendingIntent)
+                .setSound(alarmSound)
+                .setStyle(inboxStyle)
+                .setWhen(getTimeMilliSec(timeStamp))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
+                .setContentText(message)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(Config.NOTIFICATION_ID, notification);
+    }
+
+    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
+        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        bigPictureStyle.setBigContentTitle(title);
+        bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
+        bigPictureStyle.bigPicture(bitmap);
+        Notification notification;
+        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setContentIntent(resultPendingIntent)
+                .setSound(alarmSound)
+                .setStyle(bigPictureStyle)
+                .setWhen(getTimeMilliSec(timeStamp))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
+                .setContentText(message)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
     }
 
     /**
@@ -99,7 +154,8 @@ public class NotificationUtils {
     // Playing notification sound
     public void playNotificationSound() {
         try {
-            Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mContext.getPackageName() + "/raw/beep");
+            Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + mContext.getPackageName() + "/raw/notification");
             Ringtone r = RingtoneManager.getRingtone(mContext, alarmSound);
             r.play();
         } catch (Exception e) {
@@ -108,38 +164,8 @@ public class NotificationUtils {
     }
 
     /**
-     * Using NotificationCompad create UI show message and event around NotificationCompad
-     * Case 1: Only message with reality image from url
+     * Method checks if the app is in background or not
      */
-    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-        bigPictureStyle.setBigContentTitle(title);
-        bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
-        bigPictureStyle.bigPicture(bitmap);
-        Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0).setAutoCancel(true).setContentTitle(title).setContentIntent(resultPendingIntent).setSound(alarmSound).setStyle(bigPictureStyle).setWhen(getTimeMilliSec(timeStamp)).setSmallIcon(R.mipmap.ic_launcher).setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon)).setContentText(message).build();
-
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
-    }
-
-    /**
-     * Using NotificationCompad create UI show message and event around NotificationCompad
-     * Case 2: Only message with icon default of the system.
-     */
-    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
-
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-
-        inboxStyle.addLine(message);
-
-        Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0).setAutoCancel(true).setContentTitle(title).setContentIntent(resultPendingIntent).setSound(alarmSound).setStyle(inboxStyle).setWhen(getTimeMilliSec(timeStamp)).setSmallIcon(R.mipmap.ic_launcher).setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon)).setContentText(message).build();
-
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID, notification);
-    }
-
     public static boolean isAppIsInBackground(Context context) {
         boolean isInBackground = true;
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -165,10 +191,7 @@ public class NotificationUtils {
         return isInBackground;
     }
 
-    /*
-     * Clears notification tray messages
-     * NotificationManager so that manage all of notification
-     */
+    // Clears notification tray messages
     public static void clearNotifications(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();

@@ -80,6 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Full name"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="12dp"/>
 
                     <TextView
@@ -92,6 +93,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDark"
                         android:text="Nickname"
                         android:textSize="12dp"/>
 
@@ -106,6 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Birthday"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="12dp"/>
 
                     <TextView
@@ -120,6 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Deathday"
+                        android:textColor="@color/colorPrimaryDark"
                         android:visibility="gone"
                         android:textSize="12dp"/>
 
@@ -135,6 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Address"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_marginTop="2dp"
                         android:textSize="12dp"/>
 
@@ -148,6 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Description"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_marginTop="2dp"
                         android:textSize="12dp"/>
 
@@ -171,7 +177,7 @@
                 app:menu_colorPressed="@color/colorAccent"
                 app:menu_colorRipple="#99d4d4d4"
                 app:menu_fab_size="normal"
-                app:menu_icon="@drawable/plus"
+                android:src="@drawable/ic_menu_white"
                 app:menu_labels_colorNormal="#bb565656"
                 app:menu_labels_colorPressed="#95797979"
                 app:menu_labels_colorRipple="#5cefecec"
@@ -202,7 +208,7 @@
                     android:src="@drawable/ic_add_relative"
                     app:fab_label="Add relative"
                     app:fab_size="mini"
-                    app:fab_colorNormal="#967066"
+                    app:fab_colorNormal="#9a4542"
                     app:fab_colorPressed="@color/colorAccent"/>
 
                 <com.github.clans.fab.FloatingActionButton
@@ -212,7 +218,7 @@
                     android:src="@drawable/ic_relation"
                     app:fab_label="See relative with other"
                     app:fab_size="mini"
-                    app:fab_colorNormal="#967066"
+                    app:fab_colorNormal="#9a4542"
                     app:fab_colorPressed="@color/colorAccent"/>
 
             </com.github.clans.fab.FloatingActionMenu>

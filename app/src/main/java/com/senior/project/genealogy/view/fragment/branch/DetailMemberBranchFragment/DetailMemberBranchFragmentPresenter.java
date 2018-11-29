@@ -11,6 +11,6 @@ public interface DetailMemberBranchFragmentPresenter {
     void getMemberOfBranchFalse();
 
     void changeRoleMemberOfBranch(String token, UserBranchPermission userBranchPermission);
-    void changeRoleMemberOfBranchSuccess();
+    void changeRoleMemberOfBranchSuccess(UserBranchPermission userBranchPermission);
     void changeRoleMemberOfBranchFalse();
 }

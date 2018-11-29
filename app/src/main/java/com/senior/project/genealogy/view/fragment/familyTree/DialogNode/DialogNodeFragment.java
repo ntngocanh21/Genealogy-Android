@@ -196,9 +196,6 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                     newPeople.setBirthday(edtDeathday.getText().toString());
                 }
 
-//                newPeople.setImage();
-//                newPeople.setDegree();
-
                 dialogNodeFragmentPresenterImpl = new DialogNodeFragmentPresenterImpl(this);
                 dialogNodeFragmentPresenterImpl.createPeople(newPeople ,token);
                 break;

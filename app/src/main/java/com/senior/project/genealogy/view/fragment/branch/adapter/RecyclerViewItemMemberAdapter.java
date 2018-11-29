@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.util.Constants;
@@ -24,15 +25,15 @@ import java.util.List;
 public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<RecyclerViewItemMemberAdapter.RecyclerViewHolder>{
     private Context mContext;
     private List<User> mUser;
-    private int branchId;
+    private Branch branch;
     private DetailMemberBranchFragmentPresenter mDetailMemberBranchFragmentPresenter;
 
     private String token;
 
-    public RecyclerViewItemMemberAdapter(Context mContext, List<User> mUser, int branchId, DetailMemberBranchFragmentPresenter mDetailMemberBranchFragmentPresenter) {
+    public RecyclerViewItemMemberAdapter(Context mContext, List<User> mUser, Branch branch, DetailMemberBranchFragmentPresenter mDetailMemberBranchFragmentPresenter) {
         this.mContext = mContext;
         this.mUser = mUser;
-        this.branchId = branchId;
+        this.branch = branch;
         this.mDetailMemberBranchFragmentPresenter = mDetailMemberBranchFragmentPresenter;
     }
 
@@ -50,14 +51,39 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
 
         final String memberName = mUser.get(position).getFullname();
         final String memberUsername = mUser.get(position).getUsername();
-        final String memberRole = mUser.get(position).getRole();
-
+        final int memberRole = mUser.get(position).getRole();
         holder.txtName.setText(memberName);
-        showSpinner(holder.spRole, mUser.get(position));
-        if("Admin".equals(memberRole)){
-            holder.spRole.setSelection(0);
+
+        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE){
+            showSpinner(holder.spRole, mUser.get(position));
+            switch (memberRole){
+                case Constants.ROLE.ADMIN_ROLE:
+                    holder.spRole.setVisibility(View.GONE);
+                    holder.txtRole.setText("Admin");
+                    holder.txtRole.setVisibility(View.VISIBLE);
+                    break;
+                case Constants.ROLE.MOD_ROLE:
+                    holder.spRole.setSelection(Constants.ROLE.MOD_ROLE - 2);
+                    break;
+                case Constants.ROLE.MEMBER_ROLE:
+                    holder.spRole.setSelection(Constants.ROLE.MEMBER_ROLE - 2);
+                    break;
+            }
         } else {
-            holder.spRole.setSelection(1);
+            holder.spRole.setVisibility(View.GONE);
+            holder.txtRole.setVisibility(View.VISIBLE);
+            holder.txtRole.setPadding(0, 0, 20,0);
+            switch (memberRole){
+                case Constants.ROLE.ADMIN_ROLE:
+                    holder.txtRole.setText("Admin");
+                    break;
+                case Constants.ROLE.MOD_ROLE:
+                    holder.txtRole.setText("Mod");
+                    break;
+                case Constants.ROLE.MEMBER_ROLE:
+                    holder.txtRole.setText("Member");
+                    break;
+            }
         }
 
     }
@@ -74,16 +100,18 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
                 int roleId = 0;
                 String role = spinner.getSelectedItem().toString();
                 switch (role){
-                    case "Admin":
-                        roleId = 2;
+                    case "Mod":
+                        roleId = Constants.ROLE.MOD_ROLE;
                         break;
                     case "Member":
-                        roleId = 3;
+                        roleId = Constants.ROLE.MEMBER_ROLE;
                         break;
                 }
 
-                UserBranchPermission userBranchPermission = new UserBranchPermission(user.getUsername(), branchId, roleId);
-                mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranch(token, userBranchPermission);
+                if (user.getRole() != roleId){
+                    UserBranchPermission userBranchPermission = new UserBranchPermission(user.getUsername(), branch.getId(), roleId);
+                    mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranch(token, userBranchPermission);
+                }
             }
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -108,10 +136,23 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
         notifyDataSetChanged();
     }
 
+    public void changeRoleMemberSuccess(UserBranchPermission userBranchPermission) {
+        for(User user : mUser){
+            if (user.getUsername() == userBranchPermission.getUsername()){
+                user.setRole(userBranchPermission.getBranch_permission_id());
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void changeRoleMemberFalse() {
+        notifyDataSetChanged();
+    }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtName;
         Spinner spRole;
+        TextView txtRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
 
@@ -119,6 +160,7 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
             super(itemView);
             txtName = (TextView) itemView.findViewById(R.id.txtName);
             spRole = (Spinner) itemView.findViewById(R.id.spRole);
+            txtRole = (TextView) itemView.findViewById(R.id.txtRole);
             line = (FrameLayout) itemView.findViewById(R.id.lineBranch);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.viewBackgroundBranch);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.viewForegroundBranch);

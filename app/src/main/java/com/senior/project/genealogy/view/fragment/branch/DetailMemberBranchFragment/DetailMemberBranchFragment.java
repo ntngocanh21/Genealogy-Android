@@ -74,7 +74,7 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
             users.addAll(userList);
         }
 
-        mRcvAdapter = new RecyclerViewItemMemberAdapter(getActivity(), users, branch.getId(), detailMemberBranchFragmentPresenterImpl);
+        mRcvAdapter = new RecyclerViewItemMemberAdapter(getActivity(), users, branch, detailMemberBranchFragmentPresenterImpl);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -83,6 +83,16 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
         rcvMember.setAdapter(mRcvAdapter);
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemMemberTouchHelper(0, ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rcvMember);
+    }
+
+    @Override
+    public void changeRoleMemberOfBranchSuccess(UserBranchPermission userBranchPermission) {
+        mRcvAdapter.changeRoleMemberSuccess(userBranchPermission);
+    }
+
+    @Override
+    public void changeRoleMemberOfBranchFalse() {
+        mRcvAdapter.changeRoleMemberFalse();
     }
 
     public ProgressDialog initProgressDialog(){

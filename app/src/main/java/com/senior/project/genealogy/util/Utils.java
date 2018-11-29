@@ -1,17 +1,20 @@
 package com.senior.project.genealogy.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.senior.project.genealogy.app.GenealogyApplication;
+
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-/**
- * Created by lorence on 15/11/2018.
- *
- */
 
 public class Utils {
 
@@ -68,4 +71,34 @@ public class Utils {
         return false;
     }
 
+    public static boolean isAppIsInBackground(Context context) {
+        boolean isInBackground = true;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    for (String activeProcess : processInfo.pkgList) {
+                        if (activeProcess.equals(context.getPackageName())) {
+                            isInBackground = false;
+                        }
+                    }
+                }
+            }
+        } else {
+            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+            ComponentName componentInfo = taskInfo.get(0).topActivity;
+            if (componentInfo.getPackageName().equals(context.getPackageName())) {
+                isInBackground = false;
+            }
+        }
+
+        return isInBackground;
+    }
+
+    @SuppressLint("HardwareIds")
+    public static String getDeviceId() {
+        return Settings.Secure.getString(GenealogyApplication.getInstance().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+    }
 }

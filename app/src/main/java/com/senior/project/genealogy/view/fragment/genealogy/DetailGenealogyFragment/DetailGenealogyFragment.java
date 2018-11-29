@@ -66,7 +66,9 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
         genealogy = (Genealogy) getArguments().getSerializable("genealogy");
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "");
-
+        if (genealogy.getRole()!= Constants.ROLE.ADMIN_ROLE){
+            btnEditGenealogy.setVisibility(View.GONE);
+        }
         showGenealogy(genealogy);
         return view;
     }

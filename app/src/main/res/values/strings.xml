@@ -36,4 +36,7 @@
     <string name="hint_password">Password</string>
     <string name="label_username">Username</string>
 
+    <string name="notifications_admin_channel_name">Global channel</string>
+    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
+
 </resources>

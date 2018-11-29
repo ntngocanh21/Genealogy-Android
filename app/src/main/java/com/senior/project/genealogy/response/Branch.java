@@ -28,16 +28,21 @@ public class Branch implements Serializable{
     @Expose
     private Integer member;
 
+    @SerializedName("role")
+    @Expose
+    private Integer role;
+
     @SerializedName("genealogyId")
     @Expose
     private Integer genealogyId;
 
-    public Branch(Integer id, String name, String description, Date date, Integer member) {
+    public Branch(Integer id, String name, String description, Date date, Integer member, Integer role) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
         this.member = member;
+        this.role = role;
     }
 
     public Branch(String name, String description) {
@@ -91,5 +96,11 @@ public class Branch implements Serializable{
         this.member = member;
     }
 
+    public Integer getRole() {
+        return role;
+    }
 
+    public void setRole(Integer role) {
+        this.role = role;
+    }
 }

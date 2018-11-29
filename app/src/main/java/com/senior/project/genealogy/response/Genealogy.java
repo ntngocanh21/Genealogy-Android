@@ -33,6 +33,10 @@ public class Genealogy implements Serializable{
     @Expose
     private Integer branch;
 
+    @SerializedName("role")
+    @Expose
+    private Integer role;
+
     @SerializedName("branchList")
     @Expose
     private List<Branch> branchList;
@@ -43,13 +47,14 @@ public class Genealogy implements Serializable{
         this.history = history;
     }
 
-    public Genealogy(Integer id, String name, String history, String owner, Date date, Integer branch) {
+    public Genealogy(Integer id, String name, String history, String owner, Date date, Integer branch, Integer role) {
         this.id = id;
         this.name = name;
         this.history = history;
         this.owner = owner;
         this.date = date;
         this.branch = branch;
+        this.role = role;
     }
 
     public Genealogy(String name, String history) {
@@ -111,6 +116,14 @@ public class Genealogy implements Serializable{
 
     public void setBranchList(List<Branch> branchList) {
         this.branchList = branchList;
+    }
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
     }
 
     @Override

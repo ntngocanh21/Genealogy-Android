@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "539446943161",
-    "firebase_url": "https://familybook-344bd.firebaseio.com",
-    "project_id": "familybook-344bd",
-    "storage_bucket": "familybook-344bd.appspot.com"
+    "project_number": "134676966416",
+    "firebase_url": "https://genealogy-c2e67.firebaseio.com",
+    "project_id": "genealogy-c2e67",
+    "storage_bucket": "genealogy-c2e67.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:539446943161:android:5eb8fe774b7a3ed3",
+        "mobilesdk_app_id": "1:134676966416:android:5eb8fe774b7a3ed3",
         "android_client_info": {
           "package_name": "com.senior.project.genealogy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "539446943161-qs462as5g86c846pqkpvg1qno1p0o1lb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.senior.project.genealogy",
-            "certificate_hash": "220e39e2501be9b1ec6ee176ca6bfda408e15cee"
-          }
-        },
-        {
-          "client_id": "539446943161-9a8medt8m8aqq9m0d0a6f0s4erfp77e5.apps.googleusercontent.com",
+          "client_id": "134676966416-p0ph3p27e176kmotu9rkqm8ss1odq8jb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC9L-mim6JZuVccAVQ-fhREMWjm_VJR0A8"
+          "current_key": "AIzaSyC75fykrHbep7pJpPHAas6mEiDNUjhCXNs"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "539446943161-9a8medt8m8aqq9m0d0a6f0s4erfp77e5.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

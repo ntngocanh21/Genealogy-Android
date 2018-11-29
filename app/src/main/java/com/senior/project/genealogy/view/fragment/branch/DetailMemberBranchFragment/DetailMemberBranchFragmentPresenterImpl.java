@@ -34,19 +34,21 @@ public class DetailMemberBranchFragmentPresenterImpl implements DetailMemberBran
 
     @Override
     public void changeRoleMemberOfBranch(String token, UserBranchPermission userBranchPermission) {
-//        mDetailMemberBranchFragmentView.showProgressDialog();
+        mDetailMemberBranchFragmentView.showProgressDialog();
         mDetailMemberBranchModel.changeRoleMemberOfBranch(userBranchPermission, token);
     }
 
     @Override
-    public void changeRoleMemberOfBranchSuccess() {
-//        mDetailMemberBranchFragmentView.closeProgressDialog();
-//        mDetailMemberBranchFragmentView.showToast("Success");
+    public void changeRoleMemberOfBranchSuccess(UserBranchPermission userBranchPermission) {
+        mDetailMemberBranchFragmentView.closeProgressDialog();
+        mDetailMemberBranchFragmentView.showToast("Success");
+        mDetailMemberBranchFragmentView.changeRoleMemberOfBranchSuccess(userBranchPermission);
     }
 
     @Override
     public void changeRoleMemberOfBranchFalse() {
-//        mDetailMemberBranchFragmentView.closeProgressDialog();
+        mDetailMemberBranchFragmentView.closeProgressDialog();
         mDetailMemberBranchFragmentView.showToast("False");
+        mDetailMemberBranchFragmentView.changeRoleMemberOfBranchFalse();
     }
 }

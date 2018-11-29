@@ -79,7 +79,7 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
             spGenealogy.setVisibility(View.GONE);
             txtNotice.setVisibility(View.VISIBLE);
         } else {
-            ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), android.R.layout.simple_spinner_item, genealogyList);
+            ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), R.layout.spinner_item, genealogyList);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

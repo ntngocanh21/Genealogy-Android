@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -80,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            this.getWindow().setStatusBarColor(Color.WHITE);
+            this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         }
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);

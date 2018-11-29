@@ -1,19 +1,22 @@
 package com.senior.project.genealogy.view.activity.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,16 +24,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.NotificationUtils;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.login.LoginActivity;
-import com.senior.project.genealogy.view.fragment.branch.DetailBranchFragment.DetailBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
-import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
@@ -41,6 +44,11 @@ import butterknife.BindView;
 
 public class HomeActivity extends BaseActivity implements HomeView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
+    private final String TOPIC = "JavaSampleApproach";
+
+    @BindView(R.id.actionBar)
+    AppBarLayout actionBar;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -49,6 +57,8 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @BindView(R.id.nav_view_home)
     NavigationView mNavigationView;
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     /**
      * Apply Dagger Here
@@ -66,6 +76,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @Override
     protected void initAttributes() {
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -75,10 +86,23 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         toggle.syncState();
         mToolbar.setNavigationIcon(R.drawable.done);
 
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mNavigationView.setNavigationItemSelectedListener(this);
 
         Fragment mFragment = new SearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    String message = intent.getStringExtra("message");
+                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
     public enum PushFrgType {
@@ -111,6 +135,25 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        NotificationUtils.clearNotifications(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
@@ -135,8 +178,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new FamilyTreeFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
-//            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
-//            dialogNodeFragment.show(getSupportFragmentManager(), null);
         } else if (id == R.id.signout) {
             showLogoutDialog();
         }
@@ -174,42 +215,18 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onDrawerOpened(@NonNull View drawerView) {
-        //getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
 
     }
-
-    /**
-     * When click button Back. Event click work in Activity. So it means GenealogyActivity is finished.
-     * So finish every nested fragment. For example: MapFragment.
-     * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
-     */
-
-    public interface HomeInterface {
-        boolean isExistedNestedFrag();
-    }
-
-    private HomeInterface mHomeInterface;
-
-    public void attachFragInterface(HomeInterface _interface) {
-        mHomeInterface = _interface;
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        if(!mHomeInterface.isExistedNestedFrag()) {
-//            super.onBackPressed();
-//        }
-//    }
 
     @Override
     public void onBackPressed(){
@@ -261,5 +278,11 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
     }
 }

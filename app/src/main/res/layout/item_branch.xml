@@ -53,6 +53,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
+                android:textColor="@color/black"
+                android:layout_marginBottom="-5dp"
                 android:textSize="25dp" />
 
             <RelativeLayout
@@ -64,19 +66,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_marginTop="6dp"
                     android:text="People: " />
 
                 <TextView
                     android:id="@+id/txtNumberOfPeople"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:layout_toRightOf="@+id/txtPeople" />
 
                 <TextView
                     android:id="@+id/txtBranchDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true" />
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/imgRole" />
+
+                <ImageView
+                    android:id="@+id/imgRole"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
         </LinearLayout>

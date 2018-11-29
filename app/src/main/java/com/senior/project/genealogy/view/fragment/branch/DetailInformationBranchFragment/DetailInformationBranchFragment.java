@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
 
@@ -29,9 +31,6 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     @BindView(R.id.txtBranchName)
     TextView txtBranchName;
 
-    @BindView(R.id.txtBranchOwner)
-    TextView txtBranchOwner;
-
     @BindView(R.id.txtBranchDate)
     TextView txtBranchDate;
 
@@ -39,7 +38,7 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     TextView txtPeople;
 
     @BindView(R.id.btnFamilyTree)
-    Button btnFamilyTree;
+    ImageButton btnFamilyTree;
 
     @BindView(R.id.btnEditBranch)
     FloatingActionButton btnEditBranch;
@@ -57,14 +56,12 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch_information, container, false);
         ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         branch = (Branch) getArguments().getSerializable("branch");
+        if(!(branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE)){
+            btnEditBranch.setVisibility(View.GONE);
+        }
         showBranch(branch);
+        return view;
     }
 
     @OnClick({R.id.btnFamilyTree, R.id.btnEditBranch})

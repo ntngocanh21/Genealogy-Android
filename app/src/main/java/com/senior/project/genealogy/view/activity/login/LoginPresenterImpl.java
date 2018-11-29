@@ -1,6 +1,7 @@
 package com.senior.project.genealogy.view.activity.login;
 
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 public class LoginPresenterImpl implements LoginPresenter {
@@ -21,9 +22,9 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void loginFalse() {
+        mLoginView.saveAccount("", "");
         mLoginView.closeProgressDialog();
         mLoginView.showLoginAgainDialog();
-        mLoginView.saveAccount("", "");
     }
 
     @Override
@@ -40,7 +41,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void saveUser(String token, String avatar, String fullname) {
-        mLoginView.saveUser(token, avatar, fullname);
+    public void saveUser(String token, String avatar, String fullname, String deviceId) {
+        mLoginView.saveUser(token, avatar, fullname, Utils.getDeviceId());
     }
 }

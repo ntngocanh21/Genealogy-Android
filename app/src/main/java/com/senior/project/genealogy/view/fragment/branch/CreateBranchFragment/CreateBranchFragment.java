@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class CreateBranchFragment extends Fragment implements CreateBranchFragme
     EditText edtUsername;
 
     @BindView(R.id.btnFind)
-    Button btnFind;
+    ImageButton btnFind;
 
     private CreateBranchFragmentPresenterImpl createBranchFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;

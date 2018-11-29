@@ -46,7 +46,7 @@ public class DetailMemberBranchModelImpl implements DetailMemberBranchModel {
     }
 
     @Override
-    public void changeRoleMemberOfBranch(UserBranchPermission userBranchPermission, String token) {
+    public void changeRoleMemberOfBranch(final UserBranchPermission userBranchPermission, String token) {
         Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).changeRoleMemberOfBranch(userBranchPermission, token);
         call.enqueue(new Callback<CodeResponse>() {
             @Override
@@ -54,7 +54,7 @@ public class DetailMemberBranchModelImpl implements DetailMemberBranchModel {
                 CodeResponse codeResponse = response.body();
                 int code = Integer.parseInt(codeResponse.getError().getCode());
                 if (code == Constants.HTTPCodeResponse.SUCCESS) {
-                    mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranchSuccess();
+                    mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranchSuccess(userBranchPermission);
                 } else {
                     mDetailMemberBranchFragmentPresenter.changeRoleMemberOfBranchFalse();
                 }
