@@ -169,13 +169,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void closeProgressDialog() {
-        if (mProgressDialog.isShowing())
+        if (!isFinishing() && mProgressDialog.isShowing())
             mProgressDialog.dismiss();
     }
 
     @Override
     public void showLoginAgainDialog() {
-        if (mProgressDialog.isShowing())
+        if (!isFinishing() && mProgressDialog.isShowing())
             mProgressDialog.dismiss();
         showLoginAlertDialog();
     }
