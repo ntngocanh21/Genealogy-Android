@@ -1,6 +1,6 @@
 package com.senior.project.genealogy.view.fragment.familyTree.DialogProfile;
 
-import com.senior.project.genealogy.response.FamilyTreeResponse;
+import com.senior.project.genealogy.response.PeopleResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.FamilyRelationApi;
 import com.senior.project.genealogy.util.Constants;
@@ -22,15 +22,15 @@ public class ProfileModelImpl implements ProfileModel {
 
     @Override
     public void getRelative(int peopleId, String token) {
-        Call<FamilyTreeResponse> call = mApplicationApi.getClient().create(FamilyRelationApi.class).getFamilyRelation(peopleId, token);
-        call.enqueue(new Callback<FamilyTreeResponse>() {
+        Call<PeopleResponse> call = mApplicationApi.getClient().create(FamilyRelationApi.class).getFamilyRelation(peopleId, token);
+        call.enqueue(new Callback<PeopleResponse>() {
             @Override
-            public void onResponse(Call<FamilyTreeResponse> call, Response<FamilyTreeResponse> response) {
-                FamilyTreeResponse familyTreeResponse = response.body();
-                int code = Integer.parseInt(familyTreeResponse.getError().getCode());
+            public void onResponse(Call<PeopleResponse> call, Response<PeopleResponse> response) {
+                PeopleResponse peopleResponse = response.body();
+                int code = Integer.parseInt(peopleResponse.getError().getCode());
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mDialogProfileFragmentPresenter.getRelativeSuccess(familyTreeResponse.getPeopleList());
+                        mDialogProfileFragmentPresenter.getRelativeSuccess(peopleResponse.getPeopleList());
                         break;
                     default:
                         mDialogProfileFragmentPresenter.getRelativeFalse();
@@ -39,7 +39,7 @@ public class ProfileModelImpl implements ProfileModel {
             }
 
             @Override
-            public void onFailure(Call<FamilyTreeResponse> call, Throwable t) {
+            public void onFailure(Call<PeopleResponse> call, Throwable t) {
                 mDialogProfileFragmentPresenter.getRelativeFalse();
             }
         });

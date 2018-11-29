@@ -24,8 +24,10 @@ import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +72,9 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
 
     @BindView(R.id.radioGender)
     RadioGroup radioGender;
+
+    @BindView(R.id.tilDeathday)
+    TextInputLayout tilDeathday;
 
     private DialogNodeFragmentPresenterImpl dialogNodeFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -154,22 +159,22 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                     String relativeType = spRelative.getSelectedItem().toString();
                     switch(relativeType)
                     {
-                        case "Son":
+                        case Constants.RELATIVE_TYPE.SON:
                             newPeople.setLifeIndex(people.getLifeIndex()+1);
                             newPeople.setParentId(people.getId());
                             newPeople.setGender(1);
                             break;
-                        case "Daughter":
+                        case Constants.RELATIVE_TYPE.DAUGHTER:
                             newPeople.setLifeIndex(people.getLifeIndex()+1);
                             newPeople.setParentId(people.getId());
                             newPeople.setGender(0);
                             break;
-                        case "Brother":
+                        case Constants.RELATIVE_TYPE.BROTHER:
                             newPeople.setLifeIndex(people.getLifeIndex());
                             newPeople.setParentId(people.getParentId());
                             newPeople.setGender(1);
                             break;
-                        case "Sister":
+                        case Constants.RELATIVE_TYPE.SISTER:
                             newPeople.setLifeIndex(people.getLifeIndex());
                             newPeople.setParentId(people.getParentId());
                             newPeople.setGender(0);
@@ -244,6 +249,25 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                 edt.setText(simpleDateFormat.format(mCalendar.getTime()));
             }
         }, year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        if (edt == edtBirthday){
+            mCalendar.set(1500,1,1);
+            datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis());
+            if(tilDeathday.getVisibility() == View.GONE){
+                tilDeathday.setVisibility(View.VISIBLE);
+            }
+        }
+        if (edt == edtDeathday){
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+            Date birthday = new Date();
+            try {
+                birthday = new SimpleDateFormat("dd/MM/yyyy").parse(edtBirthday.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            mCalendar.setTime(birthday);
+            datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis());
+        }
         datePickerDialog.show();
     }
 

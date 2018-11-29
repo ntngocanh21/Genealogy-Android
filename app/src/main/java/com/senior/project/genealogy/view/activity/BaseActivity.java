@@ -11,11 +11,6 @@ import com.senior.project.genealogy.R;
 
 import butterknife.ButterKnife;
 
-/**
- * Created by lorence on 05/10/2018.
- *
- */
-
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     @Override

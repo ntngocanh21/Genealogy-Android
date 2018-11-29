@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -88,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
 
+
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
         String username = edtUsername.getText().toString().trim();
@@ -100,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         else {
             btnLogin.setBackgroundResource(R.color.btn_login);
             btnLogin.setEnabled(true);
+            btnLogin.setBackgroundResource(R.drawable.radius_button);
         }
     }
     @OnClick({R.id.btnLogin, R.id.lnSignup})

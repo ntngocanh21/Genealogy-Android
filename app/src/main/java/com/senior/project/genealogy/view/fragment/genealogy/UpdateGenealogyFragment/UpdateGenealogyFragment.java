@@ -73,13 +73,7 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
         genealogy.setName(edtGenealogyName.getText().toString());
         genealogy.setHistory(edtGenealogyHistory.getText().toString());
 
-        try {
-            String sDate1 = txtGenealogyDate.getText().toString();
-            Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-            genealogy.setDate(date1);
-        } catch (ParseException pe) {
-            pe.printStackTrace();
-        }
+
 
         Genealogy updatedGenealogy = genealogy;
         updatedGenealogy.setDate(null);
@@ -127,6 +121,13 @@ public class UpdateGenealogyFragment extends Fragment implements UpdateGenealogy
 
     @Override
     public void closeFragment(Genealogy genealogy) {
+        try {
+            String sDate1 = txtGenealogyDate.getText().toString();
+            Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+            genealogy.setDate(date1);
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
         mUpdateGenealogyInterface.sendDataUpdateToGenealogy(genealogy);
         if(getActivity() instanceof HomeActivity){
             ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_view_genealogy));

@@ -178,7 +178,8 @@
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text|textMultiLine"/>
+                android:inputType="text|textMultiLine"
+                android:paddingBottom="60dp"/>
         </LinearLayout>
     </LinearLayout>
 

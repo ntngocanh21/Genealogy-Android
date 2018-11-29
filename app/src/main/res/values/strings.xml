@@ -27,6 +27,13 @@
     <string name="tab_title_member">Member</string>
     <string name="tab_title_request">Request</string>
 
+    <string name="tab_title_search_genealogy">Genealogy</string>
+    <string name="tab_title_search_branch">Branch</string>
+    <string name="tab_title_search_people">People</string>
+
+    <string name="tab_title_genealogy">Genealogy</string>
+    <string name="tab_title_branch">Branch</string>
+
     <string name="error_username">Invalid username format</string>
     <string name="error_password">Your password is not strong enough. Make sure it follows the rules above</string>
     <string name="error_fullname">Fullname Field is Empty</string>

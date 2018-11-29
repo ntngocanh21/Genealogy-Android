@@ -100,6 +100,7 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
                     @Override
                     public void sendDataUpdateToGenealogy(Genealogy genealogy) {
                         updateGenealogy(genealogy);
+                        mUpdateGenealogyListInterface.sendDataUpdateToGenealogyList(genealogy);
                     }
                 });
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_detail_frame);
@@ -122,7 +123,6 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
         try {
-//            FragmentManager manager = getChildFragmentManager();
             FragmentManager manager = getActivity().getSupportFragmentManager();
 
             FragmentTransaction ft = manager.beginTransaction();
@@ -158,4 +158,13 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
     public void closeFragment() {
     }
 
+    public interface UpdateGenealogyListInterface{
+        void sendDataUpdateToGenealogyList(Genealogy genealogy);
+    }
+
+    public UpdateGenealogyListInterface mUpdateGenealogyListInterface;
+
+    public void attachInterface(UpdateGenealogyListInterface updateGenealogyListInterface){
+        mUpdateGenealogyListInterface = updateGenealogyListInterface;
+    }
 }

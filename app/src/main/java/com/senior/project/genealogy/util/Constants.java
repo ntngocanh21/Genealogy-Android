@@ -32,6 +32,14 @@ public class Constants {
         public static final int ADMIN_ROLE = 1;
         public static final int MOD_ROLE = 2;
         public static final int MEMBER_ROLE = 3;
+        public static final int GUEST_ROLE = 4;
+    }
+
+    public class RELATIVE_TYPE {
+        public static final String SON = "Son";
+        public static final String DAUGHTER = "Daughter";
+        public static final String BROTHER = "Brother";
+        public static final String SISTER = "Sister";
     }
 
     public static final int DOUBLE_CLICK_TIME_DELTA = 400;

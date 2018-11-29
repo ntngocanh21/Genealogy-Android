@@ -134,25 +134,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(Config.REGISTRATION_COMPLETE));
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(Config.PUSH_NOTIFICATION));
-
-        NotificationUtils.clearNotifications(getApplicationContext());
-    }
-
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        super.onPause();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
@@ -177,6 +158,8 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new FamilyTreeFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
+//            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
+//            dialogNodeFragment.show(getSupportFragmentManager(), null);
         } else if (id == R.id.signout) {
             showLogoutDialog();
         }
@@ -227,12 +210,35 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     }
 
+    /**
+     * When click button Back. Event click work in Activity. So it means GenealogyActivity is finished.
+     * So finish every nested fragment. For example: MapFragment.
+     * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
+     */
+
+    public interface HomeInterface {
+        boolean isExistedNestedFrag();
+    }
+
+    private HomeInterface mHomeInterface;
+
+    public void attachFragInterface(HomeInterface _interface) {
+        mHomeInterface = _interface;
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        if(!mHomeInterface.isExistedNestedFrag()) {
+//            super.onBackPressed();
+//        }
+//    }
+
     @Override
     public void onBackPressed(){
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
-            for(int i = 0; i<fm.getFragments().size(); i++){
+            for(int i = 0; i< fm.getFragments().size(); i++){
                 if(fm.getFragments().get(i) instanceof DetailGenealogyFragment){
                     updateTitleBar(getString(R.string.frg_view_genealogy));
                 }

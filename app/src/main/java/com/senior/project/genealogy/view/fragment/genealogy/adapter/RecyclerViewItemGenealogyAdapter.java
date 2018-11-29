@@ -38,6 +38,7 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
         this.mFragmentManager = mFragmentManager;
     }
 
+    private Genealogy updatedGenealogy;
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -67,24 +68,42 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
             case Constants.ROLE.ADMIN_ROLE:
                 holder.imgRole.setImageResource(R.drawable.ic_admin);
                 break;
+            case Constants.ROLE.MOD_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_mod);
+                break;
             case Constants.ROLE.MEMBER_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_member);
                 break;
         }
-
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 DetailGenealogyFragment mFragment = new DetailGenealogyFragment();
                 Bundle bundle = new Bundle();
-                Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
-                bundle.putSerializable("genealogy", genealogy);
+                final Genealogy genealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
+                if (updatedGenealogy != null){
+                    bundle.putSerializable("genealogy", updatedGenealogy);
+                } else {
+                    bundle.putSerializable("genealogy", genealogy);
+                }
                 mFragment.setArguments(bundle);
-
                 if(mContext instanceof HomeActivity){
                     ((HomeActivity) mContext).updateTitleBar("Genealogy Information");
                 }
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
+                mFragment.attachInterface(new DetailGenealogyFragment.UpdateGenealogyListInterface() {
+                    @Override
+                    public void sendDataUpdateToGenealogyList(Genealogy newGenealogy) {
+                        if (genealogyId == newGenealogy.getId()){
+                            updatedGenealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
+                            updatedGenealogy.setName(newGenealogy.getName());
+                            updatedGenealogy.setHistory(newGenealogy.getHistory());
+                            holder.txtGenealogyName.setText(newGenealogy.getName());
+                        }
+                    }
+                });
             }
         });
     }

@@ -68,15 +68,16 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
                 holder.imgRole.setImageResource(R.drawable.ic_mod);
                 break;
             case Constants.ROLE.MEMBER_ROLE:
+                holder.imgRole.setImageResource(R.drawable.ic_member);
                 break;
         }
+        final Branch branch = mBranches.get(position);
 
         holder.line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DetailBranchFragment mFragment = new DetailBranchFragment();
                 Bundle bundle = new Bundle();
-                Branch branch = new Branch(branchId, branchName, branchDescription, branchDate, member, role);
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.branch_frame);
