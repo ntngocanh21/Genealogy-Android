@@ -61,23 +61,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String imageUrl = data.getString("image");
             String timestamp = data.getString("timestamp");
 
-            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-                pushNotification.putExtra("message", message);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+            Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
+            resultIntent.putExtra("message", message);
 
-                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-                notificationUtils.playNotificationSound();
+            if (TextUtils.isEmpty(imageUrl)) {
+                showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
             } else {
-                Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                resultIntent.putExtra("message", message);
-
-                if (TextUtils.isEmpty(imageUrl)) {
-                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
-                } else {
-                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
-                }
+                showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
             }
+
+//            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+//                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+//                pushNotification.putExtra("message", message);
+//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+//
+//                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+//                notificationUtils.playNotificationSound();
+//            } else {
+//                Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
+//                resultIntent.putExtra("message", message);
+//
+//                if (TextUtils.isEmpty(imageUrl)) {
+//                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
+//                } else {
+//                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
+//                }
+//            }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {

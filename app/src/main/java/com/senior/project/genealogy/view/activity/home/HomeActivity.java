@@ -76,7 +76,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @Override
     protected void initAttributes() {
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
