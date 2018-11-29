@@ -138,8 +138,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new FamilyTreeFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
-//            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
-//            dialogNodeFragment.show(getSupportFragmentManager(), null);
         } else if (id == R.id.signout) {
             showLogoutDialog();
         }

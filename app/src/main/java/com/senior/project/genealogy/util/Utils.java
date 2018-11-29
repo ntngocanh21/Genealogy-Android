@@ -1,12 +1,16 @@
 package com.senior.project.genealogy.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.senior.project.genealogy.GenealogyApplication;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -95,6 +99,12 @@ public class Utils {
         }
 
         return isInBackground;
+    }
+
+    @SuppressLint("HardwareIds")
+    public static String getDeviceId() {
+        return Settings.Secure.getString(GenealogyApplication.getInstance().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
     }
 
 }

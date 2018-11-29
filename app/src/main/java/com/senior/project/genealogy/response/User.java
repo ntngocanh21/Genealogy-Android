@@ -43,6 +43,10 @@ public class User implements Serializable {
     @Expose
     private boolean gender;
 
+    @SerializedName("deviceId")
+    @Expose
+    private String deviceId;
+
     public User() {
     }
 
@@ -57,15 +61,17 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public User(String username, String password, String fullname) {
+    public User(String username, String password, String fullname, String deviceId) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+        this.deviceId = deviceId;
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String deviceId) {
         this.username = username;
         this.password = password;
+        this.deviceId = deviceId;
     }
 
     public User(String username, String password, Integer role, String fullname) {

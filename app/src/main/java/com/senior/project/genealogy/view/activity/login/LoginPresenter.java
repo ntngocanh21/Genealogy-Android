@@ -7,5 +7,5 @@ public interface LoginPresenter {
     void loginSuccess(String msg);
     void loginFalse();
     void showToast(String s);
-    void saveUser(String token, String avatar, String fullname);
+    void saveUser(String token, String avatar, String fullname, String deviceId);
 }
