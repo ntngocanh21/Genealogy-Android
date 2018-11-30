@@ -86,6 +86,11 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @OnClick(R.id.btnCreateGenealogy)
     public void onClick() {
         CreateGenealogyFragment mFragment = new CreateGenealogyFragment();
@@ -165,7 +170,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, genealogies);
+        mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, genealogies, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -223,5 +228,10 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         if (mRcvAdapter.getItemCount() == 0){
             txtNotice.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void refreshListGenealogies() {
+        genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
+        genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
     }
 }

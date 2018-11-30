@@ -3,7 +3,7 @@ package com.senior.project.genealogy.util;
 public class Constants {
 
 //    public static String BASE_URL = "http://10.0.2.2:3000/";
-    public static String BASE_URL = "http://192.168.1.16:8080";
+    public static String BASE_URL = "http://10.0.12.78:8080";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
 
@@ -13,7 +13,7 @@ public class Constants {
         public static String PASSWORD = "password";
         public static String AVATAR = "avatar";
         public static String FULLNAME = "fullname";
-        public static String DEVICE_ID = "device_id";
+             public static String DEVICE_ID = "device_id";
     }
 
     /**

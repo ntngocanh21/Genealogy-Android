@@ -20,6 +20,7 @@ import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
+import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,12 +31,14 @@ import java.util.List;
 public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<RecyclerViewItemGenealogyAdapter.RecyclerViewHolder>{
     private Context mContext;
     private FragmentManager mFragmentManager;
+    private GenealogyFragment  mGenealogyFragment;
     private List<Genealogy> data = new ArrayList<>();
 
-    public RecyclerViewItemGenealogyAdapter(Context mContext, FragmentManager mFragmentManager, List<Genealogy> data) {
+    public RecyclerViewItemGenealogyAdapter(Context mContext, FragmentManager mFragmentManager, List<Genealogy> data, GenealogyFragment genealogyFragment) {
         this.mContext = mContext;
         this.data = data;
         this.mFragmentManager = mFragmentManager;
+        this.mGenealogyFragment = genealogyFragment;
     }
 
     private Genealogy updatedGenealogy;
@@ -96,12 +99,17 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
                 mFragment.attachInterface(new DetailGenealogyFragment.UpdateGenealogyListInterface() {
                     @Override
                     public void sendDataUpdateToGenealogyList(Genealogy newGenealogy) {
-                        if (genealogyId == newGenealogy.getId()){
-                            updatedGenealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
-                            updatedGenealogy.setName(newGenealogy.getName());
-                            updatedGenealogy.setHistory(newGenealogy.getHistory());
-                            holder.txtGenealogyName.setText(newGenealogy.getName());
-                        }
+//                        if (genealogyId == newGenealogy.getId()){
+//                            updatedGenealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
+//                            updatedGenealogy.setName(newGenealogy.getName());
+//                            updatedGenealogy.setHistory(newGenealogy.getHistory());
+//                            holder.txtGenealogyName.setText(newGenealogy.getName());
+//                        }
+                    }
+
+                    @Override
+                    public void refreshGenealogies() {
+                        mGenealogyFragment.refreshListGenealogies();
                     }
                 });
             }

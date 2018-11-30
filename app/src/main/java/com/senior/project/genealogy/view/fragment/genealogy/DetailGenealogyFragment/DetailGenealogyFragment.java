@@ -2,6 +2,7 @@ package com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFrag
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Genealogy;
+import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
@@ -155,11 +158,18 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
     }
 
     @Override
+    public void onDestroyView() {
+        mUpdateGenealogyListInterface.refreshGenealogies();
+        super.onDestroyView();
+    }
+
+    @Override
     public void closeFragment() {
     }
 
     public interface UpdateGenealogyListInterface{
         void sendDataUpdateToGenealogyList(Genealogy genealogy);
+        void refreshGenealogies();
     }
 
     public UpdateGenealogyListInterface mUpdateGenealogyListInterface;
