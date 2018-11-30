@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.People;
+import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
@@ -57,6 +57,9 @@ public class MapFragment extends Fragment implements MapFragmentView{
 
     @BindView(R.id.btnFollowed)
     ImageButton btnFollowed;
+
+    @BindView(R.id.btnWaiting)
+    ImageButton btnWaiting;
 
     @BindView(R.id.txtNotice)
     TextView txtNotice;
@@ -223,7 +226,9 @@ public class MapFragment extends Fragment implements MapFragmentView{
         graphView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showDeleteAlertDialog(adapter.getNode(position));
+                if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+                    showDeleteAlertDialog(adapter.getNode(position));
+                }
                 return false;
             }
         });
@@ -271,22 +276,42 @@ public class MapFragment extends Fragment implements MapFragmentView{
         adapter.setAlgorithm(new BuchheimWalkerAlgorithm(configuration));
     }
 
-    @OnClick(R.id.addNode)
-    public void onClick()
-    {
-        //when map don't have any node!!!
-        DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(null, String.valueOf(getArguments().getInt("branchId")));
-        dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
-        dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
-            @Override
-            public void sendDataToMap(People people) {
-                graph = new Graph();
-                graph.addNode(new Node(people));
-                setupAdapter(graph);
-                addNode.setVisibility(View.GONE);
-                txtNotice.setVisibility(View.GONE);
-            }
-        });
+    @OnClick({R.id.addNode, R.id.btnFollow, R.id.btnFollowed, R.id.btnWaiting})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.addNode:
+                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(null, String.valueOf(getArguments().getInt("branchId")));
+                dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
+                dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
+                    @Override
+                    public void sendDataToMap(People people) {
+                        graph = new Graph();
+                        graph.addNode(new Node(people));
+                        setupAdapter(graph);
+                        addNode.setVisibility(View.GONE);
+                        txtNotice.setVisibility(View.GONE);
+                    }
+                });
+                break;
+            case R.id.btnFollow:
+                UserBranchPermission userBranchPermission = new UserBranchPermission(branch.getId(), Constants.ROLE.MEMBER_ROLE);
+                mapFragmentPresenterImpl.joinBranch(userBranchPermission, token);
+                break;
+            case R.id.btnWaiting:
+                showToast("You have sent request! \nPlease wait for reply from owner of branch!");
+                break;
+        }
+    }
+
+    @Override
+    public void joinBranchSuccess() {
+        btnFollow.setVisibility(View.GONE);
+        btnWaiting.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void joinBranchFalse() {
+        showToast("False");
     }
 
     @Override

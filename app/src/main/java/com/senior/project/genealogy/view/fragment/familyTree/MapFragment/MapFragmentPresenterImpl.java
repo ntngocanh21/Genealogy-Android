@@ -1,6 +1,8 @@
 package com.senior.project.genealogy.view.fragment.familyTree.MapFragment;
 
 import com.senior.project.genealogy.response.People;
+import com.senior.project.genealogy.response.UserBranchPermission;
+
 import java.util.List;
 
 public class MapFragmentPresenterImpl implements MapFragmentPresenter {
@@ -52,5 +54,23 @@ public class MapFragmentPresenterImpl implements MapFragmentPresenter {
     @Override
     public void deletePeopleFalse() {
         mMapFragmentView.closeProgressDialog();
+    }
+
+    @Override
+    public void joinBranch(UserBranchPermission userBranchPermission, String token) {
+        mMapFragmentView.showProgressDialog();
+        mMapModel.joinBranch(userBranchPermission, token);
+    }
+
+    @Override
+    public void joinBranchSuccess() {
+        mMapFragmentView.closeProgressDialog();
+        mMapFragmentView.joinBranchSuccess();
+    }
+
+    @Override
+    public void joinBranchFalse() {
+        mMapFragmentView.closeProgressDialog();
+        mMapFragmentView.joinBranchFalse();
     }
 }

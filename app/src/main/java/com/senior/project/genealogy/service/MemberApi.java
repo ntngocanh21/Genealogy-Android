@@ -26,4 +26,7 @@ public interface MemberApi {
     @PUT("api/member/role")
     Call<CodeResponse> changeRoleMemberOfBranch(@Body UserBranchPermission userBranchPermission, @Header("Authorisation") String token);
 
+    @POST("api/member/branch")
+    Call<CodeResponse> joinBranch(@Body UserBranchPermission userBranchPermission, @Header("Authorisation") String token);
+
 }

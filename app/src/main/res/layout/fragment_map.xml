@@ -50,6 +50,16 @@
         android:visibility="gone"/>
 
     <ImageButton
+        android:id="@+id/btnWaiting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:background="@color/white"
+        android:src="@drawable/ic_waiting"
+        android:layout_margin="16dp"
+        android:visibility="gone"/>
+
+    <ImageButton
         android:id="@+id/btnFollowed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

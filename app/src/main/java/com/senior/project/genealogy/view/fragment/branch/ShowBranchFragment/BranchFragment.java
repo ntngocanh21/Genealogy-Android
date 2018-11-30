@@ -220,8 +220,12 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof RecyclerViewItemBranchAdapter.RecyclerViewHolder) {
-            final int deletedIndex = viewHolder.getAdapterPosition();
-            showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder);
+            if (branches.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.ADMIN_ROLE){
+                showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder);
+            } else {
+                showToast("You don't have permission to delete it!");
+                mRcvAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
         }
     }
 

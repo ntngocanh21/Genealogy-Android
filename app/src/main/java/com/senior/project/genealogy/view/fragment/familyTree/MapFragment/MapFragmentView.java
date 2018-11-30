@@ -9,4 +9,6 @@ public interface MapFragmentView {
     void closeProgressDialog();
     void showMap(List<People> peopleList);
     void deletePeople(int peopleId);
+    void joinBranchSuccess();
+    void joinBranchFalse();
 }

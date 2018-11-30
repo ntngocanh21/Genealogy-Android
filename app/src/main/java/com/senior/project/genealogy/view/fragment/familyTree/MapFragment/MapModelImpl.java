@@ -2,8 +2,10 @@ package com.senior.project.genealogy.view.fragment.familyTree.MapFragment;
 
 import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.PeopleResponse;
+import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.FamilyTreeApi;
+import com.senior.project.genealogy.service.MemberApi;
 import com.senior.project.genealogy.util.Constants;
 
 import retrofit2.Call;
@@ -67,6 +69,31 @@ public class MapModelImpl implements MapModel {
             @Override
             public void onFailure(Call<CodeResponse> call, Throwable t) {
                 mMapFragmentPresenter.deletePeopleFalse();
+            }
+        });
+    }
+
+    @Override
+    public void joinBranch(UserBranchPermission userBranchPermission, String token) {
+        Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).joinBranch(userBranchPermission, token);
+        call.enqueue(new Callback<CodeResponse>() {
+            @Override
+            public void onResponse(Call<CodeResponse> call, Response<CodeResponse> response) {
+                CodeResponse codeResponse = response.body();
+                int code = Integer.parseInt(codeResponse.getError().getCode());
+                switch (code) {
+                    case Constants.HTTPCodeResponse.SUCCESS:
+                        mMapFragmentPresenter.joinBranchSuccess();
+                        break;
+                    default:
+                        mMapFragmentPresenter.joinBranchFalse();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodeResponse> call, Throwable t) {
+                mMapFragmentPresenter.joinBranchFalse();
             }
         });
     }

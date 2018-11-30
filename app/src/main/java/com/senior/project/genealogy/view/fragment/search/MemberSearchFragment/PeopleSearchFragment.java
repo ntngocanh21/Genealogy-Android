@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -72,6 +73,12 @@ public class PeopleSearchFragment extends Fragment implements PeopleSearchFragme
     @BindView(R.id.txtNotFoundPeople)
     TextView txtNotFoundPeople;
 
+    @BindView(R.id.searchForm)
+    LinearLayout searchForm;
+
+    @BindView(R.id.btnSearchAgain)
+    Button btnSearchAgain;
+
     private ProgressDialog mProgressDialog;
     private List<People> peopleList;
     private RecyclerViewItemPeopleAdapter mRcvAdapter;
@@ -104,7 +111,7 @@ public class PeopleSearchFragment extends Fragment implements PeopleSearchFragme
     }
 
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
-    @OnClick({R.id.btnSearchPeople, R.id.yearOfBirth, R.id.yearOfDeath})
+    @OnClick({R.id.btnSearchPeople, R.id.yearOfBirth, R.id.yearOfDeath, R.id.btnSearchAgain})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSearchPeople:
@@ -116,6 +123,10 @@ public class PeopleSearchFragment extends Fragment implements PeopleSearchFragme
                 break;
             case R.id.yearOfDeath:
                 onCreateDialog("Choose year of birth:", yearOfDeath);
+                break;
+            case R.id.btnSearchAgain:
+                searchForm.setVisibility(View.VISIBLE);
+                btnSearchAgain.setVisibility(View.GONE);
                 break;
         }
     }
@@ -129,12 +140,12 @@ public class PeopleSearchFragment extends Fragment implements PeopleSearchFragme
             people.setNickname(nickname.getText().toString());
         }
         if (!"".equals(yearOfBirth.getText().toString())){
-            String birthday =  yearOfBirth.getText().toString();
+            String birthday =  "01/01/" + yearOfBirth.getText().toString();
             people.setBirthday(birthday);
         }
         if (!"".equals(yearOfDeath.getText().toString())){
-            String deathday = yearOfDeath.getText().toString();
-            people.setBirthday(deathday);
+            String deathday = "01/01/" + yearOfDeath.getText().toString();
+            people.setDeathDay(deathday);
         }
         if (radioMale.isChecked()){
             people.setGender(1);
@@ -147,6 +158,8 @@ public class PeopleSearchFragment extends Fragment implements PeopleSearchFragme
 
     @Override
     public void showPeople(List<People> peopleList) {
+        searchForm.setVisibility(View.GONE);
+        btnSearchAgain.setVisibility(View.VISIBLE);
         if(peopleList.size() == 0){
             txtNotFoundPeople.setVisibility(View.VISIBLE);
             mRcvAdapter.updateRcvPeople(peopleList);
@@ -154,15 +167,13 @@ public class PeopleSearchFragment extends Fragment implements PeopleSearchFragme
         else {
             txtNotFoundPeople.setVisibility(View.GONE);
             mRcvAdapter.updateRcvPeople(peopleList);
-            showToast(String.valueOf(peopleList.size()));
         }
     }
 
     public Dialog onCreateDialog(String title, final TextInputEditText editText)
     {
-        Date date = new Date();
         final NumberPicker numberPicker = new NumberPicker(getActivity());
-        numberPicker.setMaxValue(2000);
+        numberPicker.setMaxValue(2018);
         numberPicker.setMinValue(1700);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

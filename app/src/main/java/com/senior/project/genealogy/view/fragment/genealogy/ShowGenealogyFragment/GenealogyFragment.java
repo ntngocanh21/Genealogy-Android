@@ -175,10 +175,14 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, new RecyclerItemTouchHelper.RecyclerItemTouchHelperListener() {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-                if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
-                    final int deletedIndex = viewHolder.getAdapterPosition();
+            if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+                if (genealogies.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.ADMIN_ROLE){
                     showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder, position);
+                } else {
+                    showToast("You don't have permission to delete it!");
+                    mRcvAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                 }
+            }
             }
         });
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);

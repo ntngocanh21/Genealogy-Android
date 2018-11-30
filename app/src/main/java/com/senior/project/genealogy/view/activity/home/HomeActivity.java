@@ -60,10 +60,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
-    /**
-     * Apply Dagger Here
-     * Create GenealogyModule, GenealogyComponent.
-     */
     @Override
     public void distributedDaggerComponents() {
 
@@ -76,15 +72,14 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @Override
     protected void initAttributes() {
+
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         mDrawerLayout.addDrawerListener(this);
         toggle.syncState();
-        mToolbar.setNavigationIcon(R.drawable.done);
-
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mNavigationView.setNavigationItemSelectedListener(this);
 

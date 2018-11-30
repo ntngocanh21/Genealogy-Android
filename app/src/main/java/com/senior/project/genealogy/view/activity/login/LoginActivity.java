@@ -97,13 +97,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         String password = edtPassword.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty()){
-            btnLogin.setBackgroundResource(R.color.btn_disable_login);
+            btnLogin.setBackgroundResource(R.drawable.radius_button_disable);
             btnLogin.setEnabled(false);
         }
         else {
-            btnLogin.setBackgroundResource(R.color.btn_login);
-            btnLogin.setEnabled(true);
             btnLogin.setBackgroundResource(R.drawable.radius_button);
+            btnLogin.setEnabled(true);
         }
     }
     @OnClick({R.id.btnLogin, R.id.lnSignup})
@@ -113,36 +112,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         switch(view.getId())
         {
             case R.id.btnLogin:
-                if (isValidData()) {
-                    resetValidDataonFields();
-                    User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString(), Utils.getDeviceId());
-                    loginPresenterImpl.login(user);
-                    saveAccount(user.getUsername(), user.getPassword());
-                }
+                User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString(), Utils.getDeviceId());
+                loginPresenterImpl.login(user);
+                saveAccount(user.getUsername(), user.getPassword());
                 break;
             case R.id.lnSignup:
                 showActivity(RegisterActivity.class);
                 break;
         }
-    }
-
-    private boolean isValidData() {
-        boolean errorOccurred = false;
-        if (!Utils.isValidUsername(edtUsername.getText().toString())) {
-            edtUsername.requestFocus();
-            edtUsername.setError(getString(R.string.error_username));
-            errorOccurred = true;
-        } else if (!Utils.isValidPassword(edtPassword.getText().toString())) {
-            edtPassword.requestFocus();
-            edtPassword.setError(getString(R.string.error_password));
-            errorOccurred = true;
-        }
-        return !errorOccurred;
-    }
-
-    private void resetValidDataonFields() {
-        edtUsername.setError(null);
-        edtPassword.setError(null);
     }
 
     @Override
