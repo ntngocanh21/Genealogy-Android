@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -76,6 +78,15 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     @BindView(R.id.tilDeathday)
     TextInputLayout tilDeathday;
 
+    @BindView(R.id.flDeathday)
+    FrameLayout flDeathday;
+
+    @BindView(R.id.btnDeleteBirthday)
+    ImageButton btnDeleteBirthday;
+
+    @BindView(R.id.btnDeleteDeathday)
+    ImageButton btnDeleteDeathday;
+
     private DialogNodeFragmentPresenterImpl dialogNodeFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
     private String token;
@@ -128,7 +139,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     }
 
     @android.support.annotation.RequiresApi(api = android.os.Build.VERSION_CODES.N)
-    @OnClick({R.id.btnNewNode, R.id.btnClose, R.id.edtBirthday, R.id.edtDeathday})
+    @OnClick({R.id.btnNewNode, R.id.btnClose, R.id.edtBirthday, R.id.edtDeathday, R.id.btnDeleteBirthday, R.id.btnDeleteDeathday})
     void onClick(View view) {
         if (Utils.isDoubleClick())  return;
         switch (view.getId()) {
@@ -140,6 +151,14 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                 break;
             case R.id.edtDeathday:
                 selectDate(edtDeathday);
+                break;
+            case R.id.btnDeleteBirthday:
+                edtBirthday.setText("");
+                edtDeathday.setText("");
+                flDeathday.setVisibility(View.GONE);
+                break;
+            case R.id.btnDeleteDeathday:
+                edtDeathday.setText("");
                 break;
             case R.id.btnNewNode:
                 if (!isValidData()) return;
@@ -253,8 +272,8 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         if (edt == edtBirthday){
             mCalendar.set(1500,1,1);
             datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis());
-            if(tilDeathday.getVisibility() == View.GONE){
-                tilDeathday.setVisibility(View.VISIBLE);
+            if(flDeathday.getVisibility() == View.GONE){
+                flDeathday.setVisibility(View.VISIBLE);
             }
         }
         if (edt == edtDeathday){
