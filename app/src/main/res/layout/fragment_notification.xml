@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/branch_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="false"
+    tools:context=".view.activity.home.HomeActivity">
+
+    <TextView
+        android:id="@+id/txtNoticeBranch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No notification"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcvNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:padding="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
+
+</FrameLayout>
