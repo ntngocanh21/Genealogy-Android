@@ -13,7 +13,7 @@ public class Constants {
         public static String PASSWORD = "password";
         public static String AVATAR = "avatar";
         public static String FULLNAME = "fullname";
-             public static String DEVICE_ID = "device_id";
+        public static String DEVICE_ID = "device_id";
     }
 
     /**
