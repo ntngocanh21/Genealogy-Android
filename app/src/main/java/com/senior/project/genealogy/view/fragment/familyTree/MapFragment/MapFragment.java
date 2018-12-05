@@ -90,7 +90,11 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 || branch.getRole() == Constants.ROLE.MEMBER_ROLE){
             btnFollowed.setVisibility(View.VISIBLE);
         }else {
-            btnFollow.setVisibility(View.VISIBLE);
+            if (branch.getRole() == Constants.ROLE.WAITING){
+                btnWaiting.setVisibility(View.VISIBLE);
+            } else {
+                btnFollow.setVisibility(View.VISIBLE);
+            }
         }
         mapFragmentPresenterImpl = new MapFragmentPresenterImpl(this);
         mapFragmentPresenterImpl.getFamilyTreeByBranchId(branch.getId(), token);
@@ -158,11 +162,12 @@ public class MapFragment extends Fragment implements MapFragmentView{
             @Override
             public void onBindViewHolder(ViewHolder viewHolder, Object data, int position) {
                 viewHolder.txtName.setText(((People)data).getName());
-//                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 if(((People)data).getBirthday() != null)
                 {
-//                    final String date = formatter.format(((People)data).getBirthday());
-                    final String date = ((People)data).getBirthday();
+                    String date = ((People)data).getBirthday();
+                    if(((People)data).getDeathDay() != null){
+                        date = date + " - " + ((People)data).getDeathDay();
+                    }
                     viewHolder.txtDate.setText(date);
                 } else {
                     viewHolder.txtDate.setText("");
@@ -297,20 +302,75 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 UserBranchPermission userBranchPermission = new UserBranchPermission(branch.getId(), Constants.ROLE.MEMBER_ROLE);
                 mapFragmentPresenterImpl.joinBranch(userBranchPermission, token);
                 break;
+            case R.id.btnFollowed:
+                if(branch.getRole() == Constants.ROLE.ADMIN_ROLE) {
+                    showAlertDialog();
+                } else {
+                    showOutBranchDialog("Are you sure you want to out this branch?");
+                }
+                break;
             case R.id.btnWaiting:
-                showToast("You have sent request! \nPlease wait for reply from owner of branch!");
+                showOutBranchDialog("Your member request is awaiting approval by the branch owner.\n Are you sure you want to cancel your request?");
                 break;
         }
     }
 
+    public void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("You can't out of your branch!")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void showOutBranchDialog(String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Out this branch");
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                UserBranchPermission outBranch = new UserBranchPermission(branch.getId());
+                mapFragmentPresenterImpl.outBranch(outBranch, token);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
     @Override
     public void joinBranchSuccess() {
-        btnFollow.setVisibility(View.GONE);
+        btnFollowed.setVisibility(View.GONE);
         btnWaiting.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void joinBranchFalse() {
+        showToast("False");
+    }
+
+    @Override
+    public void outBranchSuccess() {
+        btnFollowed.setVisibility(View.GONE);
+        btnWaiting.setVisibility(View.GONE);
+        btnFollow.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void outBranchFalse() {
         showToast("False");
     }
 
@@ -346,24 +406,12 @@ public class MapFragment extends Fragment implements MapFragmentView{
         TextView txtRelation;
         CircleImageView civProfile;
         LinearLayout nodeBg;
-
-        TextView txtPartnerName;
-        TextView txtPartnerDate;
-        TextView txtPartnerRelation;
-        CircleImageView civPartnerProfile;
-        LinearLayout nodePartnerBg;
         ViewHolder(View view) {
             txtName = view.findViewById(R.id.txtName);
             txtDate = view.findViewById(R.id.txtDate);
             txtRelation = view.findViewById(R.id.txtRelation);
             civProfile = view.findViewById(R.id.civProfile);
             nodeBg = view.findViewById(R.id.nodeBg);
-
-            txtName = view.findViewById(R.id.txtPartnerName);
-            txtDate = view.findViewById(R.id.txtPartnerDate);
-            txtRelation = view.findViewById(R.id.txtPartnerRelation);
-            civProfile = view.findViewById(R.id.civPartnerProfile);
-            nodeBg = view.findViewById(R.id.nodePartnerBg);
         }
     }
 }

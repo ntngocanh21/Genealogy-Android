@@ -62,13 +62,20 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         final int role = mBranches.get(position).getRole();
         switch (role){
             case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_admin);
                 break;
             case Constants.ROLE.MOD_ROLE:
+                holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_mod);
                 break;
             case Constants.ROLE.MEMBER_ROLE:
+                holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_member);
+                break;
+            case Constants.ROLE.WAITING:
+                holder.imgRole.setVisibility(View.GONE);
+                holder.txtWaiting.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -100,6 +107,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         TextView txtBranchName;
         TextView txtNumberOfPeople;
         TextView txtBranchDate;
+        TextView txtWaiting;
         ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
@@ -111,6 +119,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             txtBranchDate = (TextView) itemView.findViewById(R.id.txtBranchDate);
             imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
             line = (FrameLayout) itemView.findViewById(R.id.lineBranch);
+            txtWaiting = (TextView) itemView.findViewById(R.id.txtWaiting);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.viewBackgroundBranch);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.viewForegroundBranch);
         }
