@@ -1,5 +1,6 @@
 package com.senior.project.genealogy.view.fragment.search.MemberSearchFragment;
 
+import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.People;
 import java.util.List;
 
@@ -27,6 +28,23 @@ public class PeopleSearchFragmentPresenterImpl implements PeopleSearchFragmentPr
 
     @Override
     public void searchBranchByPeopleFalse() {
+        mPeopleSearchFragmentView.closeProgressDialog();
+    }
+
+    @Override
+    public void getBranchByBranchId(Integer branchId, String token) {
+        mPeopleSearchFragmentView.showProgressDialog();
+        mPeopleSearchModel.getBranchByBranchId(branchId, token);
+    }
+
+    @Override
+    public void getBranchByBranchIdSuccess(Branch branch) {
+        mPeopleSearchFragmentView.closeProgressDialog();
+        mPeopleSearchFragmentView.showBranch(branch);
+    }
+
+    @Override
+    public void getBranchByBranchIdFalse() {
         mPeopleSearchFragmentView.closeProgressDialog();
     }
 }
