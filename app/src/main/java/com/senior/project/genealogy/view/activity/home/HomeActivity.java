@@ -20,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @Override
     protected void initAttributes() {
-
+        recheckNotificationToNavigateToNotify();
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -79,6 +80,17 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
         Fragment mFragment = new SearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
+    }
+
+    private void recheckNotificationToNavigateToNotify() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.TOKEN, Constants.EMPTY_STRING);
+        if (token.isEmpty() || TextUtils.equals(token, Constants.EMPTY_STRING)) {
+            saveAccount(Constants.EMPTY_STRING, Constants.EMPTY_STRING);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(Utils.getDeviceId());
+            finish();
+            showActivity(LoginActivity.class);
+        }
     }
 
     public enum PushFrgType {
