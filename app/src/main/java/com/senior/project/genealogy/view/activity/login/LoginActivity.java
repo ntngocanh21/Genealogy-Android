@@ -20,8 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.register.RegisterActivity;
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseMessaging.getInstance().subscribeToTopic(Utils.getDeviceId());
         ButterKnife.bind(this);
         loginPresenterImpl = new LoginPresenterImpl(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
