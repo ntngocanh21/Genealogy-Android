@@ -33,6 +33,10 @@ public class Node {
         return data;
     }
 
+    public void setData(Object data) {
+        this.data = data;
+    }
+
     public void setSize(int width, int height) {
         size = new Size(width, height);
     }

@@ -124,7 +124,6 @@
                         android:layout_height="wrap_content"
                         android:text="Deathday"
                         android:textColor="@color/colorPrimaryDark"
-                        android:visibility="gone"
                         android:textSize="12dp"/>
 
                     <TextView
@@ -132,7 +131,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:visibility="gone"
                         android:textSize="16dp"/>
 
                     <TextView
@@ -221,6 +219,15 @@
                     app:fab_colorNormal="#9a4542"
                     app:fab_colorPressed="@color/colorAccent"/>
 
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit"
+                    app:fab_label="Edit profile"
+                    app:fab_size="mini"
+                    app:fab_colorNormal="#9a4542"
+                    app:fab_colorPressed="@color/colorAccent"/>
             </com.github.clans.fab.FloatingActionMenu>
         </FrameLayout>
 

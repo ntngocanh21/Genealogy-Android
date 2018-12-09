@@ -5,18 +5,18 @@
         <item>Daughter</item>
         <item>Brother</item>
         <item>Sister</item>
-        <item>Husband or Wife</item>
+        <item>Wife</item>
     </string-array>
 
     <string-array name="relative_array_first_node">
         <item>Son</item>
         <item>Daughter</item>
-        <item>Husband or Wife</item>
+        <item>Wife</item>
     </string-array>
 
     <string-array name="relative_array_female_node">
         <item>Brother</item>
         <item>Sister</item>
-        <item>Husband or Wife</item>
+        <item>Husband</item>
     </string-array>
 </resources>

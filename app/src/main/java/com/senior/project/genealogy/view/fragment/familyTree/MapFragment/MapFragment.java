@@ -29,6 +29,7 @@ import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogProfile.DialogProfileFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -151,6 +152,17 @@ public class MapFragment extends Fragment implements MapFragmentView{
         return nodeReturn;
     }
 
+    public List<Node> findNodes(Graph graph, int id){
+        List<Node> nodeList = graph.getNodes();
+        final List<Node> nodesReturn = new ArrayList<>();
+        for (Node node : nodeList){
+            if(((People) node.getData()).getParentId() == id){
+                nodesReturn.add(node);
+            }
+        }
+        return nodesReturn;
+    }
+
     private void setupAdapter(final Graph graph) {
         adapter = new BaseGraphAdapter<ViewHolder>(this.getContext(), R.layout.node, graph) {
             @NonNull
@@ -209,6 +221,20 @@ public class MapFragment extends Fragment implements MapFragmentView{
                     public void sendDataToMap(People people) {
                         graph.addNode(new Node(people));
                         graph.addEdge(findNode(graph, people.getParentId()), findNode(graph, people.getId()));
+                    }
+
+                    @Override
+                    public void sendUpdateDataToMap(People people) {
+                        Node updatedNode = findNode(graph, people.getId());
+                        updatedNode.setData(people);
+                        adapter.notifyDataChanged(updatedNode);
+
+                        if(people.getGender() == 0){
+                            List<Node> nodes = findNodes(graph, people.getId());
+                            for(Node node : nodes){
+                                mapFragmentPresenterImpl.deletePeople(((People) node.getData()).getId(), token);
+                            }
+                        }
                     }
                 });
 
@@ -306,11 +332,11 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 if(branch.getRole() == Constants.ROLE.ADMIN_ROLE) {
                     showAlertDialog();
                 } else {
-                    showOutBranchDialog("Are you sure you want to out this branch?");
+                    showOutBranchDialog();
                 }
                 break;
             case R.id.btnWaiting:
-                showOutBranchDialog("Your member request is awaiting approval by the branch owner.\n Are you sure you want to cancel your request?");
+                showToast("You have sent request! \nPlease wait for reply from owner of branch!");
                 break;
         }
     }
@@ -328,10 +354,10 @@ public class MapFragment extends Fragment implements MapFragmentView{
         alert.show();
     }
 
-    public void showOutBranchDialog(String msg){
+    public void showOutBranchDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Out this branch");
-        builder.setMessage(msg);
+        builder.setMessage("Are you sure you want to out " + branch.getName() + " ?");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
             @Override

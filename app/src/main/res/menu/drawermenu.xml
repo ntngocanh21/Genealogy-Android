@@ -12,7 +12,7 @@
     <item
         android:id="@+id/genealogies"
         android:icon="@drawable/ic_genealogy"
-        android:title="My genealogies" />
+        android:title="My genealogy" />
     <item
         android:id="@+id/branches"
         android:icon="@drawable/ic_branch"
@@ -20,7 +20,7 @@
     <item
         android:id="@+id/familyTree"
         android:icon="@drawable/ic_family_tree"
-        android:title="Family Tree" />
+        android:title="Family tree" />
     <item
         android:id="@+id/notification"
         android:icon="@drawable/ic_noti"
