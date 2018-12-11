@@ -152,12 +152,15 @@ public class MapFragment extends Fragment implements MapFragmentView{
         return nodeReturn;
     }
 
-    public List<Node> findNodes(Graph graph, int id){
+    public List<Node> findNodesByParentId(Graph graph, int id){
         List<Node> nodeList = graph.getNodes();
-        final List<Node> nodesReturn = new ArrayList<>();
+        showToast(String.valueOf(nodeList.size()));
+        List<Node> nodesReturn = new ArrayList<>();
         for (Node node : nodeList){
-            if(((People) node.getData()).getParentId() == id){
-                nodesReturn.add(node);
+            if(((People) node.getData()).getParentId() != null){
+                if(((People) node.getData()).getParentId() == id){
+                    nodesReturn.add(node);
+                }
             }
         }
         return nodesReturn;
@@ -228,16 +231,15 @@ public class MapFragment extends Fragment implements MapFragmentView{
                         Node updatedNode = findNode(graph, people.getId());
                         updatedNode.setData(people);
                         adapter.notifyDataChanged(updatedNode);
-
                         if(people.getGender() == 0){
-                            List<Node> nodes = findNodes(graph, people.getId());
+                            List<Node> nodes = findNodesByParentId(graph, people.getId());
                             for(Node node : nodes){
+                                showToast(((People) node.getData()).getId().toString());
                                 mapFragmentPresenterImpl.deletePeople(((People) node.getData()).getId(), token);
                             }
                         }
                     }
                 });
-
                 dialogProfileFragment.attackInterface(new DialogProfileFragment.GetRelationInterface() {
                     @Override
                     public void sendDataToMap(List<People> peopleList) {
@@ -311,7 +313,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addNode:
-                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(null, String.valueOf(getArguments().getInt("branchId")));
+                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(null, String.valueOf(branch.getId()));
                 dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
                 dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
                     @Override
