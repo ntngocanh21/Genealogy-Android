@@ -36,6 +36,7 @@ import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.Bran
 import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.DetailGenealogyFragment.DetailGenealogyFragment;
 import com.senior.project.genealogy.view.fragment.genealogy.ShowGenealogyFragment.GenealogyFragment;
+import com.senior.project.genealogy.view.fragment.notification.NotificationFragment;
 import com.senior.project.genealogy.view.fragment.profile.ShowProfile.ProfileFragment;
 import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
 
@@ -147,8 +148,8 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             Fragment mFragment = new FamilyTreeFragment();
             pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.notification) {
-//            DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance("");
-//            dialogNodeFragment.show(getSupportFragmentManager(), null);
+            NotificationFragment mFragment = new NotificationFragment();
+            pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
         } else if (id == R.id.signout) {
             showLogoutDialog();
         }

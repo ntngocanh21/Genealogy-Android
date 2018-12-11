@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
@@ -22,11 +21,8 @@ import android.util.Patterns;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.NotificationUtils;
-import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.activity.login.LoginActivity;
 
 import org.json.JSONObject;
 
