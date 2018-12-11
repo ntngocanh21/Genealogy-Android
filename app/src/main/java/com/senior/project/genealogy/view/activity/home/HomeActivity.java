@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.IdRes;
@@ -16,12 +15,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -30,7 +29,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.util.NotificationUtils;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.login.LoginActivity;
 import com.senior.project.genealogy.view.fragment.branch.ShowBranchFragment.BranchFragment;
@@ -44,8 +43,6 @@ import butterknife.BindView;
 
 public class HomeActivity extends BaseActivity implements HomeView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
-    private final String TOPIC = "JavaSampleApproach";
-
     @BindView(R.id.actionBar)
     AppBarLayout actionBar;
 
@@ -57,8 +54,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @BindView(R.id.nav_view_home)
     NavigationView mNavigationView;
-
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
     public void distributedDaggerComponents() {
@@ -72,7 +67,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @Override
     protected void initAttributes() {
-
+        recheckNotificationToNavigateToNotify();
         updateTitleBar("Search");
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -85,18 +80,17 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
         Fragment mFragment = new SearchFragment();
         pushFragment(PushFrgType.REPLACE, mFragment, mFragment.getTag(), R.id.home_container);
+    }
 
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
-                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
-                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
-                    String message = intent.getStringExtra("message");
-                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
-                }
-            }
-        };
+    private void recheckNotificationToNavigateToNotify() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.TOKEN, Constants.EMPTY_STRING);
+        if (token.isEmpty() || TextUtils.equals(token, Constants.EMPTY_STRING)) {
+            saveAccount(Constants.EMPTY_STRING, Constants.EMPTY_STRING);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(Utils.getDeviceId());
+            finish();
+            showActivity(LoginActivity.class);
+        }
     }
 
     public enum PushFrgType {
@@ -205,29 +199,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     }
 
-    /**
-     * When click button Back. Event click work in Activity. So it means GenealogyActivity is finished.
-     * So finish every nested fragment. For example: MapFragment.
-     * We will use interface to listen event click Back in Activity and handle it in nested Fragment.
-     */
-
-    public interface HomeInterface {
-        boolean isExistedNestedFrag();
-    }
-
-    private HomeInterface mHomeInterface;
-
-    public void attachFragInterface(HomeInterface _interface) {
-        mHomeInterface = _interface;
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        if(!mHomeInterface.isExistedNestedFrag()) {
-//            super.onBackPressed();
-//        }
-//    }
-
     @Override
     public void onBackPressed(){
         FragmentManager fm = getSupportFragmentManager();
@@ -255,6 +226,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.SHARED_PREFERENCES_KEY.USERNAME,username);
         editor.putString(Constants.SHARED_PREFERENCES_KEY.PASSWORD,password);
+        editor.putString(Constants.SHARED_PREFERENCES_KEY.TOKEN, Constants.EMPTY_STRING);
         editor.apply();
     }
 
@@ -267,6 +239,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 saveAccount(Constants.EMPTY_STRING, Constants.EMPTY_STRING);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(Utils.getDeviceId());
                 showActivity(LoginActivity.class);
             }
         });
@@ -283,6 +256,5 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
     }
 }

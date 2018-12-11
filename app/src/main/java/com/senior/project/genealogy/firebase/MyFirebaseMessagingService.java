@@ -1,108 +1,152 @@
 package com.senior.project.genealogy.firebase;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
+import android.text.Html;
 import android.util.Log;
+import android.util.Patterns;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.NotificationUtils;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.activity.login.LoginActivity;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Map;
+import java.util.Random;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
-    private NotificationUtils notificationUtils;
+    private NotificationManager notificationManager;
+
+    public static String ADMIN_CHANNEL_ID = "Hello";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
         if (remoteMessage == null)
             return;
 
         if (remoteMessage.getNotification() != null) {
-            handleNotification(remoteMessage.getNotification().getBody());
-        }
-
-        if (remoteMessage.getData().size() > 0) {
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
-            }
+            handleNotification(remoteMessage.getNotification(), remoteMessage.getData());
         }
     }
 
-    private void handleNotification(String message) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setupChannels(){
+        CharSequence adminChannelName = getString(R.string.notifications_admin_channel_name);
+        String adminChannelDescription = getString(R.string.notifications_admin_channel_description);
+
+        NotificationChannel adminChannel;
+        adminChannel = new NotificationChannel(ADMIN_CHANNEL_ID, adminChannelName, NotificationManager.IMPORTANCE_LOW);
+        adminChannel.setDescription(adminChannelDescription);
+        adminChannel.enableLights(true);
+        adminChannel.setLightColor(Color.RED);
+        adminChannel.enableVibration(true);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(adminChannel);
+        }
+    }
+
+    private void handleNotification(RemoteMessage.Notification remoteMessage, Map<String, String> dataPayload) {
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+            notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-            notificationUtils.playNotificationSound();
-        }
-    }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                setupChannels();
+            }
+            int notificationId = new Random().nextInt(60000);
 
-    private void handleDataMessage(JSONObject data) {
-        try {
+            final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + this.getPackageName() + "/raw/notification");
 
-            Log.i(TAG, data.toString());
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.putExtra("title", remoteMessage.getTitle());
 
-            String title = data.getString("title");
-            String message = data.getString("message");
-            String imageUrl = data.getString("image");
-            String timestamp = data.getString("timestamp");
+            String imageUrl = "https://api.androidhive.info/images/minion.jpg";
 
-            Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
-            resultIntent.putExtra("message", message);
-
-            if (TextUtils.isEmpty(imageUrl)) {
-                showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
-            } else {
-                showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
+            if (dataPayload.size() > 0) {
+                try {
+                    JSONObject json = new JSONObject(dataPayload);
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e.getMessage());
+                }
             }
 
-//            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-//                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-//                pushNotification.putExtra("message", message);
-//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-//
-//                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-//                notificationUtils.playNotificationSound();
-//            } else {
-//                Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
-//                resultIntent.putExtra("message", message);
-//
-//                if (TextUtils.isEmpty(imageUrl)) {
-//                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
-//                } else {
-//                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
-//                }
-//            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Json Exception: " + e.getMessage());
-        } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
+            final PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            intent,
+                            PendingIntent.FLAG_CANCEL_CURRENT
+                    );
+
+            if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
+                Bitmap bitmap = getBitmapFromURL(imageUrl);
+
+                NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+                bigPictureStyle.setBigContentTitle(remoteMessage.getTitle());
+                bigPictureStyle.setSummaryText(Html.fromHtml(remoteMessage.getBody()).toString());
+                bigPictureStyle.bigPicture(bitmap);
+
+                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                        .setContentTitle(Utils.convertStringToUTF8(remoteMessage.getTitle()))
+                        .setContentText(Utils.convertStringToUTF8(remoteMessage.getBody()))
+                        .setAutoCancel(true)
+                        .setSound(alarmSound)
+                        .setStyle(bigPictureStyle)
+                        .setContentIntent(resultPendingIntent)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_notification))
+                        .setSound(defaultSoundUri);
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                notificationManager.notify(notificationId, notificationBuilder.build());
+            }
         }
     }
 
-    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
-    }
-
-    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
+    public Bitmap getBitmapFromURL(String strURL) {
+        try {
+            URL url = new URL(strURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

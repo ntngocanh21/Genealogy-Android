@@ -1,4 +1,4 @@
-package com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment;
+package com.senior.project.genealogy.view.fragment.branch.DetailEventBranchFragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,6 +21,8 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserBranchPermission;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragmentPresenterImpl;
+import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragmentView;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerItemMemberTouchHelper;
 import com.senior.project.genealogy.view.fragment.branch.adapter.RecyclerViewItemMemberAdapter;
 
@@ -30,9 +32,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailMemberBranchFragment extends Fragment implements DetailMemberBranchFragmentView, RecyclerItemMemberTouchHelper.RecyclerItemTouchHelperListener{
+public class DetailEventBranchFragment extends Fragment implements DetailMemberBranchFragmentView, RecyclerItemMemberTouchHelper.RecyclerItemTouchHelperListener{
 
-    @BindView(R.id.rcvMember)
+    @BindView(R.id.btnCreateNotification)
+    Button btnCreateNotification;
+
+    @BindView(R.id.rcvEvent)
     RecyclerView rcvMember;
 
     private String token;
@@ -42,21 +47,26 @@ public class DetailMemberBranchFragment extends Fragment implements DetailMember
     private List<User> users;
     private DetailMemberBranchFragmentPresenterImpl detailMemberBranchFragmentPresenterImpl;
 
-    public DetailMemberBranchFragment() {
+    public DetailEventBranchFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_branch_member, container, false);
+        View view = inflater.inflate(R.layout.fragment_branch_event, container, false);
         ButterKnife.bind(this, view);
         branch = (Branch) getArguments().getSerializable("branch");
+        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+            btnCreateNotification.setVisibility(View.VISIBLE);
+        }else {
+            btnCreateNotification.setVisibility(View.GONE);
+        }
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         UserBranchPermission userBranchPermission = new UserBranchPermission(true, branch.getId());
-        detailMemberBranchFragmentPresenterImpl = new DetailMemberBranchFragmentPresenterImpl(this);
-        detailMemberBranchFragmentPresenterImpl.getMemberOfBranch(token, userBranchPermission);
+//        detailMemberBranchFragmentPresenterImpl = new DetailMemberBranchFragmentPresenterImpl(this);
+//        detailMemberBranchFragmentPresenterImpl.getMemberOfBranch(token, userBranchPermission);
         return view;
     }
 

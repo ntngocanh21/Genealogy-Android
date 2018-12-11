@@ -14,6 +14,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.fragment.branch.DetailEventBranchFragment.DetailEventBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
@@ -39,6 +40,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
     private DetailInformationBranchFragment mInformationBranchFrg;
     private DetailMemberBranchFragment mMemberBranchFrg;
     private DetailMemberRequestBranchFragment mMemberRequestBranchFrg;
+    private DetailEventBranchFragment mDetailEventBranchFragment;
 
     public DetailBranchFragment() {
 
@@ -52,6 +54,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         branch = (Branch) getArguments().getSerializable("branch");
         if (mInformationBranchFrg == null)
             mInformationBranchFrg = new DetailInformationBranchFragment();
+        if (mDetailEventBranchFragment == null)
+            mDetailEventBranchFragment = new DetailEventBranchFragment();
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
 
@@ -74,6 +78,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             tv2.setScaleY(-1);
             TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
             tv3.setScaleY(-1);
+            TextView tv4 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(3)).getChildAt(1));
+            tv4.setScaleY(-1);
         } else {
             setupViewPager(mViewPager);
             mTabLayout.setupWithViewPager(mViewPager);
@@ -83,6 +89,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             tv1.setScaleY(-1);
             TextView tv2 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(1)).getChildAt(1));
             tv2.setScaleY(-1);
+            TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
+            tv3.setScaleY(-1);
         }
         return view;
     }
@@ -100,17 +108,21 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         bundle.putSerializable("branch", branch);
         if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE) {
             arrListFrg.add(mInformationBranchFrg);
+            arrListFrg.add(mDetailEventBranchFragment);
             arrListFrg.add(mMemberBranchFrg);
             arrListFrg.add(mMemberRequestBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
+            mDetailEventBranchFragment.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             mMemberRequestBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsAdmin().length;
             adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
         } else {
             arrListFrg.add(mInformationBranchFrg);
+            arrListFrg.add(mDetailEventBranchFragment);
             arrListFrg.add(mMemberBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
+            mDetailEventBranchFragment.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;
             adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
