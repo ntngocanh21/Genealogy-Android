@@ -346,12 +346,24 @@ public class MapFragment extends Fragment implements MapFragmentView{
         TextView txtRelation;
         CircleImageView civProfile;
         LinearLayout nodeBg;
+
+        TextView txtPartnerName;
+        TextView txtPartnerDate;
+        TextView txtPartnerRelation;
+        CircleImageView civPartnerProfile;
+        LinearLayout nodePartnerBg;
         ViewHolder(View view) {
             txtName = view.findViewById(R.id.txtName);
             txtDate = view.findViewById(R.id.txtDate);
             txtRelation = view.findViewById(R.id.txtRelation);
             civProfile = view.findViewById(R.id.civProfile);
             nodeBg = view.findViewById(R.id.nodeBg);
+
+            txtName = view.findViewById(R.id.txtPartnerName);
+            txtDate = view.findViewById(R.id.txtPartnerDate);
+            txtRelation = view.findViewById(R.id.txtPartnerRelation);
+            civProfile = view.findViewById(R.id.civPartnerProfile);
+            nodeBg = view.findViewById(R.id.nodePartnerBg);
         }
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.NotificationUtils;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 import org.json.JSONObject;
@@ -113,8 +114,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                        .setContentTitle(remoteMessage.getTitle())
-                        .setContentText(remoteMessage.getBody())
+                        .setContentTitle(Utils.convertStringToUTF8(remoteMessage.getTitle()))
+                        .setContentText(Utils.convertStringToUTF8(remoteMessage.getBody()))
                         .setAutoCancel(true)
                         .setSound(alarmSound)
                         .setStyle(bigPictureStyle)

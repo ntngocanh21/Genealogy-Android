@@ -1,6 +1,8 @@
 package com.senior.project.genealogy.view.activity.login;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.response.User;
+import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
@@ -41,7 +43,8 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void saveUser(String token, String avatar, String fullname, String deviceId) {
-        mLoginView.saveUser(token, avatar, fullname, Utils.getDeviceId());
+    public void saveUser(String token, String avatar, String fullname, String deviceId, String branchId) {
+        FirebaseMessaging.getInstance().subscribeToTopic(branchId+ Constants.BRANCH);
+        mLoginView.saveUser(token, avatar, fullname, Utils.getDeviceId(), branchId+Constants.BRANCH);
     }
 }
