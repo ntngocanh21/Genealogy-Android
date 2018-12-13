@@ -111,26 +111,21 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
         }
 
         if(getArguments().getSerializable("people") != null){
-            if(((People)getArguments().getSerializable("people")).getParentId() == null){
-                showSpinnerRelative(1);
-            } else {
-                if(((People)getArguments().getSerializable("people")).getGender() == 0){
-                    showSpinnerRelative(0);
-                } else {
-                    showSpinnerRelative(1);
-                }
-            }
+            int nodeType = getArguments().getInt("nodeType");
+            showSpinnerRelative(nodeType);
         } else {
-            showSpinnerRelative(2);
+            spRelative.setVisibility(View.GONE);
+            showSpinnerRelative(Constants.NODE_TYPE.PARTNER);
         }
         return view;
     }
 
-    public static DialogNodeFragment newInstance(People people, String branchId) {
+    public static DialogNodeFragment newInstance(People people, String branchId, int noteType) {
         DialogNodeFragment dialog = new DialogNodeFragment();
         Bundle bundle = new Bundle();
         if(people != null){
             bundle.putSerializable("people", people);
+            bundle.putInt("nodeType", noteType);
         } else {
             bundle.putInt("branchId", Integer.valueOf(branchId));
         }
@@ -198,6 +193,18 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                             newPeople.setParentId(people.getParentId());
                             newPeople.setGender(0);
                             break;
+                        case Constants.RELATIVE_TYPE.HUSBAND:
+                            newPeople.setLifeIndex(people.getLifeIndex());
+                            newPeople.setParentId(null);
+                            newPeople.setGender(1);
+                            newPeople.setPartnerId(people.getId());
+                            break;
+                        case Constants.RELATIVE_TYPE.WIFE:
+                            newPeople.setLifeIndex(people.getLifeIndex());
+                            newPeople.setParentId(null);
+                            newPeople.setGender(0);
+                            newPeople.setPartnerId(people.getId());
+                            break;
                     }
 
                 } else {
@@ -227,16 +234,31 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
     }
 
     public void showSpinnerRelative(int check) {
-        ArrayAdapter<CharSequence> dataAdapter;
-        if (check == 0){
-            dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_female_node, android.R.layout.simple_spinner_item);
-        } else {
-            if (check == 1){
-                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_node, android.R.layout.simple_spinner_item);
-            } else {
-                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array, android.R.layout.simple_spinner_item);
-            }
+        ArrayAdapter<CharSequence> dataAdapter = null;
+        switch (check){
+            case Constants.NODE_TYPE.FIRST_MAN_MARRIED:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_male_node_married, android.R.layout.simple_spinner_item);
+                break;
+            case Constants.NODE_TYPE.FIRST_MAN_SINGLE:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_first_male_node_single, android.R.layout.simple_spinner_item);
+                break;
+            case Constants.NODE_TYPE.MAN_MARRIED:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_male_node_married, android.R.layout.simple_spinner_item);
+                break;
+            case Constants.NODE_TYPE.MAN_SINGLE:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_male_node_single, android.R.layout.simple_spinner_item);
+                break;
+            case Constants.NODE_TYPE.WOMAN_MARRIED:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_female_node_married, android.R.layout.simple_spinner_item);
+                break;
+            case Constants.NODE_TYPE.WOMAN_SINGLE:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_female_node_single, android.R.layout.simple_spinner_item);
+                break;
+            case Constants.NODE_TYPE.PARTNER:
+                dataAdapter = ArrayAdapter.createFromResource(getContext(), R.array.relative_array_partner_node, android.R.layout.simple_spinner_item);
+                break;
         }
+
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRelative.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -62,15 +63,6 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
     @BindView(R.id.edtDescription)
     EditText edtDescription;
 
-    @BindView(R.id.radioMale)
-    RadioButton radioMale;
-
-    @BindView(R.id.radioFemale)
-    RadioButton radioFemale;
-
-    @BindView(R.id.radioGender)
-    RadioGroup radioGender;
-
     @BindView(R.id.tilDeathday)
     TextInputLayout tilDeathday;
 
@@ -82,6 +74,9 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
 
     @BindView(R.id.btnDeleteDeathday)
     ImageButton btnDeleteDeathday;
+
+    @BindView(R.id.imgGenger)
+    ImageView imgGenger;
 
     private UpdateDialogNodeFragmentPresenterImpl dialogNodeFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
@@ -102,14 +97,10 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
         if(getArguments().getSerializable("people") != null){
             people = (People) getArguments().getSerializable("people");
             txtUpdateNode.setText("Update profile of " + ((People)getArguments().getSerializable("people")).getName());
-            if(((People)getArguments().getSerializable("people")).getParentId() == null){
-                radioGender.setVisibility(View.VISIBLE);
-                radioMale.setChecked(true);
-                radioMale.setVisibility(View.VISIBLE);
+            if(((People)getArguments().getSerializable("people")).getGender() == 1) {
+                imgGenger.setImageResource(R.drawable.ic_male);
             } else {
-                radioGender.setVisibility(View.VISIBLE);
-                radioMale.setVisibility(View.VISIBLE);
-                radioFemale.setVisibility(View.VISIBLE);
+                imgGenger.setImageResource(R.drawable.ic_female);
             }
         }
         dialogNodeFragmentPresenterImpl = new UpdateDialogNodeFragmentPresenterImpl(this);
@@ -119,9 +110,9 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
 
     public void showInformation(People people){
         if(people.getGender() == 1){
-            radioMale.setChecked(true);
+            imgGenger.setImageResource(R.drawable.ic_male);
         } else {
-            radioFemale.setChecked(true);
+            imgGenger.setImageResource(R.drawable.ic_female);
         }
 
         genderBeforeUpdate = people.getGender();
@@ -183,14 +174,6 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
                 people.setAddress(edtAddress.getText().toString());
                 people.setDescription(edtDescription.getText().toString());
 
-                if(radioMale.isChecked()){
-                    people.setGender(1);
-                }
-                if(radioFemale.isChecked()){
-                    people.setGender(0);
-                }
-
-
                 if(!Constants.EMPTY_STRING.equals(edtBirthday.getText().toString())){
                     people.setBirthday(edtBirthday.getText().toString());
                 }
@@ -199,11 +182,7 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
                     people.setBirthday(edtDeathday.getText().toString());
                 }
 
-                if (genderBeforeUpdate == 1 && people.getGender() == 0){
-                    showChangeGenderAlertDialog(people);
-                } else {
-                    dialogNodeFragmentPresenterImpl.updatePeople(people ,token);
-                }
+                dialogNodeFragmentPresenterImpl.updatePeople(people ,token);
                 break;
         }
     }

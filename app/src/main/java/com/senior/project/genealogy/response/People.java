@@ -60,6 +60,10 @@ public class People implements Serializable{
     @Expose
     private Integer parentId;
 
+    @SerializedName("partnerId")
+    @Expose
+    private Integer partnerId;
+
     @SerializedName("appellation")
     @Expose
     private String appellation;
@@ -191,7 +195,16 @@ public class People implements Serializable{
 
     public void setAppellation(String appellation) {
         this.appellation = appellation;
-    }}
+    }
+
+    public Integer getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(Integer partnerId) {
+        this.partnerId = partnerId;
+    }
+}
 
 
 

@@ -68,6 +68,8 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
     private DialogProfileFragmentPresenterImpl dialogProfileFragmentPresenterImpl;
     private People people;
     private People updatedPeople;
+    private int nodeType;
+
     public DialogProfileFragment() {
 
     }
@@ -78,15 +80,21 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
         setCancelable(false);
         ButterKnife.bind(this, view);
         people = (People) getArguments().getSerializable("people");
+        nodeType = getArguments().getInt("nodeType");
+        if(nodeType == Constants.NODE_TYPE.PARTNER){
+            btnAddNode.setVisibility(View.GONE);
+            btnRelative.setVisibility(View.GONE);
+        }
         showInformation(people);
         return view;
     }
 
-    public static DialogProfileFragment newInstance(People people, int branchId) {
+    public static DialogProfileFragment newInstance(People people, int branchId, int nodeType) {
         DialogProfileFragment dialog = new DialogProfileFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("people", people);
         bundle.putInt("branchId", branchId);
+        bundle.putInt("nodeType", nodeType);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -136,7 +144,7 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
                 this.dismiss();
                 break;
             case R.id.btnAddNode:
-                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people, null);
+                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people, null, nodeType);
                 dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
                 dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
                     @Override

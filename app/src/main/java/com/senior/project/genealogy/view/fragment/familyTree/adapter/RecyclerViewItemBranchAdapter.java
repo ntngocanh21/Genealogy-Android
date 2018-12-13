@@ -20,6 +20,7 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,11 +31,13 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
     private Context mContext;
     private FragmentManager mFragmentManager;
     private List<Branch> mBranches;
+    private FamilyTreeFragment mFamilyTreeFragment;
 
-    public RecyclerViewItemBranchAdapter(Context mContext, FragmentManager mFragmentManager, List<Branch> mBranches) {
+    public RecyclerViewItemBranchAdapter(Context mContext, FragmentManager mFragmentManager, List<Branch> mBranches, FamilyTreeFragment mFamilyTreeFragment) {
         this.mContext = mContext;
         this.mFragmentManager = mFragmentManager;
         this.mBranches = mBranches;
+        this.mFamilyTreeFragment = mFamilyTreeFragment;
     }
 
     @Override
@@ -88,6 +91,12 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.family_tree_frame);
+                mFragment.attachInterface(new MapFragment.UpdateFamilyTreeListInterface() {
+                    @Override
+                    public void refreshFamilyTree() {
+                        mFamilyTreeFragment.refreshListFamilyTree();
+                    }
+                });
             }
         });
     }

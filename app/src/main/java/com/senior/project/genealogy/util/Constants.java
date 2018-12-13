@@ -3,7 +3,7 @@ package com.senior.project.genealogy.util;
 public class Constants {
 
 //    public static String BASE_URL = "http://10.0.2.2:3000/";
-    public static String BASE_URL = "http://10.0.1.29:8080";
+    public static String BASE_URL = "http://192.168.1.16:8080";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
 
@@ -41,7 +41,19 @@ public class Constants {
         public static final String DAUGHTER = "Daughter";
         public static final String BROTHER = "Brother";
         public static final String SISTER = "Sister";
+        public static final String HUSBAND = "Husband";
+        public static final String WIFE = "Wife";
     }
 
     public static final int DOUBLE_CLICK_TIME_DELTA = 400;
+
+    public class NODE_TYPE {
+        public static final int FIRST_MAN_SINGLE = 1;
+        public static final int FIRST_MAN_MARRIED = 2;
+        public static final int MAN_SINGLE = 3;
+        public static final int MAN_MARRIED = 4;
+        public static final int WOMAN_SINGLE = 5;
+        public static final int WOMAN_MARRIED = 6;
+        public static final int PARTNER = 7;
+    }
 }
