@@ -14,6 +14,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.view.fragment.branch.DetailChatBranchFragment.DetailChatBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
@@ -39,6 +40,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
     private DetailInformationBranchFragment mInformationBranchFrg;
     private DetailMemberBranchFragment mMemberBranchFrg;
     private DetailMemberRequestBranchFragment mMemberRequestBranchFrg;
+    private DetailChatBranchFragment mDetailChatBranchFragment;
 
     public DetailBranchFragment() {
 
@@ -54,6 +56,9 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             mInformationBranchFrg = new DetailInformationBranchFragment();
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
+        if (mDetailChatBranchFragment != null) {
+            mDetailChatBranchFragment = new DetailChatBranchFragment();
+        }
 
         if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
             if (mMemberRequestBranchFrg == null)
@@ -74,6 +79,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             tv2.setScaleY(-1);
             TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
             tv3.setScaleY(-1);
+            TextView tv4 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(3)).getChildAt(1));
+            tv4.setScaleY(-1);
         } else {
             setupViewPager(mViewPager);
             mTabLayout.setupWithViewPager(mViewPager);
@@ -83,6 +90,8 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
             tv1.setScaleY(-1);
             TextView tv2 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(1)).getChildAt(1));
             tv2.setScaleY(-1);
+            TextView tv3 = (TextView)(((LinearLayout)((LinearLayout)mTabLayout.getChildAt(0)).getChildAt(2)).getChildAt(1));
+            tv3.setScaleY(-1);
         }
         return view;
     }
@@ -101,6 +110,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE) {
             arrListFrg.add(mInformationBranchFrg);
             arrListFrg.add(mMemberBranchFrg);
+            arrListFrg.add(mDetailChatBranchFragment);
             arrListFrg.add(mMemberRequestBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
@@ -110,6 +120,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         } else {
             arrListFrg.add(mInformationBranchFrg);
             arrListFrg.add(mMemberBranchFrg);
+            arrListFrg.add(mDetailChatBranchFragment);
             mInformationBranchFrg.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;

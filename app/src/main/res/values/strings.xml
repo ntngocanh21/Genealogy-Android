@@ -26,6 +26,7 @@
     <string name="tab_title_information">Information</string>
     <string name="tab_title_member">Member</string>
     <string name="tab_title_request">Request</string>
+    <string name="tab_title_chat">Chat</string>
 
     <string name="tab_title_search_genealogy">Genealogy</string>
     <string name="tab_title_search_branch">Branch</string>

@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
@@ -22,11 +21,8 @@ import android.util.Patterns;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.NotificationUtils;
-import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
-import com.senior.project.genealogy.view.activity.login.LoginActivity;
 
 import org.json.JSONObject;
 
@@ -89,7 +85,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             intent.putExtra("title", remoteMessage.getTitle());
 
-            String imageUrl = "https://api.androidhive.info/images/minion.jpg";
+            String imageUrl = "https://firebasestorage.googleapis.com/v0/b/genealogy-c2e67.appspot.com/o/config%2FMemberJoin.png?alt=media&token=3c8c7383-5692-4049-b917-663836210d6f";
 
             if (dataPayload.size() > 0) {
                 try {
