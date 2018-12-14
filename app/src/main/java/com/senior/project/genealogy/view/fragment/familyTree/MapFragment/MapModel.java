@@ -6,4 +6,5 @@ public interface MapModel {
     void getFamilyTreeByBranchId(int branchId, String token);
     void deletePeople(int peopleId, String token);
     void joinBranch(UserBranchPermission userBranchPermission, String token);
+    void outBranch(UserBranchPermission userBranchPermission, String token);
 }

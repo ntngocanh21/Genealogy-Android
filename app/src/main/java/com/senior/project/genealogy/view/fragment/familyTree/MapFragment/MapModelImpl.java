@@ -97,4 +97,32 @@ public class MapModelImpl implements MapModel {
             }
         });
     }
+
+    @Override
+    public void outBranch(UserBranchPermission userBranchPermission, String token) {
+        Call<CodeResponse> call = mApplicationApi.getClient().create(MemberApi.class).outBranch(userBranchPermission, token);
+        call.enqueue(new Callback<CodeResponse>() {
+            @Override
+            public void onResponse(Call<CodeResponse> call, Response<CodeResponse> response) {
+                CodeResponse codeResponse = response.body();
+                int code = Integer.parseInt(codeResponse.getError().getCode());
+                switch (code) {
+                    case Constants.HTTPCodeResponse.SUCCESS:
+                        mMapFragmentPresenter.outBranchSuccess();
+                        break;
+                    case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
+                        mMapFragmentPresenter.outBranchFalse();
+                        break;
+                    default:
+                        mMapFragmentPresenter.outBranchFalse();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodeResponse> call, Throwable t) {
+                mMapFragmentPresenter.outBranchFalse();
+            }
+        });
+    }
 }

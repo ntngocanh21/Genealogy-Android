@@ -23,6 +23,9 @@ public interface BranchApi {
     @HTTP(method = "DELETE", path = "/api/branch",  hasBody = true)
     Call<CodeResponse> deleteBranch(@Body int branchId, @Header("Authorisation") String token);
 
-     @POST("/api/branch/genealogy")
+    @POST("/api/branch/genealogy")
     Call<BranchResponse> getBranchesByGenealogyId(@Body int genealogyId, @Header("Authorisation") String token);
+
+    @POST("/api/branch/id")
+    Call<BranchResponse> getBranchesByBranchId(@Body int branchId, @Header("Authorisation") String token);
 }

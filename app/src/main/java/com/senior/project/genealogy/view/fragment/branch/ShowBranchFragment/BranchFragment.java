@@ -204,7 +204,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches);
+        mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -257,5 +257,10 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
         if (mRcvAdapter.getItemCount() == 0) {
             txtNoticeBranch.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void refreshListBranches() {
+        branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
+        branchFragmentPresenterImpl.getGenealogiesByUsername(token);
     }
 }

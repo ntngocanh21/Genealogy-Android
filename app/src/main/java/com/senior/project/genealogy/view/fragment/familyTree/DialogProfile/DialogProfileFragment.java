@@ -18,6 +18,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.fragment.familyTree.DialogNode.DialogNodeFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.UpdateDialogProfile.UpdateDialogNodeFragment;
 
 import java.util.List;
 
@@ -66,6 +67,9 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
     private ProgressDialog mProgressDialog;
     private DialogProfileFragmentPresenterImpl dialogProfileFragmentPresenterImpl;
     private People people;
+    private People updatedPeople;
+    private int nodeType;
+
     public DialogProfileFragment() {
 
     }
@@ -76,15 +80,21 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
         setCancelable(false);
         ButterKnife.bind(this, view);
         people = (People) getArguments().getSerializable("people");
+        nodeType = getArguments().getInt("nodeType");
+        if(nodeType == Constants.NODE_TYPE.PARTNER){
+            btnAddNode.setVisibility(View.GONE);
+            btnRelative.setVisibility(View.GONE);
+        }
         showInformation(people);
         return view;
     }
 
-    public static DialogProfileFragment newInstance(People people, int branchId) {
+    public static DialogProfileFragment newInstance(People people, int branchId, int nodeType) {
         DialogProfileFragment dialog = new DialogProfileFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("people", people);
         bundle.putInt("branchId", branchId);
+        bundle.putInt("nodeType", nodeType);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -104,8 +114,6 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
         }
 
         if (people.getDeathDay() != null){
-            txtDeathdayTitle.setVisibility(View.VISIBLE);
-            txtDeathday.setVisibility(View.VISIBLE);
             txtDeathday.setText(people.getDeathDay());
         }
 
@@ -129,14 +137,14 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
         mGetRelationInterface = getRelationInterface;
     }
 
-    @OnClick({R.id.btnAddNode, R.id.btnRelative, R.id.btnMenu, R.id.btnClose})
+    @OnClick({R.id.btnAddNode, R.id.btnRelative,  R.id.btnEdit, R.id.btnMenu, R.id.btnClose})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnClose:
                 this.dismiss();
                 break;
             case R.id.btnAddNode:
-                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people, null);
+                DialogNodeFragment dialogNodeFragment = DialogNodeFragment.newInstance(people, null, nodeType);
                 dialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
                 dialogNodeFragment.attackInterface(new DialogNodeFragment.CreateNodeInterface() {
                     @Override
@@ -152,18 +160,38 @@ public class DialogProfileFragment extends DialogFragment implements DialogProfi
                 dialogProfileFragmentPresenterImpl = new DialogProfileFragmentPresenterImpl(this);
                 dialogProfileFragmentPresenterImpl.getRelative(people.getId(), token);
                 break;
+            case R.id.btnEdit:
+                UpdateDialogNodeFragment updateDialogNodeFragment = UpdateDialogNodeFragment.newInstance(people);
+                updateDialogNodeFragment.show(getActivity().getSupportFragmentManager(), null);
+                updateDialogNodeFragment.attackInterface(new UpdateDialogNodeFragment.UpdateNodeInterface() {
+                    @Override
+                    public void sendDataNodeProfile(People people) {
+                        showInformation(people);
+                        updatedPeople = people;
+                    }
+                });
+                break;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(updatedPeople != null){
+            mDialogProfileInterface.sendUpdateDataToMap(updatedPeople);
         }
     }
 
     public interface DialogProfileInterface{
         void sendDataToMap(People people);
+        void sendUpdateDataToMap(People people);
     }
 
     public DialogProfileInterface mDialogProfileInterface;
 
     public void attackInterface(DialogProfileInterface dialogProfileInterface){
         mDialogProfileInterface = dialogProfileInterface;
-    }
+}
 
     @Override
     public void showToast(String msg) {

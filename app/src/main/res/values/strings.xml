@@ -7,12 +7,12 @@
     <string name="navigation_drawer_open">navigation open</string>
     <string name="navigation_drawer_close">navigation close</string>
 
-    <string name="frg_my_genealogy">My genealogies</string>
+    <string name="frg_my_genealogy">My genealogy</string>
     <string name="frg_create_genealogy">Create new genealogy</string>
     <string name="frg_update_genealogy">Update genealogy</string>
     <string name="frg_view_genealogy">Genealogy information</string>
 
-    <string name="frg_branches">Branches</string>
+    <string name="frg_branches">Branch</string>
     <string name="frg_create_branch">Create new branch</string>
     <string name="frg_update_branch">Update branch</string>
 
@@ -38,7 +38,7 @@
 
     <string name="error_username">Invalid username format</string>
     <string name="error_password">Your password is not strong enough. Make sure it follows the rules above</string>
-    <string name="error_fullname">Fullname Field is Empty</string>
+    <string name="error_fullname">Fullname field is empty</string>
     <string name="sign_up">Sign up!</string>
     <string name="label_register_account">Don\'t have an account?</string>
     <string name="btn_login">Login</string>

@@ -29,4 +29,7 @@ public interface MemberApi {
     @POST("api/member/branch")
     Call<CodeResponse> joinBranch(@Body UserBranchPermission userBranchPermission, @Header("Authorisation") String token);
 
+    @HTTP(method = "DELETE", path = "api/member/branch",  hasBody = true)
+    Call<CodeResponse> outBranch(@Body UserBranchPermission userBranchPermission, @Header("Authorisation") String token);
+
 }

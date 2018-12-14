@@ -76,18 +76,33 @@
                     android:layout_marginTop="6dp"
                     android:layout_toRightOf="@+id/txtPeople" />
 
+                <ImageView
+                    android:id="@+id/imgRole"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/txtBranchDate"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/txtWaiting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text=" Waiting for accept "
+                    android:textColor="@color/white"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/lightgray"
+                    android:layout_toLeftOf="@+id/txtBranchDate"
+                    android:visibility="gone"
+                    />
+
                 <TextView
                     android:id="@+id/txtBranchDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@+id/imgRole" />
-
-                <ImageView
-                    android:id="@+id/imgRole"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"/>
 
             </RelativeLayout>

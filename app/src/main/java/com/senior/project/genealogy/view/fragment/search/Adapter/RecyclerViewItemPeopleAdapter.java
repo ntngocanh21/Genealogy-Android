@@ -18,6 +18,8 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.People;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.search.MemberSearchFragment.PeopleSearchFragment;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -25,12 +27,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecyclerViewItemPeopleAdapter extends RecyclerView.Adapter<RecyclerViewItemPeopleAdapter.RecyclerViewHolder>{
     private Context mContext;
     private FragmentManager mFragmentManager;
+    private PeopleSearchFragment mPeopleSearchFragment;
     private List<People> mPeople;
 
-    public RecyclerViewItemPeopleAdapter(Context mContext, FragmentManager mFragmentManager, List<People> mPeople) {
+    public RecyclerViewItemPeopleAdapter(Context mContext, FragmentManager mFragmentManager, List<People> mPeople, PeopleSearchFragment mPeopleSearchFragment) {
         this.mContext = mContext;
         this.mFragmentManager = mFragmentManager;
         this.mPeople = mPeople;
+        this.mPeopleSearchFragment = mPeopleSearchFragment;
     }
 
     @Override
@@ -76,11 +80,7 @@ public class RecyclerViewItemPeopleAdapter extends RecyclerView.Adapter<Recycler
         holder.linePeople.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                DetailBranchFragment mFragment = new DetailBranchFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("branch", branch);
-//                mFragment.setArguments(bundle);
-//                pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.search_frame);
+                mPeopleSearchFragment.getBranchById(people.getBranchId());
             }
         });
     }

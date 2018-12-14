@@ -22,6 +22,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.NotificationUtils;
+import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 import org.json.JSONObject;

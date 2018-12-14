@@ -19,11 +19,12 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtBranchName"
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/edtBranchName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
@@ -122,38 +123,28 @@
                         android:textSize="18dp"
                         android:textColor="@color/black"
                         android:layout_marginBottom="5dp" />
-
-                    <ImageButton
-                        android:id="@+id/btnFamilyTree"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:background="@color/colorPrimaryDark"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="5dp"
-                        android:src="@drawable/ic_tree" />
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtDescription"
+            <EditText
+                android:id="@+id/edtDescription"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="18dp"
+                android:gravity="top|left"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="60dp"/>
+                android:inputType="text|textMultiLine"
+                android:paddingBottom="60dp" />
         </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnEditBranchInfo"
+        android:id="@+id/btnDoneEditBranch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/edit"
+        android:src="@drawable/done"
         android:layout_margin="16dp" />
 </FrameLayout>

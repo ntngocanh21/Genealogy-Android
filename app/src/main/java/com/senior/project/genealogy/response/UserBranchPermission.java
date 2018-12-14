@@ -27,6 +27,10 @@ public class UserBranchPermission implements Serializable{
     @Expose
     private int branch_permission_id;
 
+    public UserBranchPermission(int branch_id) {
+        this.branch_id = branch_id;
+    }
+
     public UserBranchPermission(boolean status, int branch_id) {
         this.status = status;
         this.branch_id = branch_id;

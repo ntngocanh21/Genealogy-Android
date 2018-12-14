@@ -18,14 +18,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvNewNode"
+            android:id="@+id/txtUpdateNode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:padding="16dp"
             android:paddingBottom="7dp"
             android:paddingTop="7dp"
-            android:text="New relative"
+            android:text="Update"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -60,12 +60,20 @@
                 />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btnEditBranch"
+                android:id="@+id/btnEditAva"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_camera"
-                android:layout_margin="-30dp" />
+                android:layout_margin="-30dp"
+                android:layout_marginBottom="-20dp"/>
+
+            <ImageView
+                android:id="@+id/imgGenger"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="70dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,22 +83,6 @@
                 android:paddingBottom="10dp"
                 android:paddingRight="20dp"
                 android:paddingLeft="20dp">
-
-                <TextView
-                    android:id="@+id/txtRelative"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Relative type"
-                    android:textSize="12dp"
-                    android:textColor="@color/lightgray"/>
-
-                <Spinner
-                    android:id="@+id/relativeType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginLeft="-9dp"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -130,21 +122,6 @@
                         android:paddingBottom="4dp"
                         android:textSize="16sp"/>
                 </android.support.design.widget.TextInputLayout>
-
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/radioGender"
-                    android:visibility="gone"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton android:id="@+id/radioMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Male"
-                        android:checked="true"/>
-                </RadioGroup>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -257,13 +234,13 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:id="@+id/btnNewNode"
+                    android:id="@+id/btnSave"
                     android:background="@drawable/radius_button"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Create" />
+                    android:text="Save" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
