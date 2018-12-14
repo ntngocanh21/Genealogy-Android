@@ -112,13 +112,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 bigPictureStyle.setSummaryText(Html.fromHtml(remoteMessage.getBody()).toString());
                 bigPictureStyle.bigPicture(bitmap);
 
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+                bigTextStyle.setBigContentTitle(remoteMessage.getTitle());
+                bigTextStyle.bigText(remoteMessage.getBody());
+
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
                         .setContentTitle(Utils.convertStringToUTF8(remoteMessage.getTitle()))
                         .setContentText(Utils.convertStringToUTF8(remoteMessage.getBody()))
                         .setAutoCancel(true)
                         .setSound(alarmSound)
-                        .setStyle(bigPictureStyle)
+                        .setStyle(bigTextStyle)
                         .setContentIntent(resultPendingIntent)
                         .setSmallIcon(R.drawable.ic_notification)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_notification))
