@@ -4,6 +4,7 @@ package com.senior.project.genealogy.service;
 import com.senior.project.genealogy.response.CodeResponse;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.GenealogyResponse;
+import com.senior.project.genealogy.response.NotificationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,5 +27,8 @@ public interface GenealogyApi {
 
     @GET("/api/genealogy/user")
     Call<GenealogyResponse> getGenealogiesByUserName(@Header("Authorisation") String token);
+
+    @GET("/api/notification/user")
+    Call<NotificationResponse> getNotifications(@Header("Authorisation") String token);
 
 }

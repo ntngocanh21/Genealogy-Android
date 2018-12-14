@@ -3,8 +3,6 @@ package com.senior.project.genealogy.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
-
 public class LoginResponse {
 
     @SerializedName("error")
@@ -22,6 +20,10 @@ public class LoginResponse {
     @SerializedName("fullname")
     @Expose
     private String fullname;
+
+    @SerializedName("branchId")
+    @Expose
+    private String branchId;
 
     public Message getError() {
         return error;
@@ -53,5 +55,13 @@ public class LoginResponse {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
     }
 }

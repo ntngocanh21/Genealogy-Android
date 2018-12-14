@@ -24,6 +24,7 @@
     <string name="frg_family_tree">Family tree</string>
 
     <string name="tab_title_information">Information</string>
+    <string name="tab_title_event">Event</string>
     <string name="tab_title_member">Member</string>
     <string name="tab_title_request">Request</string>
     <string name="tab_title_chat">Chat</string>

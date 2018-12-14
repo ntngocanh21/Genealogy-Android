@@ -39,7 +39,7 @@ public class Utils {
          *  Non-alphanumeric (For example: !, $, #, or %)
          *  Unicode characters
          */
-        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$";
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,36}$";
         pattern = Pattern.compile(PASSWORD_PATTERN);
         matcher = pattern.matcher(password);
         return matcher.matches();
@@ -55,7 +55,7 @@ public class Utils {
          */
         Pattern pattern;
         Matcher matcher;
-        final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{6,}$";
+        final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{6,15}$";
         pattern = Pattern.compile(USERNAME_PATTERN);
         matcher = pattern.matcher(username);
         return matcher.matches();
@@ -112,5 +112,15 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static String convertStringToUTF8(String s) {
+        String out = null;
+        try {
+            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return null;
+        }
+        return out;
     }
 }

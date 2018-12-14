@@ -104,7 +104,6 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
                         btnCreateBranch.setVisibility(View.GONE);
                     }
                     showBranch(genealogy.getBranchList());
-                    //branchFragmentPresenterImpl.getBranchesByGenealogyId(token, genealogy.getId());
                 }
                 public void onNothingSelected(AdapterView<?> parent)
                 {
@@ -255,7 +254,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @Override
     public void deleteItemBranch(RecyclerView.ViewHolder viewHolder) {
         mRcvAdapter.removeItem(viewHolder.getAdapterPosition());
-        if (mRcvAdapter.getItemCount() == 0){
+        if (mRcvAdapter.getItemCount() == 0) {
             txtNoticeBranch.setVisibility(View.VISIBLE);
         }
     }

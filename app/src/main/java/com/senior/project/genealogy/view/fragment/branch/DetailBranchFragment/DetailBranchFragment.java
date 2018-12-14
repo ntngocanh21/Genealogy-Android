@@ -14,7 +14,6 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.view.fragment.branch.DetailChatBranchFragment.DetailChatBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailInformationBranchFragment.DetailInformationBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberBranchFragment.DetailMemberBranchFragment;
 import com.senior.project.genealogy.view.fragment.branch.DetailMemberRequestBranchFragment.DetailMemberRequestBranchFragment;
@@ -40,7 +39,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
     private DetailInformationBranchFragment mInformationBranchFrg;
     private DetailMemberBranchFragment mMemberBranchFrg;
     private DetailMemberRequestBranchFragment mMemberRequestBranchFrg;
-    private DetailChatBranchFragment mDetailChatBranchFragment;
+    private DetailEventBranchFragment mDetailEventBranchFragment;
 
     public DetailBranchFragment() {
 
@@ -54,11 +53,10 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         branch = (Branch) getArguments().getSerializable("branch");
         if (mInformationBranchFrg == null)
             mInformationBranchFrg = new DetailInformationBranchFragment();
+        if (mDetailEventBranchFragment == null)
+            mDetailEventBranchFragment = new DetailEventBranchFragment();
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
-        if (mDetailChatBranchFragment != null) {
-            mDetailChatBranchFragment = new DetailChatBranchFragment();
-        }
 
         if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
             if (mMemberRequestBranchFrg == null)
@@ -109,19 +107,21 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         bundle.putSerializable("branch", branch);
         if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE) {
             arrListFrg.add(mInformationBranchFrg);
+            arrListFrg.add(mDetailEventBranchFragment);
             arrListFrg.add(mMemberBranchFrg);
-            arrListFrg.add(mDetailChatBranchFragment);
             arrListFrg.add(mMemberRequestBranchFrg);
             mInformationBranchFrg.setArguments(bundle);
+            mDetailEventBranchFragment.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             mMemberRequestBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsAdmin().length;
             adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsAdmin(), arrListFrg);
         } else {
             arrListFrg.add(mInformationBranchFrg);
+            arrListFrg.add(mDetailEventBranchFragment);
             arrListFrg.add(mMemberBranchFrg);
-            arrListFrg.add(mDetailChatBranchFragment);
             mInformationBranchFrg.setArguments(bundle);
+            mDetailEventBranchFragment.setArguments(bundle);
             mMemberBranchFrg.setArguments(bundle);
             numPage = titleStringUtils.gettitlesAsRoleIsNormal().length;
             adapter = new SectionsPageAdapter(this.getChildFragmentManager(), titleStringUtils.gettitlesAsRoleIsNormal(), arrListFrg);
