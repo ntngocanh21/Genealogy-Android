@@ -1,8 +1,6 @@
 package com.senior.project.genealogy.view.activity.login;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.response.User;
-import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 

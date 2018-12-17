@@ -17,4 +17,8 @@ public interface MapFragmentPresenter {
     void joinBranch(UserBranchPermission userBranchPermission, String token);
     void joinBranchSuccess();
     void joinBranchFalse();
+
+    void outBranch(UserBranchPermission userBranchPermission, String token);
+    void outBranchSuccess();
+    void outBranchFalse();
 }

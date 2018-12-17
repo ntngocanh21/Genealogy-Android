@@ -11,4 +11,6 @@ public interface MapFragmentView {
     void deletePeople(int peopleId);
     void joinBranchSuccess();
     void joinBranchFalse();
+    void outBranchSuccess();
+    void outBranchFalse();
 }

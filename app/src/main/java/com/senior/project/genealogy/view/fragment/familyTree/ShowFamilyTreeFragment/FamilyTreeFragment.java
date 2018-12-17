@@ -133,7 +133,7 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
         }
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches);
+        mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -181,5 +181,10 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
         if (mRcvAdapter.getItemCount() == 0){
             txtNoticeBranch.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void refreshListFamilyTree() {
+        familyTreeFragmentPresenter = new FamilyTreeFragmentPresenterImpl(this);
+        familyTreeFragmentPresenter.getGenealogiesByUsername(token);
     }
 }

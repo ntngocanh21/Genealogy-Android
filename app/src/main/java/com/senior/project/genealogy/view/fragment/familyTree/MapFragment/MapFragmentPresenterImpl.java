@@ -73,4 +73,22 @@ public class MapFragmentPresenterImpl implements MapFragmentPresenter {
         mMapFragmentView.closeProgressDialog();
         mMapFragmentView.joinBranchFalse();
     }
+
+    @Override
+    public void outBranch(UserBranchPermission userBranchPermission, String token) {
+        mMapFragmentView.showProgressDialog();
+        mMapModel.outBranch(userBranchPermission, token);
+    }
+
+    @Override
+    public void outBranchSuccess() {
+        mMapFragmentView.closeProgressDialog();
+        mMapFragmentView.outBranchSuccess();
+    }
+
+    @Override
+    public void outBranchFalse() {
+        mMapFragmentView.closeProgressDialog();
+        mMapFragmentView.outBranchFalse();
+    }
 }

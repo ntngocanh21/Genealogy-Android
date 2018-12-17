@@ -131,4 +131,19 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         viewPager.setOffscreenPageLimit(numPage);
     }
 
+    @Override
+    public void onDestroyView() {
+        mUpdateBranchInterface.refreshBranches();
+        super.onDestroyView();
+    }
+
+    public interface UpdateBranchInterface{
+        void refreshBranches();
+    }
+
+    public UpdateBranchInterface mUpdateBranchInterface;
+
+    public void attachInterface(UpdateBranchInterface updateBranchInterface){
+        mUpdateBranchInterface = updateBranchInterface;
+    }
 }

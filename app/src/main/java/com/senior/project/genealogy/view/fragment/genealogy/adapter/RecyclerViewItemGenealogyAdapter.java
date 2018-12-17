@@ -98,16 +98,6 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_frame);
                 mFragment.attachInterface(new DetailGenealogyFragment.UpdateGenealogyListInterface() {
                     @Override
-                    public void sendDataUpdateToGenealogyList(Genealogy newGenealogy) {
-//                        if (genealogyId == newGenealogy.getId()){
-//                            updatedGenealogy = new Genealogy(genealogyId, genealogyName, genealogyHistory, genealogyOwner, genealogyDate, genealogyBranch, role);
-//                            updatedGenealogy.setName(newGenealogy.getName());
-//                            updatedGenealogy.setHistory(newGenealogy.getHistory());
-//                            holder.txtGenealogyName.setText(newGenealogy.getName());
-//                        }
-                    }
-
-                    @Override
                     public void refreshGenealogies() {
                         mGenealogyFragment.refreshListGenealogies();
                     }

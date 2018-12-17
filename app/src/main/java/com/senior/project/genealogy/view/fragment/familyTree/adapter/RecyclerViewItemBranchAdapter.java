@@ -20,6 +20,7 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
+import com.senior.project.genealogy.view.fragment.familyTree.ShowFamilyTreeFragment.FamilyTreeFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,11 +31,13 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
     private Context mContext;
     private FragmentManager mFragmentManager;
     private List<Branch> mBranches;
+    private FamilyTreeFragment mFamilyTreeFragment;
 
-    public RecyclerViewItemBranchAdapter(Context mContext, FragmentManager mFragmentManager, List<Branch> mBranches) {
+    public RecyclerViewItemBranchAdapter(Context mContext, FragmentManager mFragmentManager, List<Branch> mBranches, FamilyTreeFragment mFamilyTreeFragment) {
         this.mContext = mContext;
         this.mFragmentManager = mFragmentManager;
         this.mBranches = mBranches;
+        this.mFamilyTreeFragment = mFamilyTreeFragment;
     }
 
     @Override
@@ -62,13 +65,20 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         final int role = mBranches.get(position).getRole();
         switch (role){
             case Constants.ROLE.ADMIN_ROLE:
+                holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_admin);
                 break;
             case Constants.ROLE.MOD_ROLE:
+                holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_mod);
                 break;
             case Constants.ROLE.MEMBER_ROLE:
+                holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_member);
+                break;
+            case Constants.ROLE.WAITING:
+                holder.imgRole.setVisibility(View.GONE);
+                holder.txtWaiting.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -81,6 +91,12 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
                 bundle.putSerializable("branch", branch);
                 mFragment.setArguments(bundle);
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.family_tree_frame);
+                mFragment.attachInterface(new MapFragment.UpdateFamilyTreeListInterface() {
+                    @Override
+                    public void refreshFamilyTree() {
+                        mFamilyTreeFragment.refreshListFamilyTree();
+                    }
+                });
             }
         });
     }
@@ -105,6 +121,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
         TextView txtBranchName;
         TextView txtNumberOfPeople;
         TextView txtBranchDate;
+        TextView txtWaiting;
         ImageView imgRole;
         FrameLayout line;
         RelativeLayout viewBackground, viewForeground;
@@ -115,6 +132,7 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
             txtNumberOfPeople = (TextView) itemView.findViewById(R.id.txtNumberOfPeople);
             txtBranchDate = (TextView) itemView.findViewById(R.id.txtBranchDate);
             imgRole = (ImageView) itemView.findViewById(R.id.imgRole);
+            txtWaiting = (TextView) itemView.findViewById(R.id.txtWaiting);
             line = (FrameLayout) itemView.findViewById(R.id.lineBranch);
             viewBackground = (RelativeLayout)itemView.findViewById(R.id.viewBackgroundBranch);
             viewForeground = (RelativeLayout)itemView.findViewById(R.id.viewForegroundBranch);

@@ -103,7 +103,6 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
                     @Override
                     public void sendDataUpdateToGenealogy(Genealogy genealogy) {
                         updateGenealogy(genealogy);
-                        mUpdateGenealogyListInterface.sendDataUpdateToGenealogyList(genealogy);
                     }
                 });
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.genealogy_detail_frame);
@@ -168,7 +167,6 @@ public class DetailGenealogyFragment extends Fragment implements DetailGenealogy
     }
 
     public interface UpdateGenealogyListInterface{
-        void sendDataUpdateToGenealogyList(Genealogy genealogy);
         void refreshGenealogies();
     }
 

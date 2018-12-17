@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,6 +16,7 @@ import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
+import com.senior.project.genealogy.view.fragment.branch.UpdateBranchFragment.UpdateBranchFragment;
 import com.senior.project.genealogy.view.fragment.familyTree.MapFragment.MapFragment;
 
 import java.text.DateFormat;
@@ -40,8 +40,8 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
     @BindView(R.id.btnFamilyTree)
     ImageButton btnFamilyTree;
 
-    @BindView(R.id.btnEditBranch)
-    FloatingActionButton btnEditBranch;
+    @BindView(R.id.btnEditBranchInfo)
+    FloatingActionButton btnEditBranchInfo;
 
     @BindView(R.id.txtDescription)
     TextView txtDescription;
@@ -59,13 +59,13 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
         ButterKnife.bind(this, view);
         branch = (Branch) getArguments().getSerializable("branch");
         if(!(branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE)){
-            btnEditBranch.setVisibility(View.GONE);
+            btnEditBranchInfo.setVisibility(View.GONE);
         }
         showBranch(branch);
         return view;
     }
 
-    @OnClick({R.id.btnFamilyTree, R.id.btnEditBranch})
+    @OnClick({R.id.btnFamilyTree, R.id.btnEditBranchInfo})
     public void onClick(View view) {
         Bundle bundle = new Bundle();
         switch(view.getId())
@@ -77,9 +77,24 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
                 pushFragment(HomeActivity.PushFrgType.ADD, mFragment, mFragment.getTag(), R.id.detail_branch_frame);
                 break;
 
-            case R.id.btnEditBranch:
+            case R.id.btnEditBranchInfo:
+                UpdateBranchFragment mUpdateFragment = new UpdateBranchFragment();
+                bundle.putSerializable("branch", branch);
+                mUpdateFragment.setArguments(bundle);
+                mUpdateFragment.attachInterface(new UpdateBranchFragment.UpdateBranchInterface() {
+                    @Override
+                    public void sendDataUpdateToBranch(Branch branch) {
+                        updateBranch(branch);
+                    }
+                });
+                pushFragment(HomeActivity.PushFrgType.ADD, mUpdateFragment, mUpdateFragment.getTag(), R.id.detail_branch_frame);
                 break;
         }
+    }
+
+    public void updateBranch(Branch branch){
+        txtBranchName.setText(branch.getName());
+        txtDescription.setText(branch.getDescription());
     }
 
     public void pushFragment(HomeActivity.PushFrgType type, Fragment fragment, String tag, @IdRes int mContainerId) {
@@ -112,4 +127,5 @@ public class DetailInformationBranchFragment extends Fragment implements DetailI
         String branchDate = formatter.format(branch.getDate());
         txtBranchDate.setText(branchDate);
     }
+
 }

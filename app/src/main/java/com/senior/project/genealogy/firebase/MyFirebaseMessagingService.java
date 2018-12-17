@@ -86,7 +86,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             intent.putExtra("title", remoteMessage.getTitle());
 
-            String imageUrl = "https://api.androidhive.info/images/minion.jpg";
+            String imageUrl = "https://firebasestorage.googleapis.com/v0/b/genealogy-c2e67.appspot.com/o/config%2FMemberJoin.png?alt=media&token=3c8c7383-5692-4049-b917-663836210d6f";
 
             if (dataPayload.size() > 0) {
                 try {
@@ -115,6 +115,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 bigPictureStyle.setBigContentTitle(remoteMessage.getTitle());
                 bigPictureStyle.setSummaryText(Html.fromHtml(remoteMessage.getBody()).toString());
                 bigPictureStyle.bigPicture(bitmap);
+
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+                bigTextStyle.setBigContentTitle(remoteMessage.getTitle());
+                bigTextStyle.bigText(remoteMessage.getBody());
 
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
