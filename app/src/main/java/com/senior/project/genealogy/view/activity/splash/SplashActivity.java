@@ -36,7 +36,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
             this.getWindow().setStatusBarColor(Color.WHITE);
             this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         }
-        checkAccount();
+//        checkAccount();
     }
 
     private void checkAccount(){

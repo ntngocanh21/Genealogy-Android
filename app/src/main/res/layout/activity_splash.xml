@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#1f1e23"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -11,11 +11,25 @@
 
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:id="@+id/logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginBottom="20dp"
         android:layout_centerVertical="true"
+        android:layout_marginTop="-20dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo" />
+        android:src="@drawable/genealogy_logo" />
+
+
+    <TextView
+        android:layout_below="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        android:layout_marginTop="4dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="GENEALOGY SYSTEM" />
 
 </RelativeLayout>
