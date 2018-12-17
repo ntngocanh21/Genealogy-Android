@@ -41,7 +41,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void saveUser(String token, String avatar, String fullname, String deviceId, String branchId) {
+    public void saveUser(String token, String avatar, String fullname, String deviceId) {
         mLoginView.saveUser(token, avatar, fullname, Utils.getDeviceId());
     }
 }

@@ -110,14 +110,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
                 Bitmap bitmap = getBitmapFromURL(imageUrl);
 
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+                bigTextStyle.setBigContentTitle(remoteMessage.getTitle());
+                bigTextStyle.bigText(remoteMessage.getBody());
+
                 NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
                 bigPictureStyle.setBigContentTitle(remoteMessage.getTitle());
                 bigPictureStyle.setSummaryText(Html.fromHtml(remoteMessage.getBody()).toString());
                 bigPictureStyle.bigPicture(bitmap);
-
-                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
-                bigTextStyle.setBigContentTitle(remoteMessage.getTitle());
-                bigTextStyle.bigText(remoteMessage.getBody());
 
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)

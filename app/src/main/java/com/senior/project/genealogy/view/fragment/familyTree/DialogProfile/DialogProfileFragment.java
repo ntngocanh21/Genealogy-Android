@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DialogProfileFragment extends DialogFragment implements DialogProfileFragmentView{
+public class DialogProfileFragment extends DialogFragment implements DialogProfileFragmentView {
 
     @BindView(R.id.btnMenu)
     FloatingActionMenu btnMenu;
