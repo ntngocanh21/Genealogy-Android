@@ -26,8 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
-public class DetailBranchFragment extends Fragment implements DetailBranchFragmentView{
+public class DetailBranchFragment extends Fragment implements DetailBranchFragmentView {
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;

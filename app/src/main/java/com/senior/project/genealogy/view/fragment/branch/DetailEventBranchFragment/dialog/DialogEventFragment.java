@@ -103,6 +103,7 @@ public class DialogEventFragment extends DialogFragment implements DialogEventFr
 
     public Event getDataFromForm() {
         Event event = new Event();
+        event.setTitle(edtEventName.getText().toString());
         event.setContent(edtContent.getText().toString());
         event.setDate(edtSetTime.getText().toString());
         return event;

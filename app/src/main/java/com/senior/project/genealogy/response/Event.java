@@ -23,19 +23,19 @@ public class Event implements Serializable {
     @Expose
     private Integer branchId;
 
-    @SerializedName("user_id_created")
+    @SerializedName("username")
     @Expose
-    private Integer userIdCreated;
+    private String userName;
 
     public Event() {
     }
 
-    public Event(String title, String content, String date, Integer branchId, Integer userIdCreated) {
+    public Event(String title, String content, String date, Integer branchId, String userName) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.branchId = branchId;
-        this.userIdCreated = userIdCreated;
+        this.userName = userName;
     }
 
     public String getTitle() {
@@ -70,11 +70,11 @@ public class Event implements Serializable {
         this.branchId = branchId;
     }
 
-    public Integer getUserIdCreated() {
-        return userIdCreated;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserIdCreated(Integer userIdCreated) {
-        this.userIdCreated = userIdCreated;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

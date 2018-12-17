@@ -1,5 +1,7 @@
 package com.senior.project.genealogy.service;
 
+import com.senior.project.genealogy.response.Event;
+import com.senior.project.genealogy.response.EventResponse;
 import com.senior.project.genealogy.response.LoginResponse;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.response.UserResponse;
@@ -24,5 +26,8 @@ public interface UserApi {
 
     @PUT("api/user")
     Call<UserResponse> updateProfile(@Header("Authorisation") String token, @Body User user);
+
+    @PUT("api/event")
+    Call<EventResponse> pushEvent(@Header("Authorisation") String token, @Body Event event);
 
 }

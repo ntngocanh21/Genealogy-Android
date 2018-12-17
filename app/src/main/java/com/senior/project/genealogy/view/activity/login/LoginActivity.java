@@ -62,37 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             this.getWindow().setStatusBarColor(Color.WHITE);
             this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         }
-        checkAccount();
     }
-
-    private void checkAccount(){
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, Constants.EMPTY_STRING);
-        String password = sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.PASSWORD, Constants.EMPTY_STRING);
-        if(!username.equals(Constants.EMPTY_STRING) && !password.equals(Constants.EMPTY_STRING))
-        {
-            User user = new User(username, password, Utils.getDeviceId());
-            loginPresenterImpl.login(user);
-        } else {
-            setContentView(R.layout.activity_login);
-            ButterKnife.bind(this);
-            if (edtPassword != null)
-                edtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        if (i == EditorInfo.IME_ACTION_DONE ||
-                                keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
-                                        keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                            Utils.hiddenKeyBoard(LoginActivity.this);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-        }
-    }
-
-
 
     @OnTextChanged({R.id.username, R.id.password})
     protected void onTextChanged() {
@@ -116,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         {
             case R.id.btnLogin:
                 User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString(), Utils.getDeviceId());
-                loginPresenterImpl.login(user);
+                loginPresenterImpl.login(user, false);
                 saveAccount(user.getUsername(), user.getPassword());
                 break;
             case R.id.lnSignup:
@@ -174,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 User user = new User(edtUsername.getText().toString(), edtPassword.getText().toString(), Utils.getDeviceId());
-                loginPresenterImpl.login(user);
+                loginPresenterImpl.login(user, false);
             }
         });
         builder.setNegativeButton("exit", new DialogInterface.OnClickListener() {
