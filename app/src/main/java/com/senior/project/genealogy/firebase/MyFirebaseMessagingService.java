@@ -29,8 +29,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Random;
 
@@ -118,8 +121,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                        .setContentTitle(Utils.convertStringToUTF8(remoteMessage.getTitle()))
-                        .setContentText(Utils.convertStringToUTF8(remoteMessage.getBody()))
+                        .setContentTitle(remoteMessage.getTitle())
+                        .setContentText(remoteMessage.getBody())
                         .setAutoCancel(true)
                         .setSound(alarmSound)
                         .setStyle(bigTextStyle)
