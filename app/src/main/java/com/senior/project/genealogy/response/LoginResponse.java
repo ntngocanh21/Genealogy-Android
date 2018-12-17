@@ -21,10 +21,6 @@ public class LoginResponse {
     @Expose
     private String fullname;
 
-    @SerializedName("branchId")
-    @Expose
-    private String branchId;
-
     public Message getError() {
         return error;
     }
@@ -55,13 +51,5 @@ public class LoginResponse {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
-    }
-
-    public String getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
     }
 }

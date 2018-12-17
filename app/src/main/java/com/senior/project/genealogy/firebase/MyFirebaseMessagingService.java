@@ -107,6 +107,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
                 Bitmap bitmap = getBitmapFromURL(imageUrl);
 
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+                bigTextStyle.setBigContentTitle(remoteMessage.getTitle());
+                bigTextStyle.bigText(remoteMessage.getBody());
+
                 NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
                 bigPictureStyle.setBigContentTitle(remoteMessage.getTitle());
                 bigPictureStyle.setSummaryText(Html.fromHtml(remoteMessage.getBody()).toString());
@@ -118,7 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentText(Utils.convertStringToUTF8(remoteMessage.getBody()))
                         .setAutoCancel(true)
                         .setSound(alarmSound)
-                        .setStyle(bigPictureStyle)
+                        .setStyle(bigTextStyle)
                         .setContentIntent(resultPendingIntent)
                         .setSmallIcon(R.drawable.ic_notification)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_notification))

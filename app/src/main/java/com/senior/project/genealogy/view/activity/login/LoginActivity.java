@@ -188,14 +188,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void saveUser(String token, String avatar, String fullname, String deviceId, String branchId) {
+    public void saveUser(String token, String avatar, String fullname, String deviceId) {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.SHARED_PREFERENCES_KEY.TOKEN,"Token " + token);
         editor.putString(Constants.SHARED_PREFERENCES_KEY.AVATAR,avatar);
         editor.putString(Constants.SHARED_PREFERENCES_KEY.FULLNAME,fullname);
         editor.putString(Constants.SHARED_PREFERENCES_KEY.DEVICE_ID, deviceId);
-        editor.putString(Constants.SHARED_PREFERENCES_KEY.BRANCH_ID, branchId);
         editor.apply();
     }
 

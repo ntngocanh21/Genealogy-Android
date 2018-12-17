@@ -241,7 +241,6 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             public void onClick(DialogInterface dialogInterface, int i) {
                 saveAccount(Constants.EMPTY_STRING, Constants.EMPTY_STRING);
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(Utils.getDeviceId());
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).getString(Constants.SHARED_PREFERENCES_KEY.BRANCH_ID, ""));
                 showActivity(LoginActivity.class);
             }
         });

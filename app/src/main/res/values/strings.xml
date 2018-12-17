@@ -47,4 +47,15 @@
     <string name="notifications_admin_channel_name">Global channel</string>
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
 
+    <string name="frg_title_event">Event Family</string>
+
+    <string name="label_event_name">Event Name</string>
+    <string name="label_event_date_created">Set Time</string>
+    <string name="label_event_content">Content</string>
+    <string name="label_event_create">Create Event</string>
+
+    <string name="error_event_name">The Event name field is empty!</string>
+    <string name="error_set_time">The Set time field is empty!</string>
+    <string name="error_event_content">The Content field is empty!</string>
+
 </resources>

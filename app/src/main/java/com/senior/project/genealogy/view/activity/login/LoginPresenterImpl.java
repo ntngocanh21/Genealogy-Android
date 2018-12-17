@@ -43,8 +43,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void saveUser(String token, String avatar, String fullname, String deviceId, String branchId) {
-        FirebaseMessaging.getInstance().subscribeToTopic(branchId+ Constants.BRANCH);
-        mLoginView.saveUser(token, avatar, fullname, Utils.getDeviceId(), branchId+Constants.BRANCH);
+    public void saveUser(String token, String avatar, String fullname, String deviceId) {
+        mLoginView.saveUser(token, avatar, fullname, Utils.getDeviceId());
     }
 }

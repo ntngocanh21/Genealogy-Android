@@ -4,7 +4,7 @@ public class Constants {
 
     public static final String BRANCH = "Branch";
     //    public static String BASE_URL = "http://10.0.2.2:3000/";
-    public static String BASE_URL = "http://192.168.0.106:3000/";
+    public static String BASE_URL = "http://192.168.0.100:3000/";
 //    public static String BASE_URL = "http://10.0.12.78:8080";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
@@ -16,7 +16,6 @@ public class Constants {
         public static String AVATAR = "avatar";
         public static String FULLNAME = "fullname";
         public static String DEVICE_ID = "device_id";
-        public static String BRANCH_ID = "branch_id";
     }
 
     /**

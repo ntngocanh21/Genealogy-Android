@@ -6,7 +6,7 @@ public interface  LoginView {
     void showActivity(Class<?> cls);
     void showProgressDialog();
     void closeProgressDialog();
-    void saveUser(String token, String avatar, String fullname, String deviceId, String branchId);
+    void saveUser(String token, String avatar, String fullname, String deviceId);
     void showLoginAgainDialog ();
     void saveAccount(String username, String password);
 }
