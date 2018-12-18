@@ -1,6 +1,5 @@
 package com.senior.project.genealogy.view.fragment.notification;
 
-import com.senior.project.genealogy.response.GenealogyResponse;
 import com.senior.project.genealogy.response.NotificationResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.GenealogyApi;
@@ -30,8 +29,10 @@ public class NotificationModelImpl implements NotificationModel {
             public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
                 NotificationResponse notificationResponse = response.body();
                 int code = Integer.parseInt(notificationResponse.getError().getCode());
+
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
+                        mNotificationPresenter.getListNotifications(notificationResponse.getNotificationList());
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
                         break;

@@ -1,5 +1,9 @@
 package com.senior.project.genealogy.view.fragment.notification;
 
+import com.senior.project.genealogy.response.Notification;
+
+import java.util.List;
+
 public class NotificationPresenterImpl implements NotificationPresenter {
 
     private NotificationModel mNotificationModel;
@@ -15,5 +19,13 @@ public class NotificationPresenterImpl implements NotificationPresenter {
     public void getNotifications(String token) {
         mNotificationView.showProgressDialog();
         mNotificationModel.getNotifications(token);
+    }
+
+    @Override
+    public void getListNotifications(List<Notification> notificationList) {
+        if (mNotificationView != null) {
+            mNotificationView.closeProgressDialog();
+            mNotificationView.getListNotifications(notificationList);
+        }
     }
 }

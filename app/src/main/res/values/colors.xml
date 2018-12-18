@@ -19,4 +19,5 @@
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorDisable">#E30388D7</color>
     <color name="colorBorder">#0388d7</color>
+    <color name="colorBg">#30303C</color>
 </resources>

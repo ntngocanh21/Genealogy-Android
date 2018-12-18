@@ -28,7 +28,7 @@ public interface GenealogyApi {
     @GET("/api/genealogy/user")
     Call<GenealogyResponse> getGenealogiesByUserName(@Header("Authorisation") String token);
 
-    @GET("/api/notification/user")
+    @POST("/api/notification/user")
     Call<NotificationResponse> getNotifications(@Header("Authorisation") String token);
 
 }
