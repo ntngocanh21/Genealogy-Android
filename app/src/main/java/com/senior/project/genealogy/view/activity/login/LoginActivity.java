@@ -11,20 +11,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.User;
-import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.Constants;
+import com.senior.project.genealogy.util.OverrideFonts;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.register.RegisterActivity;
 
@@ -56,12 +53,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         FirebaseMessaging.getInstance().subscribeToTopic(Utils.getDeviceId());
         ButterKnife.bind(this);
+        initFonts();
         loginPresenterImpl = new LoginPresenterImpl(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            this.getWindow().setStatusBarColor(Color.WHITE);
-            this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
-        }
+    }
+
+    private void initFonts() {
+        edtUsername.setTypeface(OverrideFonts.getTypeFace(this, OverrideFonts.TYPE_FONT_NAME.HELVETICANEUE, OverrideFonts.TYPE_STYLE.LIGHT));
+        edtPassword.setTypeface(OverrideFonts.getTypeFace(this, OverrideFonts.TYPE_FONT_NAME.HELVETICANEUE, OverrideFonts.TYPE_STYLE.LIGHT));
     }
 
     @OnTextChanged({R.id.username, R.id.password})

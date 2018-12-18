@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1f1e23</color>
+    <color name="colorPrimary">#232127</color>
     <color name="colorPrimaryDark">#8C1004</color>
     <color name="beige">#b9a4a2</color>
     <color name="white">#ffffff</color>
@@ -15,6 +15,8 @@
     <!-- Login theme -->
     <color name="btn_disable_login">#bf574c</color>
     <color name="btn_login">#C73424</color>
-    <color name="btn_disable">#6e8c1004</color>
+    <color name="btn_disable">#212026</color>
     <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorDisable">#E30388D7</color>
+    <color name="colorBorder">#0388d7</color>
 </resources>

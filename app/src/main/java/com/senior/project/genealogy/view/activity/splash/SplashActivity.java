@@ -34,9 +34,9 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             this.getWindow().setStatusBarColor(Color.WHITE);
-            this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            this.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
-//        checkAccount();
+        checkAccount();
     }
 
     private void checkAccount(){

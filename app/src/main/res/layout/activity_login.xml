@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#232127"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
@@ -18,67 +18,74 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/logo" />
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="80dp"
+            android:src="@drawable/genealogy_logo" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_field_default"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:textColorHint="@color/colorPrimaryDark"
+            android:layout_marginLeft="34dp"
+            android:layout_marginRight="34dp"
+            android:textColorHint="#848383"
             app:hintTextAppearance="@style/MyAppearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@android:color/transparent"
                 android:hint="@string/label_username"
                 android:imeOptions="actionNext"
-                android:maxLength="25"
                 android:inputType="text"
-                android:paddingBottom="15dp"
+                android:textColor="@color/white"
+                android:maxLength="25"
+                android:paddingBottom="10dp"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/colorPrimaryDark"
-            app:hintTextAppearance="@style/MyAppearance"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_field_default"
+            android:layout_marginLeft="34dp"
+            android:layout_marginRight="34dp"
+            android:layout_marginTop="16dp"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp"
+            android:textColorHint="#848383"
+            app:hintTextAppearance="@style/MyAppearance"
             app:passwordToggleDrawable="@drawable/icon_selector"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimaryDark">
+            app:passwordToggleTint="#848383">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@android:color/transparent"
                 android:hint="@string/hint_password"
+                android:textColor="@color/white"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/btnLogin"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="34dp"
             android:layout_marginRight="34dp"
             android:layout_marginTop="30dp"
+            android:background="@drawable/radius_button_disable"
             android:enabled="false"
             android:text="@string/btn_login"
-            android:background="@drawable/radius_button_disable"
-            android:textColor="@color/white"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,16 +100,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_register_account"
-            android:textColor="@color/black"
             android:paddingRight="4dp"
+            android:text="@string/label_register_account"
+            android:textColor="@color/white"
             android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
 

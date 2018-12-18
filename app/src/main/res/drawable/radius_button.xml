@@ -13,7 +13,7 @@
     <item
         android:bottom="2dp">
         <shape>
-            <solid android:color="@color/colorPrimaryDark" />
+            <solid android:color="@color/colorBorder" />
             <corners android:radius="25dp" />
         </shape>
     </item>

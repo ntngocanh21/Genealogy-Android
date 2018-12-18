@@ -39,13 +39,13 @@
         <activity
             android:name=".view.activity.login.LoginActivity"
             android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.Login">
         </activity>
 
         <activity
             android:name=".view.activity.register.RegisterActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Login"/>
 
         <activity android:name=".view.activity.home.HomeActivity"
             android:theme="@style/Theme.Home"
