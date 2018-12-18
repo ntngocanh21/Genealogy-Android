@@ -18,8 +18,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="15dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_back" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_back" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:background="@drawable/bg_field_default"
         android:paddingLeft="30dp"
         android:paddingStart="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="34dp"
         android:layout_marginRight="34dp"
         android:textColorHint="#848383"
