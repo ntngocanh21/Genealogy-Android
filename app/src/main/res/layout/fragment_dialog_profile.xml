@@ -223,7 +223,7 @@
                     android:id="@+id/btnEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/edit"
+                    android:src="@drawable/ic_edit"
                     app:fab_label="Edit profile"
                     app:fab_size="mini"
                     app:fab_colorNormal="#9a4542"

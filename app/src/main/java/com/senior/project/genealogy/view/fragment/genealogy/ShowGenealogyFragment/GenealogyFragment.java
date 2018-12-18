@@ -153,7 +153,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     @Override
     public void closeProgressDialog() {
-        if (mProgressDialog.isShowing())
+        if (isAdded() && mProgressDialog.isShowing())
             mProgressDialog.dismiss();
     }
 

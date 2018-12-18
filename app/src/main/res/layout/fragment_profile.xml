@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:clickable="false"
     android:id="@+id/profile_frame"
@@ -47,70 +48,97 @@
                         android:orientation="vertical"
                         android:padding="20dp">
 
-                        <TextView
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Full name"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorPrimaryDark"/>
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_field_custom"
+                            android:paddingLeft="30dp"
+                            android:paddingTop="6dp"
+                            android:layout_marginTop="16dp"
+                            android:textColorHint="#E8E8E8"
+                            app:hintTextAppearance="@style/MyAppearance">
 
-                        <TextView
-                            android:id="@+id/txtFullname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginBottom="10dp"
-                            android:textSize="18dp"
-                            android:textColor="@color/black"/>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/txtFullname"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="@string/label_fullname"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:maxLength="25"
+                                android:singleLine="true" />
+                        </android.support.design.widget.TextInputLayout>
 
-                        <TextView
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Birthday"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorPrimaryDark"/>
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_field_custom"
+                            android:paddingLeft="30dp"
+                            android:layout_marginTop="16dp"
+                            android:paddingTop="6dp"
+                            android:textColorHint="#E8E8E8"
+                            app:hintTextAppearance="@style/MyAppearance">
 
-                        <TextView
-                            android:id="@+id/txtBirthday"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginBottom="10dp"
-                            android:textSize="18dp"
-                            android:textColor="@color/black"/>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/txtBirthday"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="@string/label_birthday"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:maxLength="25"
+                                android:singleLine="true" />
+                        </android.support.design.widget.TextInputLayout>
 
-                        <TextView
-                            android:id="@+id/txtDeathdayTitle"
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mail"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorPrimaryDark"/>
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_field_custom"
+                            android:paddingLeft="30dp"
+                            android:layout_marginTop="16dp"
+                            android:paddingTop="6dp"
+                            android:textColorHint="#E8E8E8"
+                            app:hintTextAppearance="@style/MyAppearance">
 
-                        <TextView
-                            android:id="@+id/txtMail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginBottom="10dp"
-                            android:textSize="18dp"
-                            android:textColor="@color/black"/>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/txtMail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="@string/label_mail"
+                                android:imeOptions="actionDone"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/white"
+                                android:maxLength="25"
+                                android:singleLine="true" />
+                        </android.support.design.widget.TextInputLayout>
 
-                        <TextView
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Address"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorPrimaryDark"/>
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_field_custom"
+                            android:paddingLeft="30dp"
+                            android:layout_marginTop="16dp"
+                            android:paddingTop="6dp"
+                            android:textColorHint="#E8E8E8"
+                            app:hintTextAppearance="@style/MyAppearance">
 
-                        <TextView
-                            android:id="@+id/txtAddress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginBottom="10dp"
-                            android:textSize="18dp"
-                            android:textColor="@color/black"/>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/txtAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="@string/label_address"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:maxLength="25"
+                                android:singleLine="true" />
+                        </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -122,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/edit"
+            android:src="@drawable/ic_edit"
             android:layout_margin="16dp" />
     </FrameLayout>
 
