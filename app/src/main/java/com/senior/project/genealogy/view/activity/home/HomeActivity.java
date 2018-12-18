@@ -1,10 +1,8 @@
 package com.senior.project.genealogy.view.activity.home;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.IdRes;
@@ -16,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,9 +26,7 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.R;
-import com.senior.project.genealogy.util.Config;
 import com.senior.project.genealogy.util.Constants;
-import com.senior.project.genealogy.util.NotificationUtils;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.BaseActivity;
 import com.senior.project.genealogy.view.activity.login.LoginActivity;
