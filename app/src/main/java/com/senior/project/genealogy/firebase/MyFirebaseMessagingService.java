@@ -112,8 +112,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
                 bigTextStyle.setBigContentTitle(remoteMessage.getTitle());
-                bigTextStyle.bigText(remoteMessage.getBody());
+                try {
+                    String content = new String(remoteMessage.getBody().getBytes("UTF-8"));
+                    bigTextStyle.bigText(content);
+                } catch (Exception e){
 
+                }
                 NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
                 bigPictureStyle.setBigContentTitle(remoteMessage.getTitle());
                 bigPictureStyle.setSummaryText(Html.fromHtml(remoteMessage.getBody()).toString());

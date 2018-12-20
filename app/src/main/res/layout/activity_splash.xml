@@ -12,20 +12,19 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="-20dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/genealogy_logo" />
+        android:src="@drawable/genealogy_logo_old" />
 
 
     <TextView
         android:layout_below="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="28sp"
         android:layout_marginTop="4dp"
         android:layout_centerVertical="true"

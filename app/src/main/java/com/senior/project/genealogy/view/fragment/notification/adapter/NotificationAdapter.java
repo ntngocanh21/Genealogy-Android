@@ -10,10 +10,13 @@ import android.widget.TextView;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Notification;
+import com.senior.project.genealogy.util.Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.MyViewHolder> {
 
@@ -24,12 +27,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle, tvContent, tvDate;
+        CircleImageView imgNoti;
 
         MyViewHolder(View view) {
             super(view);
             tvTitle = view.findViewById(R.id.tvTitle);
             tvDate = view.findViewById(R.id.tvDate);
             tvContent = view.findViewById(R.id.tvContent);
+            imgNoti = view.findViewById(R.id.imgNoti);
         }
     }
 
@@ -49,10 +54,33 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Notification item = mNotification.get(position);
-        holder.tvTitle.setText(item.getTitle());
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat dfTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dateTime = dfTime.format(item.getDate());
         String date = df.format(item.getDate());
-        holder.tvDate.setText(date);
+        switch (item.getNotificationTypeId()){
+            case Constants.NOTIFICATION_TYPE.ACCEPT_JOIN:
+                holder.imgNoti.setImageResource(R.drawable.noti_accept);
+                holder.tvDate.setText(dateTime);
+                break;
+            case Constants.NOTIFICATION_TYPE.MEMBER_JOIN:
+                holder.imgNoti.setImageResource(R.drawable.noti_join);
+                holder.tvDate.setText(dateTime);
+                break;
+            case Constants.NOTIFICATION_TYPE.DEATH_ANNIVERSARY:
+                holder.imgNoti.setImageResource(R.drawable.noti_death);
+                holder.tvDate.setText(date);
+                break;
+            case Constants.NOTIFICATION_TYPE.FAMILY_ACTIVITIES:
+                holder.imgNoti.setImageResource(R.drawable.noti_party);
+                holder.tvDate.setText(dateTime);
+                break;
+            case Constants.NOTIFICATION_TYPE.BIRTHDAY_PARTY:
+                holder.imgNoti.setImageResource(R.drawable.noti_birthday);
+                holder.tvDate.setText(date);
+                break;
+        }
+        holder.tvTitle.setText(item.getTitle());
         holder.tvContent.setText(item.getContent());
     }
 
