@@ -26,8 +26,4 @@ public interface UserApi {
 
     @PUT("api/user")
     Call<UserResponse> updateProfile(@Header("Authorisation") String token, @Body User user);
-
-    @PUT("api/event")
-    Call<EventResponse> pushEvent(@Header("Authorisation") String token, @Body Event event);
-
 }

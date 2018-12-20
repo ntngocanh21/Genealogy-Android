@@ -3,6 +3,8 @@ package com.senior.project.genealogy.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Notification {
 
     @SerializedName("id")
@@ -13,37 +15,27 @@ public class Notification {
     @Expose
     private String title;
 
-    @SerializedName("type")
-    @Expose
-    private String type;
-
     @SerializedName("content")
     @Expose
     private String content;
 
-    @SerializedName("deviceId")
+    @SerializedName("date")
     @Expose
-    private String deviceId;
+    private Date date;
 
-    @SerializedName("isPushed")
+    @SerializedName("readStatus")
     @Expose
-    private Integer isPushed;
+    private Boolean readStatus;
 
-    @SerializedName("username")
+    @SerializedName("userId")
     @Expose
-    private String username;
+    private Integer userId;
+
+    @SerializedName("notificationTypeId")
+    @Expose
+    private Integer notificationTypeId;
 
     public Notification() {
-    }
-
-    public Notification(Integer id, String title, String type, String content, String deviceId, Integer isPushed, String username) {
-        this.id = id;
-        this.title = title;
-        this.type = type;
-        this.content = content;
-        this.deviceId = deviceId;
-        this.isPushed = isPushed;
-        this.username = username;
     }
 
     public Integer getId() {
@@ -62,14 +54,6 @@ public class Notification {
         this.title = title;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getContent() {
         return content;
     }
@@ -78,28 +62,35 @@ public class Notification {
         this.content = content;
     }
 
-    public String getDeviceId() {
-        return deviceId;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Integer getIsPushed() {
-        return isPushed;
+    public Boolean getReadStatus() {
+        return readStatus;
     }
 
-    public void setIsPushed(Integer isPushed) {
-        this.isPushed = isPushed;
+    public void setReadStatus(Boolean readStatus) {
+        this.readStatus = readStatus;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
+    public Integer getNotificationTypeId() {
+        return notificationTypeId;
+    }
+
+    public void setNotificationTypeId(Integer notificationTypeId) {
+        this.notificationTypeId = notificationTypeId;
+    }
 }

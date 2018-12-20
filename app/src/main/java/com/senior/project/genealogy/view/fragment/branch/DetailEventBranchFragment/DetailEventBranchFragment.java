@@ -2,13 +2,18 @@ package com.senior.project.genealogy.view.fragment.branch.DetailEventBranchFragm
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.app.GenealogyApplication;
@@ -16,7 +21,11 @@ import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Event;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
+import com.senior.project.genealogy.view.fragment.branch.DetailEventBranchFragment.adapter.EventAdapter;
 import com.senior.project.genealogy.view.fragment.branch.DetailEventBranchFragment.dialog.DialogEventFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,16 +33,21 @@ import butterknife.OnClick;
 
 public class DetailEventBranchFragment extends Fragment implements DetailEventBranchView {
 
-    @BindView(R.id.btnCreateNotification)
-    Button btnCreateNotification;
+    @BindView(R.id.btnCreateEvent)
+    Button btnCreateEvent;
 
     @BindView(R.id.rcvEvent)
-    RecyclerView rcvMember;
+    RecyclerView rcvEvent;
+
+    @BindView(R.id.txtNotice)
+    TextView txtNotice;
 
     private Branch branch;
     private ProgressDialog mProgressDialog;
     private DetailEventBranchPresenter mDetailEventBranchPresenter;
-
+    private List<Event> events;
+    private EventAdapter mRcvAdapter;
+    private String token;
     public DetailEventBranchFragment() {
     }
 
@@ -42,33 +56,55 @@ public class DetailEventBranchFragment extends Fragment implements DetailEventBr
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_branch_event, container, false);
         ButterKnife.bind(this, view);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("token","");
         mDetailEventBranchPresenter = new DetailEventBranchPresenterImpl(this);
         branch = (Branch) getArguments().getSerializable("branch");
         if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
-            btnCreateNotification.setVisibility(View.VISIBLE);
+            btnCreateEvent.setVisibility(View.VISIBLE);
         }else {
-            btnCreateNotification.setVisibility(View.GONE);
+            btnCreateEvent.setVisibility(View.GONE);
         }
+        mDetailEventBranchPresenter.getCreatedEvent(branch.getId(), token);
         return view;
     }
 
-    @OnClick(R.id.btnCreateNotification)
+    @OnClick(R.id.btnCreateEvent)
     public void onClick() {
         if (Utils.isDoubleClick()) return;
         final DialogEventFragment dialogEventFragment = DialogEventFragment.newInstance();
         dialogEventFragment.show(getActivity().getSupportFragmentManager(), null);
-
         dialogEventFragment.attackInterface(new DialogEventFragment.DialogEventInterface() {
             @Override
             public void sendDataToFrg(Event event) {
                 dialogEventFragment.dismiss();
                 event.setBranchId(branch.getId());
-                String userName = GenealogyApplication.getInstance().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
-                        Context.MODE_PRIVATE).getString(Constants.SHARED_PREFERENCES_KEY.USERNAME, Constants.EMPTY_STRING);
-                event.setUserName(userName);
-                mDetailEventBranchPresenter.pushEvent(event);
+
+                mDetailEventBranchPresenter.pushEvent(event, token);
             }
         });
+    }
+
+    @Override
+    public void showListCreatedEvent(List<Event> eventList) {
+        events = new ArrayList<>();
+        if(eventList == null){
+            txtNotice.setVisibility(View.VISIBLE);
+        }
+        else {
+            events.addAll(eventList);
+        }
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        mRcvAdapter = new EventAdapter(getActivity(), fragmentManager, events);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rcvEvent.setLayoutManager(layoutManager);
+        rcvEvent.setAdapter(mRcvAdapter);
+    }
+
+    @Override
+    public void addEventToList(Event event) {
+        mRcvAdapter.addEvent(event);
     }
 
     @Override

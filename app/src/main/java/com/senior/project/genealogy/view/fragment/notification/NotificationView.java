@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface NotificationView {
     void showProgressDialog();
-
     void closeProgressDialog();
-
-    void getListNotifications(List<Notification> notificationList);
+    void showListNotifications(List<Notification> notificationList);
 }

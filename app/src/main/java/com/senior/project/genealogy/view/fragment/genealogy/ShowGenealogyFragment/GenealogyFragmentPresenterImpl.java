@@ -15,14 +15,18 @@ public class GenealogyFragmentPresenterImpl implements GenealogyFragmentPresente
     }
 
     @Override
-    public void getGenealogiesByUsername(String token) {
-        mGenealogyFragmentView.showProgressDialog();
+    public void getGenealogiesByUsername(String token, Boolean check) {
+        if(check == true){
+            mGenealogyFragmentView.showProgressDialog();
+        }
         mGenealogyModel.getGenealogiesByUsername(token);
     }
 
     @Override
     public void getGenealogiesByUsernameSuccess(List<Genealogy> genealogyList) {
-        mGenealogyFragmentView.closeProgressDialog();
+        if(mGenealogyFragmentView != null){
+            mGenealogyFragmentView.closeProgressDialog();
+        }
         mGenealogyFragmentView.showGenealogy(genealogyList);
     }
 

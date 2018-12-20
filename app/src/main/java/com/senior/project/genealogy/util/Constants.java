@@ -2,8 +2,8 @@ package com.senior.project.genealogy.util;
 
 public class Constants {
 
-    public static String BASE_URL = "http://10.0.2.2:3000/";
-//    public static String BASE_URL = "http://192.168.1.16:8080";
+//    public static String BASE_URL = "http://10.0.1.25:8080/";
+    public static String BASE_URL = "http://192.168.1.16:8080";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
 
@@ -55,5 +55,13 @@ public class Constants {
         public static final int WOMAN_SINGLE = 5;
         public static final int WOMAN_MARRIED = 6;
         public static final int PARTNER = 7;
+    }
+
+    public class NOTIFICATION_TYPE {
+        public static final int MEMBER_JOIN = 1;
+        public static final int ACCEPT_JOIN = 2;
+        public static final int DEATH_ANNIVERSARY = 3;
+        public static final int BIRTHDAY_PARTY = 4;
+        public static final int FAMILY_ACTIVITIES = 5;
     }
 }

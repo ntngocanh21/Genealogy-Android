@@ -3,6 +3,7 @@ package com.senior.project.genealogy.view.fragment.notification;
 import com.senior.project.genealogy.response.NotificationResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
 import com.senior.project.genealogy.service.GenealogyApi;
+import com.senior.project.genealogy.service.NotificationApi;
 import com.senior.project.genealogy.util.Constants;
 
 import retrofit2.Call;
@@ -23,7 +24,7 @@ public class NotificationModelImpl implements NotificationModel {
 
     @Override
     public void getNotifications(String token) {
-        Call<NotificationResponse> call = mApplicationApi.getClient().create(GenealogyApi.class).getNotifications(token);
+        Call<NotificationResponse> call = mApplicationApi.getClient().create(NotificationApi.class).getListOfNotifications(token);
         call.enqueue(new Callback<NotificationResponse>() {
             @Override
             public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
@@ -32,9 +33,10 @@ public class NotificationModelImpl implements NotificationModel {
 
                 switch (code) {
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        mNotificationPresenter.getListNotifications(notificationResponse.getNotificationList());
+                        mNotificationPresenter.getNotificationsSuccess(notificationResponse.getNotificationList());
                         break;
                     case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
+                        mNotificationPresenter.getNotificationsFalse();
                         break;
                     default:
                         break;
@@ -43,6 +45,7 @@ public class NotificationModelImpl implements NotificationModel {
 
             @Override
             public void onFailure(Call<NotificationResponse> call, Throwable t) {
+                mNotificationPresenter.getNotificationsFalse();
             }
         });
     }

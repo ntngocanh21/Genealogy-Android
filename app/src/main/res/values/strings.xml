@@ -17,6 +17,7 @@
     <string name="frg_update_branch">Update branch</string>
 
     <string name="frg_search">Search</string>
+    <string name="frg_notification">Notification</string>
 
     <string name="frg_profile">Profile</string>
     <string name="frg_update_profile">Update profile</string>
@@ -50,12 +51,12 @@
 
     <string name="frg_title_event">Event Family</string>
 
-    <string name="label_event_name">Event Name</string>
-    <string name="label_event_date_created">Set Time</string>
+    <string name="label_event_date_created">Set Date</string>
+    <string name="label_event_time_created">Set Time</string>
     <string name="label_event_content">Content</string>
     <string name="label_event_create">Create Event</string>
 
-    <string name="error_event_name">The Event name field is empty!</string>
+    <string name="error_set_date">The Set date field is empty!</string>
     <string name="error_set_time">The Set time field is empty!</string>
     <string name="error_event_content">The Content field is empty!</string>
     <string name="label_fullname">Your fullname</string>

@@ -7,51 +7,41 @@ import java.io.Serializable;
 
 public class Event implements Serializable {
 
-    @SerializedName("title")
+    @SerializedName("id")
     @Expose
-    private String title;
-
-    @SerializedName("content")
-    @Expose
-    private String content;
+    private Integer id;
 
     @SerializedName("date")
     @Expose
     private String date;
 
-    @SerializedName("branch_id")
+    @SerializedName("content")
+    @Expose
+    private String content;
+
+    @SerializedName("branchId")
     @Expose
     private Integer branchId;
 
-    @SerializedName("username")
+    @SerializedName("userId")
     @Expose
-    private String userName;
+    private Integer userId;
 
     public Event() {
     }
 
-    public Event(String title, String content, String date, Integer branchId, String userName) {
-        this.title = title;
-        this.content = content;
+    public Event(String date, String content, Integer branchId) {
         this.date = date;
-        this.branchId = branchId;
-        this.userName = userName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
         this.content = content;
+        this.branchId = branchId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDate() {
@@ -62,6 +52,14 @@ public class Event implements Serializable {
         this.date = date;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Integer getBranchId() {
         return branchId;
     }
@@ -70,11 +68,11 @@ public class Event implements Serializable {
         this.branchId = branchId;
     }
 
-    public String getUserName() {
-        return userName;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

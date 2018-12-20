@@ -67,7 +67,7 @@
                 android:enabled="false"
                 android:textColor="@color/white"
                 android:text="OK"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@drawable/radius_button_disable"/>
         </LinearLayout>
 
     </LinearLayout>

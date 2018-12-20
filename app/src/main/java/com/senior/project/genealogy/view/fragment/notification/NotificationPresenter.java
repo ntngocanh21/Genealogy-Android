@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface NotificationPresenter {
     void getNotifications(String token);
-
-    void getListNotifications(List<Notification> notificationList);
+    void getNotificationsSuccess(List<Notification> notificationList);
+    void getNotificationsFalse();
 }

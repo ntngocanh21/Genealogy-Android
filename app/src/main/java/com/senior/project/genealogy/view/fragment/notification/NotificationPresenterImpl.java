@@ -22,10 +22,15 @@ public class NotificationPresenterImpl implements NotificationPresenter {
     }
 
     @Override
-    public void getListNotifications(List<Notification> notificationList) {
+    public void getNotificationsSuccess(List<Notification> notificationList) {
         if (mNotificationView != null) {
             mNotificationView.closeProgressDialog();
-            mNotificationView.getListNotifications(notificationList);
+            mNotificationView.showListNotifications(notificationList);
         }
+    }
+
+    @Override
+    public void getNotificationsFalse() {
+        mNotificationView.closeProgressDialog();
     }
 }

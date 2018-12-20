@@ -1,14 +1,17 @@
 package com.senior.project.genealogy.view.fragment.branch.DetailEventBranchFragment.dialog;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.response.Event;
@@ -23,17 +26,20 @@ import butterknife.OnClick;
 
 public class DialogEventFragment extends DialogFragment implements DialogEventFragmentView {
 
-    @BindView(R.id.tvProfile)
-    TextView tvProfile;
-
-    @BindView(R.id.edtEventName)
-    EditText edtEventName;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
 
     @BindView(R.id.edtSetTime)
     EditText edtSetTime;
 
+    @BindView(R.id.edtSetDate)
+    EditText edtSetDate;
+
     @BindView(R.id.edtContent)
     EditText edtContent;
+
+    @BindView(R.id.btnCreateEvent)
+    Button btnCreateEvent;
 
     private Calendar mCalendar;
 
@@ -47,17 +53,18 @@ public class DialogEventFragment extends DialogFragment implements DialogEventFr
         setCancelable(false);
         ButterKnife.bind(this, view);
         initComponents();
+        checkInputValue();
         return view;
     }
 
     private void initComponents() {
-        tvProfile.setText(getResources().getString(R.string.frg_title_event));
+        tvTitle.setText(getResources().getString(R.string.frg_title_event));
         resetFrom();
     }
 
     private void resetFrom() {
-        edtEventName.setError(null);
         edtContent.setError(null);
+        edtSetDate.setError(null);
         edtSetTime.setError(null);
     }
 
@@ -66,7 +73,7 @@ public class DialogEventFragment extends DialogFragment implements DialogEventFr
         return dialog;
     }
 
-    @OnClick({ R.id.btnClose, R.id.btnCreateEvent, R.id.edtSetTime })
+    @OnClick({ R.id.btnClose, R.id.btnCreateEvent, R.id.edtSetDate, R.id.edtSetTime })
     void onClick(View view) {
         if (Utils.isDoubleClick()) return;
         switch (view.getId()) {
@@ -78,9 +85,23 @@ public class DialogEventFragment extends DialogFragment implements DialogEventFr
                     mDialogEventInterface.sendDataToFrg(getDataFromForm());
                 }
                 break;
-            case R.id.edtSetTime:
-                selectDate(edtSetTime);
+            case R.id.edtSetDate:
+                selectDate(edtSetDate);
                 break;
+            case R.id.edtSetTime:
+                selectTime(edtSetTime);
+                break;
+        }
+    }
+
+
+    private void checkInputValue(){
+        if (edtSetDate != null && edtSetTime != null && edtContent != null){
+            btnCreateEvent.setBackgroundResource(R.drawable.radius_button);
+            btnCreateEvent.setEnabled(true);
+        } else {
+            btnCreateEvent.setBackgroundResource(R.drawable.radius_button_disable);
+            btnCreateEvent.setEnabled(false);
         }
     }
 
@@ -98,21 +119,36 @@ public class DialogEventFragment extends DialogFragment implements DialogEventFr
                 edt.setText(simpleDateFormat.format(mCalendar.getTime()));
             }
         }, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis());
         datePickerDialog.show();
+    }
+
+    private void selectTime(final EditText edt){
+        final Calendar c = Calendar.getInstance();
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
+        int mMinute = c.get(Calendar.MINUTE);
+
+        // Launch Time Picker Dialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                edt.setText(hourOfDay + ":" + minute);
+            }
+        }, mHour, mMinute, true);
+        timePickerDialog.show();
     }
 
     public Event getDataFromForm() {
         Event event = new Event();
-        event.setTitle(edtEventName.getText().toString());
         event.setContent(edtContent.getText().toString());
-        event.setDate(edtSetTime.getText().toString());
+        event.setDate(edtSetDate.getText().toString() + " " + edtSetTime.getText().toString() + ":00");
         return event;
     }
 
     public boolean isDataValid() {
-        if (edtEventName.getText().toString().isEmpty()) {
-            edtEventName.setError(getString(R.string.error_event_name));
-            edtEventName.requestFocus();
+        if (edtSetDate.getText().toString().isEmpty()) {
+            edtSetDate.setError(getString(R.string.error_set_date));
+            edtSetDate.requestFocus();
             return false;
         } else if (edtSetTime.getText().toString().isEmpty()) {
             edtSetTime.setError(getString(R.string.error_set_time));

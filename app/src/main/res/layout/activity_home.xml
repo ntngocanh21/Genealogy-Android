@@ -6,7 +6,6 @@
     android:id="@+id/drawer_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#232127"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
@@ -19,6 +18,7 @@
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:elevation="4dp">
 
@@ -45,7 +45,7 @@
                 android:id="@+id/home_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#232127" />
+                android:background="@color/white" />
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
@@ -58,7 +58,7 @@
         android:background="@color/white"
         app:headerLayout="@layout/header"
         app:itemIconTint="@color/colorPrimaryDark"
-        app:itemTextColor="@color/colorPrimaryDark"
+        app:itemTextColor="@color/black"
         app:menu="@menu/drawermenu" />
 
 </android.support.v4.widget.DrawerLayout>

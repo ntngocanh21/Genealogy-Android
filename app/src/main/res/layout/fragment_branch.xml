@@ -36,7 +36,7 @@
                 android:id="@+id/txtNoticeBranch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Your genealogy didn't have any branch. \nPlease create a new one."
+                android:text="Your genealogy doesn't have any branch. \nPlease create a new one."
                 android:gravity="center"
                 android:visibility="gone"/>
 

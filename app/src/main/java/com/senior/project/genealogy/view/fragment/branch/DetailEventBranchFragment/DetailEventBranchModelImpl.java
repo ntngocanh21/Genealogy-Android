@@ -7,6 +7,7 @@ import com.senior.project.genealogy.app.GenealogyApplication;
 import com.senior.project.genealogy.response.Event;
 import com.senior.project.genealogy.response.EventResponse;
 import com.senior.project.genealogy.service.ApplicationApi;
+import com.senior.project.genealogy.service.EventApi;
 import com.senior.project.genealogy.service.UserApi;
 import com.senior.project.genealogy.util.Constants;
 
@@ -27,9 +28,8 @@ public class DetailEventBranchModelImpl implements  DetailEventBranchModel {
     }
 
     @Override
-    public void pushEvent(Event event) {
-        String token = GenealogyApplication.getInstance().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).getString(Constants.SHARED_PREFERENCES_KEY.TOKEN, Constants.EMPTY_STRING);
-        Call<EventResponse> call = mApplicationApi.getClient().create(UserApi.class).pushEvent(token, event);
+    public void pushEvent(Event event, String token) {
+        Call<EventResponse> call = mApplicationApi.getClient().create(EventApi.class).pushEvent(event, token);
         call.enqueue(new Callback<EventResponse>() {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
@@ -37,17 +37,42 @@ public class DetailEventBranchModelImpl implements  DetailEventBranchModel {
                 int code = Integer.parseInt(eventResponse.getError().getCode());
                 switch (code){
                     case Constants.HTTPCodeResponse.SUCCESS:
-                        break;
-                    case Constants.HTTPCodeResponse.OBJECT_NOT_FOUND:
+                        mDetailEventBranchPresenter.pushEventSuccess(eventResponse.getEventList().get(0));
                         break;
                     default:
+                        mDetailEventBranchPresenter.pushEventFalse();
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<EventResponse> call, Throwable t) {
+                mDetailEventBranchPresenter.getCreatedEventFalse();
+            }
+        });
+    }
 
+    @Override
+    public void getCreatedEvent(Integer branchId, String token) {
+        Call<EventResponse> call = mApplicationApi.getClient().create(EventApi.class).getCreatedEvent(branchId, token);
+        call.enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                EventResponse eventResponse = response.body();
+                int code = Integer.parseInt(eventResponse.getError().getCode());
+                switch (code){
+                    case Constants.HTTPCodeResponse.SUCCESS:
+                        mDetailEventBranchPresenter.getCreatedEventSuccess(eventResponse.getEventList());
+                        break;
+                    default:
+                        mDetailEventBranchPresenter.getCreatedEventFalse();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                mDetailEventBranchPresenter.getCreatedEventFalse();
             }
         });
     }

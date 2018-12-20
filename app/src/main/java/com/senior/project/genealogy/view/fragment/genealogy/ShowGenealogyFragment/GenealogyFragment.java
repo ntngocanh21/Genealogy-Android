@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +53,9 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     @BindView(R.id.txtNotice)
     TextView txtNotice;
 
+    @BindView(R.id.swifeRefresh)
+    SwipeRefreshLayout swifeRefresh;
+
     RecyclerViewItemGenealogyAdapter mRcvAdapter;
     List<Genealogy> genealogies;
 
@@ -81,8 +85,14 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
             showGenealogy(genealogyList);
         } else {
             genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
-            genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
+            genealogyFragmentPresenterImpl.getGenealogiesByUsername(token, true);
         }
+        swifeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                genealogyFragmentPresenterImpl.getGenealogiesByUsername(token, false);
+            }
+        });
         return view;
     }
 
@@ -159,6 +169,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     @Override
     public void showGenealogy(List<Genealogy> genealogyList) {
+        swifeRefresh.setRefreshing(false);
         genealogies = new ArrayList<>();
 
         if(genealogyList == null){
@@ -203,12 +214,6 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int genealogyId = genealogies.get(viewHolder.getAdapterPosition()).getId();
-                /**
-                 * If User is Admin call method mRecyclerView.scrollToPosition(position);
-                 * and return;
-                 * Ignore this case, prevent delete.
-                 * Show Toast shows user can't delete this row.
-                 */
                 genealogyFragmentPresenterImpl.deleteGenealogy(genealogyId, token, viewHolder);
             }
         });
@@ -232,6 +237,6 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
 
     public void refreshListGenealogies() {
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
-        genealogyFragmentPresenterImpl.getGenealogiesByUsername(token);
+        genealogyFragmentPresenterImpl.getGenealogiesByUsername(token, true);
     }
 }

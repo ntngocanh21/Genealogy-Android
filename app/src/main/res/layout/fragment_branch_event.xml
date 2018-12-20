@@ -16,9 +16,17 @@
             android:layout_height="wrap_content"
             android:text="Create notification"
             android:textColor="@color/black"
-            android:id="@+id/btnCreateNotification"
+            android:id="@+id/btnCreateEvent"
             android:background="@drawable/radius_button_border"
             android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/txtNotice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="You don't create any event."
+            android:gravity="center"
+            android:visibility="gone"/>
 
         <ScrollView
             android:layout_width="match_parent"

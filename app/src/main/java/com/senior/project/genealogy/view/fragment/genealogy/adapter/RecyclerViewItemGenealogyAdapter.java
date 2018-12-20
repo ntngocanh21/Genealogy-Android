@@ -113,9 +113,6 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
     public void removeItem(int position) {
         data.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
 
