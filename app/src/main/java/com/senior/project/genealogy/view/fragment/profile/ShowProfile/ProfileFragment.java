@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.app.GenealogyApplication;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.response.User;
 import com.senior.project.genealogy.util.Constants;
@@ -155,6 +157,9 @@ public class ProfileFragment extends Fragment implements ProfileFragmentView {
         txtMail.setText(user.getMail());
         txtAddress.setText(user.getAddress());
         txtBirthday.setText(user.getBirthday());
+        Glide.with(GenealogyApplication.getInstance())
+                .load(user.getAvatar())
+                .into(imgProfile);
     }
 
 }

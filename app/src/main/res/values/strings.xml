@@ -64,4 +64,7 @@
     <string name="label_mail">Your email</string>
     <string name="label_birthday">Your Birthday</string>
 
+    <string name="fileprovider">.fileprovider</string>
+    <string name="message_wrong_image">Something went wrong with the image, please try again!</string>
+
 </resources>
