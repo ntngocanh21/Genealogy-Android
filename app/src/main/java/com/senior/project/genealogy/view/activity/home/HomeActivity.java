@@ -22,10 +22,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.app.GenealogyApplication;
 import com.senior.project.genealogy.util.Constants;
 import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.BaseActivity;
@@ -39,6 +42,7 @@ import com.senior.project.genealogy.view.fragment.profile.ShowProfile.ProfileFra
 import com.senior.project.genealogy.view.fragment.search.SearchFragment.SearchFragment;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends BaseActivity implements HomeView, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
@@ -53,6 +57,9 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
 
     @BindView(R.id.nav_view_home)
     NavigationView mNavigationView;
+
+    CircleImageView imvAccountAvatar;
+    TextView tvAccountName;
 
     @Override
     public void distributedDaggerComponents() {
@@ -73,6 +80,7 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         mDrawerLayout.addDrawerListener(this);
+        getHeaderView();
         toggle.syncState();
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -90,6 +98,17 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
             finish();
             showActivity(LoginActivity.class);
         }
+    }
+
+    public void getHeaderView() {
+        View headerLayout = mNavigationView.getHeaderView(0);
+        imvAccountAvatar = headerLayout.findViewById(R.id.circle_profile);
+        tvAccountName = headerLayout.findViewById(R.id.txtFullname);
+        Glide.with(GenealogyApplication.getInstance())
+                .load("http://via.placeholder.com/300.png")
+                .into(imvAccountAvatar);
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        tvAccountName.setText(sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.FULLNAME, Constants.EMPTY_STRING));
     }
 
     public enum PushFrgType {

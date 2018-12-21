@@ -3,9 +3,15 @@ package com.senior.project.genealogy.util;
 public class Constants {
 
 //    public static String BASE_URL = "http://10.0.1.25:8080/";
-    public static String BASE_URL = "http://192.168.1.16:8080";
+    public static String BASE_URL = "http://192.168.0.109:3000";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
+
+    public final static int PERMISSION_CAMERA = 0;
+
+    public final static int REQUEST_CAMERA = 1;
+
+    static final String IMAGE_FOLDER = "Genealogy";
 
     public static class SHARED_PREFERENCES_KEY {
         public static String TOKEN = "token";
