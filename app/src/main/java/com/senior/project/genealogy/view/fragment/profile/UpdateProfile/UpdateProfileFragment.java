@@ -227,6 +227,9 @@ public class UpdateProfileFragment extends Fragment implements UpdateProfileFrag
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
                             user.setAvatar(String.valueOf(downloadUri));
+                            Glide.with(GenealogyApplication.getInstance())
+                                    .load(user.getAvatar())
+                                    .into(imgProfile);
                         }
                     }
                 });

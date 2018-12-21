@@ -101,13 +101,13 @@ public class HomeActivity extends BaseActivity implements HomeView, NavigationVi
     }
 
     public void getHeaderView() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         View headerLayout = mNavigationView.getHeaderView(0);
         imvAccountAvatar = headerLayout.findViewById(R.id.circle_profile);
         tvAccountName = headerLayout.findViewById(R.id.txtFullname);
         Glide.with(GenealogyApplication.getInstance())
-                .load("http://via.placeholder.com/300.png")
+                .load(sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.AVATAR, Constants.EMPTY_STRING))
                 .into(imvAccountAvatar);
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         tvAccountName.setText(sharedPreferences.getString(Constants.SHARED_PREFERENCES_KEY.FULLNAME, Constants.EMPTY_STRING));
     }
 
