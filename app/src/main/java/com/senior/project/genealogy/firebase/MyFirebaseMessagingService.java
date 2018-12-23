@@ -1,6 +1,5 @@
 package com.senior.project.genealogy.firebase;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -8,11 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
@@ -22,18 +18,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.senior.project.genealogy.R;
 import com.senior.project.genealogy.util.NotificationUtils;
-import com.senior.project.genealogy.util.Utils;
 import com.senior.project.genealogy.view.activity.home.HomeActivity;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Random;
 
@@ -57,30 +49,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setupChannels(){
-        CharSequence adminChannelName = getString(R.string.notifications_admin_channel_name);
-        String adminChannelDescription = getString(R.string.notifications_admin_channel_description);
-
-        NotificationChannel adminChannel;
-        adminChannel = new NotificationChannel(ADMIN_CHANNEL_ID, adminChannelName, NotificationManager.IMPORTANCE_LOW);
-        adminChannel.setDescription(adminChannelDescription);
-        adminChannel.enableLights(true);
-        adminChannel.setLightColor(Color.RED);
-        adminChannel.enableVibration(true);
-        if (notificationManager != null) {
-            notificationManager.createNotificationChannel(adminChannel);
-        }
-    }
-
     private void handleNotification(RemoteMessage.Notification remoteMessage, Map<String, String> dataPayload) {
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                setupChannels();
-            }
             int notificationId = new Random().nextInt(60000);
 
             final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
