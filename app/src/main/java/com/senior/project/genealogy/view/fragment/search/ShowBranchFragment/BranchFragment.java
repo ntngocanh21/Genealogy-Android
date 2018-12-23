@@ -86,7 +86,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView{
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                 {
                     Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
-                    if(genealogy.getRole() == Constants.ROLE.ADMIN_ROLE){
+                    if(genealogy.getRole() == Constants.ROLE.OWNER_ROLE){
                         btnCreateBranch.setVisibility(View.VISIBLE);
                     } else {
                         btnCreateBranch.setVisibility(View.GONE);

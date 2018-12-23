@@ -58,7 +58,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         if (mMemberBranchFrg == null)
             mMemberBranchFrg = new DetailMemberBranchFragment();
 
-        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+        if (branch.getRole() == Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE){
             if (mMemberRequestBranchFrg == null)
                 mMemberRequestBranchFrg = new DetailMemberRequestBranchFragment();
             mMemberRequestBranchFrg.attackInterface(new DetailMemberRequestBranchFragment.RequestMemberInterface() {
@@ -105,7 +105,7 @@ public class DetailBranchFragment extends Fragment implements DetailBranchFragme
         List<Fragment> arrListFrg = new ArrayList<>();
         Bundle bundle = new Bundle();
         bundle.putSerializable("branch", branch);
-        if (branch.getRole()== Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE) {
+        if (branch.getRole()== Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE) {
             arrListFrg.add(mInformationBranchFrg);
             arrListFrg.add(mDetailEventBranchFragment);
             arrListFrg.add(mMemberBranchFrg);

@@ -66,10 +66,10 @@ public class RecyclerViewItemGenealogyAdapter extends RecyclerView.Adapter<Recyc
 
         final int role = genealogies.get(position).getRole();
         switch (role){
-            case Constants.ROLE.ADMIN_ROLE:
+            case Constants.ROLE.OWNER_ROLE:
                 holder.imgRole.setImageResource(R.drawable.ic_admin);
                 break;
-            case Constants.ROLE.MOD_ROLE:
+            case Constants.ROLE.EDITOR_ROLE:
                 holder.imgRole.setImageResource(R.drawable.ic_mod);
                 break;
             case Constants.ROLE.MEMBER_ROLE:

@@ -98,7 +98,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                 {
                     Genealogy genealogy = (Genealogy) spGenealogy.getSelectedItem();
-                    if(genealogy.getRole() == Constants.ROLE.ADMIN_ROLE){
+                    if(genealogy.getRole() == Constants.ROLE.OWNER_ROLE){
                         btnCreateBranch.setVisibility(View.VISIBLE);
                     } else {
                         btnCreateBranch.setVisibility(View.GONE);
@@ -219,7 +219,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof RecyclerViewItemBranchAdapter.RecyclerViewHolder) {
-            if (branches.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.ADMIN_ROLE){
+            if (branches.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.OWNER_ROLE){
                 showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder);
             } else {
                 showToast("You don't have permission to delete it!");

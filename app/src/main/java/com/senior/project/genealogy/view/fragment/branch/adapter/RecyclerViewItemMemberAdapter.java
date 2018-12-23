@@ -54,16 +54,16 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
         final int memberRole = mUser.get(position).getRole();
         holder.txtName.setText(memberName);
 
-        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE){
+        if (branch.getRole() == Constants.ROLE.OWNER_ROLE){
             showSpinner(holder.spRole, mUser.get(position));
             switch (memberRole){
-                case Constants.ROLE.ADMIN_ROLE:
+                case Constants.ROLE.OWNER_ROLE:
                     holder.spRole.setVisibility(View.GONE);
-                    holder.txtRole.setText("Admin");
+                    holder.txtRole.setText("Owner");
                     holder.txtRole.setVisibility(View.VISIBLE);
                     break;
-                case Constants.ROLE.MOD_ROLE:
-                    holder.spRole.setSelection(Constants.ROLE.MOD_ROLE - 2);
+                case Constants.ROLE.EDITOR_ROLE:
+                    holder.spRole.setSelection(Constants.ROLE.EDITOR_ROLE - 2);
                     break;
                 case Constants.ROLE.MEMBER_ROLE:
                     holder.spRole.setSelection(Constants.ROLE.MEMBER_ROLE - 2);
@@ -74,11 +74,11 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
             holder.txtRole.setVisibility(View.VISIBLE);
             holder.txtRole.setPadding(0, 0, 20,0);
             switch (memberRole){
-                case Constants.ROLE.ADMIN_ROLE:
-                    holder.txtRole.setText("Admin");
+                case Constants.ROLE.OWNER_ROLE:
+                    holder.txtRole.setText("Owner");
                     break;
-                case Constants.ROLE.MOD_ROLE:
-                    holder.txtRole.setText("Mod");
+                case Constants.ROLE.EDITOR_ROLE:
+                    holder.txtRole.setText("Editor");
                     break;
                 case Constants.ROLE.MEMBER_ROLE:
                     holder.txtRole.setText("Member");
@@ -100,8 +100,8 @@ public class RecyclerViewItemMemberAdapter extends RecyclerView.Adapter<Recycler
                 int roleId = 0;
                 String role = spinner.getSelectedItem().toString();
                 switch (role){
-                    case "Mod":
-                        roleId = Constants.ROLE.MOD_ROLE;
+                    case "Editor":
+                        roleId = Constants.ROLE.EDITOR_ROLE;
                         break;
                     case "Member":
                         roleId = Constants.ROLE.MEMBER_ROLE;

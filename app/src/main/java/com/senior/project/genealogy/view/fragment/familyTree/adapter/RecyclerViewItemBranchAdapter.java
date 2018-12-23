@@ -64,11 +64,11 @@ public class RecyclerViewItemBranchAdapter extends RecyclerView.Adapter<Recycler
 
         final int role = mBranches.get(position).getRole();
         switch (role){
-            case Constants.ROLE.ADMIN_ROLE:
+            case Constants.ROLE.OWNER_ROLE:
                 holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_admin);
                 break;
-            case Constants.ROLE.MOD_ROLE:
+            case Constants.ROLE.EDITOR_ROLE:
                 holder.imgRole.setVisibility(View.VISIBLE);
                 holder.imgRole.setImageResource(R.drawable.ic_mod);
                 break;

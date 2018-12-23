@@ -60,7 +60,7 @@ public class DetailEventBranchFragment extends Fragment implements DetailEventBr
         token = sharedPreferences.getString("token","");
         mDetailEventBranchPresenter = new DetailEventBranchPresenterImpl(this);
         branch = (Branch) getArguments().getSerializable("branch");
-        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+        if (branch.getRole() == Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE){
             btnCreateEvent.setVisibility(View.VISIBLE);
         }else {
             btnCreateEvent.setVisibility(View.GONE);

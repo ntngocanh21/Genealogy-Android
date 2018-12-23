@@ -88,7 +88,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_family_tree));
         branch = (Branch) getArguments().getSerializable("branch");
-        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE
+        if (branch.getRole() == Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE
                 || branch.getRole() == Constants.ROLE.MEMBER_ROLE){
             btnFollowed.setVisibility(View.VISIBLE);
         }else {
@@ -107,7 +107,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
     public void showMap(List<People> peopleList){
 
         if(peopleList.size() == 0){
-            if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+            if (branch.getRole() == Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE){
                 addNode.setVisibility(View.VISIBLE);
                 txtNotice.setVisibility(View.VISIBLE);
             }else {
@@ -312,7 +312,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 viewHolder.nodeBg.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+                        if (branch.getRole() == Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE){
                             showDeleteAlertDialog(((Couple)data).getMainPeople());
                         }
                         return false;
@@ -417,7 +417,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
                     viewHolder.nodePartnerBg.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            if (branch.getRole() == Constants.ROLE.ADMIN_ROLE || branch.getRole() == Constants.ROLE.MOD_ROLE){
+                            if (branch.getRole() == Constants.ROLE.OWNER_ROLE || branch.getRole() == Constants.ROLE.EDITOR_ROLE){
                                 showDeleteAlertDialog(((Couple)data).getPartnerPeople());
                             }
                             return false;
@@ -529,7 +529,7 @@ public class MapFragment extends Fragment implements MapFragmentView{
                 mapFragmentPresenterImpl.joinBranch(userBranchPermission, token);
                 break;
             case R.id.btnFollowed:
-                if(branch.getRole() == Constants.ROLE.ADMIN_ROLE) {
+                if(branch.getRole() == Constants.ROLE.OWNER_ROLE) {
                     showAlertDialog();
                 } else {
                     showOutBranchDialog();

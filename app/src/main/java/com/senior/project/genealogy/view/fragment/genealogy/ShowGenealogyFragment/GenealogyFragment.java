@@ -192,7 +192,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
             if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
-                if (genealogies.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.ADMIN_ROLE){
+                if (genealogies.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.OWNER_ROLE){
                     showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder, position);
                 } else {
                     showToast("You don't have permission to delete it!");

@@ -3,7 +3,7 @@ package com.senior.project.genealogy.util;
 public class Constants {
 
 //    public static String BASE_URL = "http://10.0.1.25:8080/";
-    public static String BASE_URL = "http://192.168.0.109:3000";
+    public static String BASE_URL = "http://192.168.1.16:8080";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
 
@@ -35,8 +35,8 @@ public class Constants {
     }
 
     public class ROLE {
-        public static final int ADMIN_ROLE = 1;
-        public static final int MOD_ROLE = 2;
+        public static final int OWNER_ROLE = 1;
+        public static final int EDITOR_ROLE = 2;
         public static final int MEMBER_ROLE = 3;
         public static final int GUEST_ROLE = 4;
         public static final int WAITING = 5;
