@@ -19,16 +19,4 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/genealogy_logo_old" />
 
-
-    <TextView
-        android:layout_below="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="28sp"
-        android:layout_marginTop="4dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:text="GENEALOGY SYSTEM" />
-
 </RelativeLayout>

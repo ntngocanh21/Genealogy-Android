@@ -4,8 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/white"
-    android:paddingTop="15dp"
+    android:background="@color/redLight"
+    android:paddingTop="25dp"
     android:gravity="center">
 
     <de.hdodenhof.circleimageview.CircleImageView

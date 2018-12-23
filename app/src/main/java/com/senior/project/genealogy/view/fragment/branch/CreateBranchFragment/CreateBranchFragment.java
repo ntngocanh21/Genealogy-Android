@@ -40,12 +40,6 @@ public class CreateBranchFragment extends Fragment implements CreateBranchFragme
     @BindView(R.id.edtDescription)
     EditText edtDescription;
 
-    @BindView(R.id.edtUsername)
-    EditText edtUsername;
-
-    @BindView(R.id.btnFind)
-    ImageButton btnFind;
-
     private CreateBranchFragmentPresenterImpl createBranchFragmentPresenterImpl;
     private ProgressDialog mProgressDialog;
 
@@ -75,11 +69,13 @@ public class CreateBranchFragment extends Fragment implements CreateBranchFragme
     @OnTextChanged(R.id.edtBranchName)
     protected void onTextChanged() {
 
-        String genealogyName = edtBranchName.getText().toString().trim();
-        if (genealogyName.isEmpty()){
+        String branchName = edtBranchName.getText().toString().trim();
+        if (branchName.isEmpty()){
+            btnCreateBranch.setBackgroundResource(R.drawable.radius_button_disable);
             btnCreateBranch.setEnabled(false);
         }
         else {
+            btnCreateBranch.setBackgroundResource(R.drawable.radius_button);
             btnCreateBranch.setEnabled(true);
         }
 

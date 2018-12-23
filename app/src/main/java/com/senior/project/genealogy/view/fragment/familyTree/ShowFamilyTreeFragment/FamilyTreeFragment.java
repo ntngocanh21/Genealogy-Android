@@ -54,6 +54,7 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
     private FamilyTreeFragmentPresenterImpl familyTreeFragmentPresenter;
     private ProgressDialog mProgressDialog;
     private String token;
+    private Context mContext;
 
     public FamilyTreeFragment() {
 
@@ -115,9 +116,20 @@ public class FamilyTreeFragment extends Fragment implements FamilyTreeFragmentVi
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
     public void closeProgressDialog() {
-        if (mProgressDialog.isShowing())
-            mProgressDialog.dismiss();
+        if (mContext instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) mContext;
+            if (!homeActivity.isFinishing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+            }
+        }
     }
 
     @Override

@@ -455,9 +455,34 @@ public class MapFragment extends Fragment implements MapFragmentView{
                             @ColorInt int nodeBgColor = 0xFFE9C2B3;
                             viewHolder.nodePartnerBg .setBackgroundColor(nodeBgColor);
                         }
+                    } else {
+                        if(((Couple)data).getMainPeople().getAppellation() != null){
+                            String appellation = ((Couple)data).getMainPeople().getAppellation();
+                            switch (appellation){
+                                case "Tôi":
+                                    if(((Couple)data).getMainPeople().getGender() == 0){
+                                        viewHolder.txtPartnerRelation.setText("Chồng");
+                                    } else {
+                                        viewHolder.txtPartnerRelation.setText("Vợ");
+                                    }
+                                    break;
+                                case "Cha":
+                                    viewHolder.txtPartnerRelation.setText("Mẹ");
+                                    break;
+                                case "O":
+                                    viewHolder.txtPartnerRelation.setText("Dượng");
+                                    break;
+                                case "Bác":
+                                    viewHolder.txtPartnerRelation.setText("Bác");
+                                    break;
+                                case "Chú":
+                                    viewHolder.txtPartnerRelation.setText("Thím");
+                                    break;
+                            }
+                            viewHolder.txtPartnerRelation .setVisibility(View.VISIBLE);
+                        }
                     }
                 }
-
             }
         };
 
@@ -626,11 +651,11 @@ public class MapFragment extends Fragment implements MapFragmentView{
             mProgressDialog.dismiss();
     }
 
-    @Override
-    public void onDestroyView() {
-        mUpdateFamilyTreeListInterface.refreshFamilyTree();
-        super.onDestroyView();
-    }
+//    @Override
+//    public void onDestroyView() {
+//        mUpdateFamilyTreeListInterface.refreshFamilyTree();
+//        super.onDestroyView();
+//    }
 
     public interface UpdateFamilyTreeListInterface{
         void refreshFamilyTree();

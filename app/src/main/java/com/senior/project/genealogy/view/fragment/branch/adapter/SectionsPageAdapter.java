@@ -47,11 +47,11 @@ public class SectionsPageAdapter extends FragmentStatePagerAdapter {
         }
 
         public String[] gettitlesAsRoleIsAdmin() {
-            return new String[]{mContext.getResources().getString(R.string.tab_title_information), mContext.getString(R.string.tab_title_event), mContext.getString(R.string.tab_title_member), mContext.getResources().getString(R.string.tab_title_request)};
+            return new String[]{mContext.getResources().getString(R.string.tab_title_detail), mContext.getString(R.string.tab_title_event), mContext.getString(R.string.tab_title_member), mContext.getResources().getString(R.string.tab_title_request)};
         }
 
         public String[] gettitlesAsRoleIsNormal() {
-            return new String[]{mContext.getResources().getString(R.string.tab_title_information), mContext.getString(R.string.tab_title_event), mContext.getString(R.string.tab_title_member)};
+            return new String[]{mContext.getResources().getString(R.string.tab_title_detail), mContext.getString(R.string.tab_title_event), mContext.getString(R.string.tab_title_member)};
         }
     }
 }

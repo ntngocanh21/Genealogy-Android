@@ -66,9 +66,11 @@ public class CreateGenealogyFragment extends Fragment implements CreateGenealogy
         String genealogyName = edtName.getText().toString().trim();
 
         if (genealogyName.isEmpty()){
+            btnCreate.setBackgroundResource(R.drawable.radius_button_disable);
             btnCreate.setEnabled(false);
         }
         else {
+            btnCreate.setBackgroundResource(R.drawable.radius_button);
             btnCreate.setEnabled(true);
         }
 

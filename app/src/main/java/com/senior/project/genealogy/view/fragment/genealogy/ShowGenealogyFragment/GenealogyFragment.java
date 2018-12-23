@@ -63,6 +63,7 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     private ProgressDialog mProgressDialog;
     private String token;
     private List<Genealogy> genealogyList;
+    private Context mContext;
 
     public GenealogyFragment() {
 
@@ -178,30 +179,33 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
         else {
             genealogies.addAll(genealogyList);
         }
+        if (mContext instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) mContext;
+            if (!homeActivity.isFinishing()) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, genealogies, this);
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mRcvAdapter = new RecyclerViewItemGenealogyAdapter(getActivity(), fragmentManager, genealogies, this);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mRcvAdapter);
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, new RecyclerItemTouchHelper.RecyclerItemTouchHelperListener() {
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-            if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
-                if (genealogies.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.OWNER_ROLE){
-                    showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder, position);
-                } else {
-                    showToast("You don't have permission to delete it!");
-                    mRcvAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                }
+                mRecyclerView.setLayoutManager(layoutManager);
+                mRecyclerView.setAdapter(mRcvAdapter);
+                ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, new RecyclerItemTouchHelper.RecyclerItemTouchHelperListener() {
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+                        if (viewHolder instanceof RecyclerViewItemGenealogyAdapter.RecyclerViewHolder) {
+                            if (genealogies.get(viewHolder.getAdapterPosition()).getRole() == Constants.ROLE.OWNER_ROLE) {
+                                showAlertDialog("Delete", "Are you sure?", "Delete", "Cancel", viewHolder, position);
+                            } else {
+                                showToast("You don't have permission to delete it!");
+                                mRcvAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                            }
+                        }
+                    }
+                });
+                new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
             }
-            }
-        });
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
+        }
     }
 
 
@@ -238,5 +242,11 @@ public class GenealogyFragment extends Fragment implements GenealogyFragmentView
     public void refreshListGenealogies() {
         genealogyFragmentPresenterImpl = new GenealogyFragmentPresenterImpl(this);
         genealogyFragmentPresenterImpl.getGenealogiesByUsername(token, true);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 }

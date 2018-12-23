@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senior.project.genealogy.R;
+import com.senior.project.genealogy.app.GenealogyApplication;
 import com.senior.project.genealogy.response.Branch;
 import com.senior.project.genealogy.response.Genealogy;
 import com.senior.project.genealogy.util.Constants;
@@ -64,6 +65,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     private ProgressDialog mProgressDialog;
     private String token;
     private Genealogy genealogy;
+    private Context mContext;
 
     public BranchFragment() {
 
@@ -74,7 +76,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
         View view = inflater.inflate(R.layout.fragment_branch, container, false);
 
         ButterKnife.bind(this, view);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = GenealogyApplication.getInstance().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         ((HomeActivity) getActivity()).updateTitleBar(getString(R.string.frg_branches));
         branchFragmentPresenterImpl = new BranchFragmentPresenterImpl(this);
@@ -90,7 +92,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
             spGenealogy.setVisibility(View.GONE);
             txtNotice.setVisibility(View.VISIBLE);
         } else {
-            ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<Genealogy>(getContext(), R.layout.spinner_item, genealogyList);
+            ArrayAdapter<Genealogy> dataAdapter = new ArrayAdapter<>(GenealogyApplication.getInstance(), R.layout.spinner_item, genealogyList);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             spGenealogy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -186,9 +188,20 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
     public void closeProgressDialog() {
-        if (mProgressDialog.isShowing())
-            mProgressDialog.dismiss();
+        if (mContext instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) mContext;
+            if (!homeActivity.isFinishing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
+            }
+        }
     }
 
     @Override
@@ -206,7 +219,7 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         mRcvAdapter = new RecyclerViewItemBranchAdapter(getActivity(), fragmentManager, branches, this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(GenealogyApplication.getInstance());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerViewBranch.setLayoutManager(layoutManager);
