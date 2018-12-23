@@ -224,7 +224,7 @@ public class DialogNodeFragment extends DialogFragment implements DialogNodeFrag
                 }
 
                 if(!Constants.EMPTY_STRING.equals(edtDeathday.getText().toString())){
-                    newPeople.setBirthday(edtDeathday.getText().toString());
+                    newPeople.setDeathDay(edtDeathday.getText().toString());
                 }
 
                 dialogNodeFragmentPresenterImpl = new DialogNodeFragmentPresenterImpl(this);

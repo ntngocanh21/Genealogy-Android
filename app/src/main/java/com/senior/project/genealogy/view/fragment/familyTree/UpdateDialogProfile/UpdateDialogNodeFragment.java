@@ -123,7 +123,7 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
             edtBirthday.setText(people.getBirthday());
         }
 
-        tilDeathday.setVisibility(View.VISIBLE);
+        flDeathday.setVisibility(View.VISIBLE);
         if (people.getDeathDay() != null){
             edtDeathday.setText(people.getDeathDay());
         }
@@ -179,7 +179,7 @@ public class UpdateDialogNodeFragment extends DialogFragment implements UpdateDi
                 }
 
                 if(!Constants.EMPTY_STRING.equals(edtDeathday.getText().toString())){
-                    people.setBirthday(edtDeathday.getText().toString());
+                    people.setDeathDay(edtDeathday.getText().toString());
                 }
 
                 dialogNodeFragmentPresenterImpl.updatePeople(people ,token);
