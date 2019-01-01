@@ -28,6 +28,7 @@
         android:layout_height="match_parent"
         app:lineColor="@android:color/black"
         app:useMaxSize="false"
+        app:maxZoom="15"
         app:hasClickableChildren="true" />
 
     <android.support.design.widget.FloatingActionButton

@@ -184,7 +184,13 @@ public class BranchFragment extends Fragment implements BranchFragmentView, Recy
     @Override
     public void showProgressDialog() {
         ProgressDialog progressDialog = initProgressDialog();
-        progressDialog.show();
+        if (mContext instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) mContext;
+            if (!homeActivity.isFinishing()) {
+                if (progressDialog != null && !progressDialog.isShowing())
+                    progressDialog.show();
+            }
+        }
     }
 
     @Override
