@@ -2,8 +2,7 @@ package com.senior.project.genealogy.util;
 
 public class Constants {
 
-//    public static String BASE_URL = "http://10.0.1.25:8080/";
-    public static String BASE_URL = "http://192.168.1.16:8080";
+    public static String BASE_URL = "https://genealogysystem.herokuapp.com";
 
     public static String SHARED_PREFERENCES_NAME = "genealogy";
 
