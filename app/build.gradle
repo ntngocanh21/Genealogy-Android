@@ -58,8 +58,9 @@ dependencies {
     implementation 'com.github.clans:fab:1.6.2'
 
     // Firebase
-    //noinspection GradleCompatible
+    //noinspection GradleDependency,GradleCompatible
     implementation 'com.google.firebase:firebase-auth:16.0.5'
+    //noinspection GradleDependency
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
